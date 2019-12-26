@@ -12,7 +12,8 @@
 #define NOT_CONNECTED -1
 #define INITIAL_CONNECTION_AGE 0
 
-
+#define OFF 0
+#define ON 1
 
 typedef struct Neuron {
 	unsigned char active;
@@ -24,5 +25,6 @@ typedef struct Neuron {
 
 void initialization (NEURON *gng);
 int print_neuron (NEURON neuron);
+int add_neuron (NEURON *gng);
 
 #endif /* GROWING_NEURAL_GAS_H */

@@ -42,7 +42,14 @@
 int main ()
 {
 	NEURON testing_gng[LIMIT_NETWORK_SIZE];
+	printf("empty network: (%d elements)\n", LIMIT_NETWORK_SIZE);
 	initialization (testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+	printf("\nadd neuron: number=%d\n", add_neuron(testing_gng));
+	printf("add neuron: number=%d\n", add_neuron(testing_gng));
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing_gng[i]);

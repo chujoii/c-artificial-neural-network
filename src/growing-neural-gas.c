@@ -39,7 +39,7 @@
 void initialization (NEURON *gng)
 {
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		gng[i].active = 0;
+		gng[i].active = OFF;
 		/* fixme: memset for float? */
 		for (int j=0; j<DIMENSION_OF_SENSOR; j++) gng[i].weight[j] = 0.0;
 		for (int j=0; j<LIMIT_NETWORK_SIZE; j++) gng[i].conn_age[j] = NOT_CONNECTED;
@@ -52,9 +52,7 @@ void initialization (NEURON *gng)
 
 int print_neuron (NEURON neuron)
 {
-	if (neuron.active > 0) {
-		putchar ('*');
-	} else {
+	if (neuron.active == OFF) {
 		printf("-\n");
 		return 0;
 	}
@@ -76,4 +74,18 @@ int print_neuron (NEURON neuron)
 	printf("u: %5.1f\n", neuron.utility_factor);
 
 	return 0;
+}
+
+
+
+int add_neuron (NEURON *gng)
+{
+	int index = -1;
+	int i = 0;
+	while ((gng[i].active == ON) && i < LIMIT_NETWORK_SIZE) {i++;}
+	if (i < LIMIT_NETWORK_SIZE) {
+		gng[i].active = ON;
+		index = i;
+	}
+	return index;
 }
