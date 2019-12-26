@@ -23,7 +23,6 @@
 */
 
 #include <stdio.h>
-#include <string.h>
 
 #include "unit-testing.h"
 //#include "../../../growing-neural-gas.h" # fixme: uncomment? //extern const int DIMENSION_OF_SENSOR; extern const int LIMIT_NETWORK_SIZE;
@@ -43,9 +42,10 @@
 int main ()
 {
 	NEURON testing_gng[LIMIT_NETWORK_SIZE];
+	initialization (testing_gng);
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (i, testing_gng);
+		print_neuron (testing_gng[i]);
 	}
 
 	return 0;

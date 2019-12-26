@@ -50,18 +50,30 @@ void initialization (NEURON *gng)
 
 
 
-void print_neuron (int num_neuron, NEURON *gng)
+int print_neuron (NEURON neuron)
 {
+	if (neuron.active > 0) {
+		putchar ('*');
+	} else {
+		printf("-\n");
+		return 0;
+	}
+
 	printf("w:");
 	for (int i=0; i<DIMENSION_OF_SENSOR; i++) {
-		printf(" %7.1f", gng[num_neuron].weight[i]);
+		printf(" %7.1f", neuron.weight[i]);
 	}
-	
+
 	printf("\ta:");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		printf(" %d", gng[num_neuron].conn_age[i]);
+		if (neuron.conn_age[i] < INITIAL_CONNECTION_AGE)
+			printf (" -");
+		else
+			printf(" %d", neuron.conn_age[i]);
 	}
-	
-	printf("\te: %5.1f\t", gng[num_neuron].local_error);
-	printf("u: %5.1f\n", gng[num_neuron].utility_factor);
+
+	printf("\te: %5.1f\t", neuron.local_error);
+	printf("u: %5.1f\n", neuron.utility_factor);
+
+	return 0;
 }

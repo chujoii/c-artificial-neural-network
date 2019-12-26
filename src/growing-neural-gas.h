@@ -14,7 +14,7 @@
 
 
 
-typedef struct neuron {
+typedef struct Neuron {
 	unsigned char active;
         float weight[DIMENSION_OF_SENSOR];
         int conn_age[LIMIT_NETWORK_SIZE];
@@ -23,6 +23,6 @@ typedef struct neuron {
 } NEURON;
 
 void initialization (NEURON *gng);
-void print_neuron (int num_neuron, NEURON *gng);
+int print_neuron (NEURON neuron);
 
 #endif /* GROWING_NEURAL_GAS_H */
