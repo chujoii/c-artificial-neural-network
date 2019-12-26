@@ -89,3 +89,19 @@ int add_neuron (NEURON *gng)
 	}
 	return index;
 }
+
+
+
+void inc_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng)
+{
+	gng[neuron_a].conn_age[neuron_b] += step;
+	gng[neuron_b].conn_age[neuron_a] += step;
+}
+
+
+
+void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng)
+{
+	gng[neuron_a].conn_age[neuron_b] = NOT_CONNECTED;
+	gng[neuron_b].conn_age[neuron_a] = NOT_CONNECTED;
+}
