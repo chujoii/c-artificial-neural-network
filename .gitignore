@@ -16,5 +16,6 @@ fig.[0-9]*
 fig.mpx
 image-2D
 image-cluster
+unit-testing
 !.gitignore
 !*.example

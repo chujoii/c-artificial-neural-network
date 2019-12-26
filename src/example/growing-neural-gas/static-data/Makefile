@@ -31,8 +31,9 @@ revision :
 	git describe --always master > revision.txt
 
 # unit-testing generate html for power quality coefficients
-UNIT-TESTING_SRC=../../../growing-neural-gas.c unit-testing.o
-unit-testing.cgi : unit-testing.o
+#UNIT-TESTING_SRC=../../../growing-neural-gas.c unit-testing.o # fixme: uncomment? //extern const int DIMENSION_OF_SENSOR; extern const int LIMIT_NETWORK_SIZE;
+UNIT-TESTING_SRC=unit-testing.o
+unit-testing : unit-testing.o
 	$(CC) $(CFLAGS) $(UNIT-TESTING_SRC)  -o $@
 
 # installation process
@@ -43,4 +44,5 @@ unit-testing.cgi : unit-testing.o
 
 # clean directory
 clean :
-	rm *.o *.cgi
+	rm *.o unit-testing
+

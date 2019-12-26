@@ -23,6 +23,11 @@
 */
 
 #include <stdio.h>
+#include <string.h>
+
+#include "unit-testing.h"
+//#include "../../../growing-neural-gas.h" # fixme: uncomment? //extern const int DIMENSION_OF_SENSOR; extern const int LIMIT_NETWORK_SIZE;
+#include "../../../growing-neural-gas.c"
 
 /* Use  for debug print, or #f for silent */
 //#define DEBUG
@@ -33,32 +38,15 @@
  #define DEBUG_PRINT(x)
 #endif
 
-/* adaptation coefficients for weight and local-error */
-#define EPS_WINNER 0.1
-#define EPS_NEIGHBOUR 0.01
-#define EPS_LOCAL_ERROR 0.5
-#define FACTOR_BETA_DECREASE_LOCAL_ERROR 0.9
 
-#define LIMIT_CONN_AGE 3
-
-/* Adaptation step (add neuron in each LAMBDA_STEP to network)
-
-   Inactived nodes may appear if lambda=very_small (high frequency
-   insertion).
-   
-   For lambda=big start to learning goes very smoothly, but rough
-   clusters are created */
-#define LAMBDA_STEP 1
-
-#define LIMIT_NETWORK_SIZE 10
-
-#define DIMENSION_OF_SENSOR 4
-
-#define LIMIT_NETWORK_SIZE 10
-
-#include "../../../growing-neural-gas.h"
 
 int main ()
 {
+	NEURON testing_gng[LIMIT_NETWORK_SIZE];
+
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (i, testing_gng);
+	}
+
 	return 0;
 }

@@ -32,3 +32,20 @@
 
 #include <stdio.h>
 
+#include "growing-neural-gas.h"
+
+void print_neuron (int num_neuron, NEURON *gng)
+{
+	printf("w:");
+	for (int i=0; i<DIMENSION_OF_SENSOR; i++) {
+		printf(" %7.1f", gng[num_neuron].weight[i]);
+	}
+	
+	printf("\ta:");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		printf(" %d", gng[num_neuron].conn_age[i]);
+	}
+	
+	printf("\te: %5.1f\t", gng[num_neuron].local_error);
+	printf("u: %5.1f\n", gng[num_neuron].utility_factor);
+}
