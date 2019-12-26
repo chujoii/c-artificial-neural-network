@@ -34,6 +34,22 @@
 
 #include "growing-neural-gas.h"
 
+
+
+void initialization (NEURON *gng)
+{
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		gng[i].active = 0;
+		/* fixme: memset for float? */
+		for (int j=0; j<DIMENSION_OF_SENSOR; j++) gng[i].weight[j] = 0.0;
+		for (int j=0; j<LIMIT_NETWORK_SIZE; j++) gng[i].conn_age[j] = NOT_CONNECTED;
+		gng[i].local_error = 0.0;
+		gng[i].utility_factor = 0.0;
+	}
+}
+
+
+
 void print_neuron (int num_neuron, NEURON *gng)
 {
 	printf("w:");

@@ -22,6 +22,7 @@ typedef struct neuron {
         float utility_factor;
 } NEURON;
 
+void initialization (NEURON *gng);
 void print_neuron (int num_neuron, NEURON *gng);
 
 #endif /* GROWING_NEURAL_GAS_H */
