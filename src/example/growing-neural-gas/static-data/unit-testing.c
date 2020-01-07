@@ -82,5 +82,15 @@ int main ()
 		print_neuron (testing_gng[i]);
 	}
 
+	printf ("\nupdate connection age:\n");
+	update_neuron_conn_age (0, 1, 1, testing_gng); /* need create link beetwin first neuron! */
+	update_neuron_conn_age (1, 2, 2, testing_gng);
+	update_neuron_conn_age (2, 0, 3, testing_gng);
+	update_neuron_conn_age (3, 4, 4, testing_gng);
+
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
 	return 0;
 }

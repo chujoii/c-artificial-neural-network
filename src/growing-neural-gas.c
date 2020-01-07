@@ -113,3 +113,12 @@ void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON
 		gng[neuron_a].weight[i] = gng[neuron_a].weight[i] + step*(gng[neuron_a].weight[i] - sensor[i]);
 	}
 }
+
+
+
+void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng)
+{
+	gng[neuron_a].conn_age[neuron_b] += step;
+	gng[neuron_b].conn_age[neuron_a] += step;
+}
+	
