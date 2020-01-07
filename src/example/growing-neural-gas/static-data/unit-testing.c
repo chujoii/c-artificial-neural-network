@@ -76,5 +76,11 @@ int main ()
 		print_neuron (testing_gng[i]);
 	}
 
+	printf ("\nupdate weight neuron number 3 (new_weight_vector = weight_vector + eps*(veight_vector - sensor_vector)):\n");
+	update_neuron_weight_vector(3, EPS_WINNER, example_sensor, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
 	return 0;
 }

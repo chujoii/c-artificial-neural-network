@@ -105,3 +105,11 @@ void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng)
 	gng[neuron_a].conn_age[neuron_b] = NOT_CONNECTED;
 	gng[neuron_b].conn_age[neuron_a] = NOT_CONNECTED;
 }
+
+
+void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng)
+{
+	for (int i=0; i<DIMENSION_OF_SENSOR; i++) {
+		gng[neuron_a].weight[i] = gng[neuron_a].weight[i] + step*(gng[neuron_a].weight[i] - sensor[i]);
+	}
+}

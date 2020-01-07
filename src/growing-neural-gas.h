@@ -28,5 +28,7 @@ int print_neuron (NEURON neuron);
 int add_neuron (NEURON *gng);
 void inc_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng);
 void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng);
+//void update_neuron_weight_vector(float step, float *sensor, NEURON neuron);
+void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng);
 
 #endif /* GROWING_NEURAL_GAS_H */
