@@ -41,6 +41,7 @@
 
 int main ()
 {
+	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
 	NEURON testing_gng[LIMIT_NETWORK_SIZE];
 	printf("empty network: (%d elements)\n", LIMIT_NETWORK_SIZE);
 	initialization (testing_gng);
@@ -55,6 +56,23 @@ int main ()
 	printf("weight\t\t\t\t\tconn-age\t\tlocal-error\tutility-factor\n");
 	inc_neuron_conn_age (0, 1, 1, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+	disconnect_neuron(0, 1, testing_gng);
+	printf ("\nsimple 6 neurons (all disconnected):\n");
+	add_neuron(testing_gng);add_neuron(testing_gng);add_neuron(testing_gng);add_neuron(testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+
+	printf ("\nmanual change weight (random:normal too hard for human readable):\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		for (int j=0; j<DIMENSION_OF_SENSOR; j++) {
+			testing_gng[i].weight[j] =i + (j + 1)/10.0;
+		}
+
 		print_neuron (testing_gng[i]);
 	}
 
