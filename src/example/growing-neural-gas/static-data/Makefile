@@ -32,9 +32,9 @@ revision :
 
 # unit-testing generate html for power quality coefficients
 #UNIT-TESTING_SRC=../../../growing-neural-gas.c unit-testing.o # fixme: uncomment? //extern const int DIMENSION_OF_SENSOR; extern const int LIMIT_NETWORK_SIZE;
-UNIT-TESTING_SRC=unit-testing.o
+UNIT-TESTING_SRC=../../../vector.c unit-testing.o
 unit-testing : unit-testing.o
-	$(CC) $(CFLAGS) $(UNIT-TESTING_SRC)  -o $@
+	$(CC) $(CFLAGS) $(UNIT-TESTING_SRC) -lm -o $@
 
 # installation process
 #install :

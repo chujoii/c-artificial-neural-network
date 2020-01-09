@@ -26,7 +26,8 @@
 
 #include "unit-testing.h"
 //#include "../../../growing-neural-gas.h" # fixme: uncomment? //extern const int DIMENSION_OF_SENSOR; extern const int LIMIT_NETWORK_SIZE;
-#include "../../../growing-neural-gas.c"
+#include "../../../growing-neural-gas.c" // fixme
+#include "../../../vector.h"
 
 /* Use  for debug print, or #f for silent */
 //#define DEBUG
@@ -103,6 +104,19 @@ int main ()
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing_gng[i]);
 	}
+
+
+	printf ("\nCalculate distance between Weight (neuron number 3) and Sensor (");
+	for (int j=0; j<DIMENSION_OF_SENSOR; j++) {
+		printf (" %7.2f", example_sensor[j]);
+	}
+	printf (")");
+	printf (":\n(%7.2f %7.2f %7.2f %7.2f ...) compare with:\n",
+		euclidean_distance_vector (testing_gng[0].weight, example_sensor, DIMENSION_OF_SENSOR),
+		euclidean_distance_vector (testing_gng[1].weight, example_sensor, DIMENSION_OF_SENSOR),
+		euclidean_distance_vector (testing_gng[2].weight, example_sensor, DIMENSION_OF_SENSOR),
+		euclidean_distance_vector (testing_gng[3].weight, example_sensor, DIMENSION_OF_SENSOR));
+
 
 	return 0;
 }
