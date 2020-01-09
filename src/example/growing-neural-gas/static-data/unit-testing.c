@@ -92,5 +92,17 @@ int main ()
 		print_neuron (testing_gng[i]);
 	}
 
+
+	update_neuron_local_error (0, 0.9, testing_gng);
+	update_neuron_local_error (1, 0.5, testing_gng);
+	update_neuron_local_error (2, 0.8, testing_gng);
+	update_neuron_local_error (3, 0.2, testing_gng);
+	update_neuron_local_error (4, 0.3, testing_gng);
+	update_neuron_local_error (5, 0.7, testing_gng);
+	printf ("\nupdate local error (last column):\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
 	return 0;
 }
