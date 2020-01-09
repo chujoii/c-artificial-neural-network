@@ -32,5 +32,6 @@ void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng);
 void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng);
 void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng);
 void update_neuron_local_error (int neuron_a, float step, NEURON *gng);
+void calculate_distance_weight_sensor (float *sensor, NEURON *gng, float *distance);
 
 #endif /* GROWING_NEURAL_GAS_H */

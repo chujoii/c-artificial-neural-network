@@ -32,6 +32,8 @@
 
 #include <stdio.h>
 
+#include <float.h> // #include <limits.h>
+
 #include "growing-neural-gas.h"
 
 
@@ -129,3 +131,15 @@ void update_neuron_local_error (int neuron_a, float step, NEURON *gng)
 	gng[neuron_a].local_error += step;
 }
 
+
+
+void calculate_distance_weight_sensor (float *sensor, NEURON *gng, float *distance)
+{
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[i].active == ON ) {
+			distance[i] = euclidean_distance_vector (gng[i].weight, sensor, DIMENSION_OF_SENSOR);
+		} else {
+			distance[i] = FLT_MAX;
+		}
+	}
+}

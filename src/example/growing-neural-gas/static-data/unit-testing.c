@@ -26,8 +26,8 @@
 
 #include "unit-testing.h"
 //#include "../../../growing-neural-gas.h" # fixme: uncomment? //extern const int DIMENSION_OF_SENSOR; extern const int LIMIT_NETWORK_SIZE;
-#include "../../../growing-neural-gas.c" // fixme
 #include "../../../vector.h"
+#include "../../../growing-neural-gas.c" // fixme
 
 /* Use  for debug print, or #f for silent */
 //#define DEBUG
@@ -44,6 +44,8 @@ int main ()
 {
 	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
 	NEURON testing_gng[LIMIT_NETWORK_SIZE];
+	float distances[LIMIT_NETWORK_SIZE];
+
 	printf("empty network: (%d elements)\n", LIMIT_NETWORK_SIZE);
 	initialization (testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
@@ -116,7 +118,13 @@ int main ()
 		euclidean_distance_vector (testing_gng[1].weight, example_sensor, DIMENSION_OF_SENSOR),
 		euclidean_distance_vector (testing_gng[2].weight, example_sensor, DIMENSION_OF_SENSOR),
 		euclidean_distance_vector (testing_gng[3].weight, example_sensor, DIMENSION_OF_SENSOR));
-
+	calculate_distance_weight_sensor (example_sensor, testing_gng, distances);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (testing_gng[i].active == ON ) {
+			printf (" %7.2f", distances[i]);
+		} else {printf (" NaN");}
+	}
+	printf ("\n");
 
 	return 0;
 }
