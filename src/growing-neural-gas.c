@@ -80,6 +80,10 @@ int print_neuron (NEURON neuron)
 
 
 
+// fixme: print-gng-as-list (gng)
+
+
+
 int add_neuron (NEURON *gng)
 {
 	int index = -1;
@@ -94,7 +98,24 @@ int add_neuron (NEURON *gng)
 
 
 
-void inc_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng)
+// fixme: find-and-del-neuron-with-min-utility-factor (k gng)
+
+
+
+void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng)
+{
+	for (int i=0; i<DIMENSION_OF_SENSOR; i++) {
+		gng[neuron_a].weight[i] = gng[neuron_a].weight[i] + step*(gng[neuron_a].weight[i] - sensor[i]);
+	}
+}
+
+
+
+// fixme: update-neighbours-weights (function list-neighbour eps-step gng)
+
+
+
+void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng)
 {
 	gng[neuron_a].conn_age[neuron_b] += step;
 	gng[neuron_b].conn_age[neuron_a] += step;
@@ -109,20 +130,10 @@ void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng)
 }
 
 
-void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng)
-{
-	for (int i=0; i<DIMENSION_OF_SENSOR; i++) {
-		gng[neuron_a].weight[i] = gng[neuron_a].weight[i] + step*(gng[neuron_a].weight[i] - sensor[i]);
-	}
-}
+// fixme: inc-neighbours-conn-age (a gng)
+// fixme: remove-old-conn-age (limit-conn-age gng)
 
 
-
-void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng)
-{
-	gng[neuron_a].conn_age[neuron_b] += step;
-	gng[neuron_b].conn_age[neuron_a] += step;
-}
 
 
 
@@ -130,6 +141,10 @@ void update_neuron_local_error (int neuron_a, float step, NEURON *gng)
 {
 	gng[neuron_a].local_error += step;
 }
+
+
+// fixme: update-neuron-utility-factor (a function step gng)
+// fixme: decrease-all-neuron-local-errors-and-utility-factor (factor-beta gng)
 
 
 
@@ -143,3 +158,12 @@ void calculate_distance_weight_sensor (float *sensor, NEURON *gng, float *distan
 		}
 	}
 }
+
+
+
+// fixme: calculate-distance-in-mixed-space-weight-sensor (functions-mixed-space sensor gng)
+// fixme: find-index-of-two-minimal (in-list)
+// fixme: find-neuron-index-with-max-local-error (gng)
+// fixme: find-neighbours-index-with-max-local-error (index-max-local-error gng)
+// fixme: adaptive-step-create-new-neuron (gng)
+// fixme: growing-neural-gas epoch sensor (gng)

@@ -57,7 +57,7 @@ int main ()
 
 	printf("\nconnect neurons 0 and 1\n");
 	printf("weight\t\t\t\t\tconn-age\t\tlocal-error\tutility-factor\n");
-	inc_neuron_conn_age (0, 1, 1, testing_gng);
+	update_neuron_conn_age (0, 1, 1, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing_gng[i]);
 	}
