@@ -15,6 +15,8 @@
 #define OFF 0
 #define ON 1
 
+enum mixed_space_distance_variants { EUCLIDEAN, ANGLE };
+
 typedef struct Neuron {
 	unsigned char active;
         float weight[DIMENSION_OF_SENSOR];
@@ -38,7 +40,7 @@ void update_neuron_local_error (int neuron_a, float step, NEURON *gng);
 // fixme: update-neuron-utility-factor (a function step gng)
 // fixme: decrease-all-neuron-local-errors-and-utility-factor (factor-beta gng)
 void calculate_distance_weight_sensor (float *sensor, NEURON *gng, float *distance);
-// fixme: calculate-distance-in-mixed-space-weight-sensor (functions-mixed-space sensor gng)
+void calculate_distance_in_mixed_space_weight_sensor (int *mixed_space, float *sensor, NEURON *gng, float *return_distance);
 // fixme: find-index-of-two-minimal (in-list)
 // fixme: find-neuron-index-with-max-local-error (gng)
 // fixme: find-neighbours-index-with-max-local-error (index-max-local-error gng)

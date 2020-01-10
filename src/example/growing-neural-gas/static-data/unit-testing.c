@@ -44,6 +44,9 @@ int main ()
 {
 	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
 	NEURON testing_gng[LIMIT_NETWORK_SIZE];
+	float example_sensor_with_angle[DIMENSION_OF_SENSOR] = {10,     20,     350,   40};
+	int mixed_space_distances[DIMENSION_OF_SENSOR] ={EUCLIDEAN, EUCLIDEAN, ANGLE, EUCLIDEAN};
+	NEURON example_gng_with_angle[LIMIT_NETWORK_SIZE];
 	float distances[LIMIT_NETWORK_SIZE];
 
 	printf("empty network: (%d elements)\n", LIMIT_NETWORK_SIZE);
@@ -124,7 +127,35 @@ int main ()
 			printf (" %7.2f", distances[i]);
 		} else {printf (" NaN");}
 	}
-	printf ("\n");
+	
+	printf ("\n\n\nsimple 3 neurons with angle:\n");
+	initialization (example_gng_with_angle);
+	add_neuron(example_gng_with_angle);add_neuron(example_gng_with_angle);add_neuron(example_gng_with_angle);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		for (int j=0; j<DIMENSION_OF_SENSOR; j++) {
+			example_gng_with_angle[i].weight[j] =i + (j + 1)/10.0;
+		}
+	}
+	example_gng_with_angle[0].weight[2] = 270.0;
+	example_gng_with_angle[1].weight[2] =  10.0;
+	example_gng_with_angle[2].weight[2] = 300.0;
+	for (int j=0; j<LIMIT_NETWORK_SIZE; j++) {
+		print_neuron (example_gng_with_angle[j]);
+	}
+
+	printf ("\nSensor with angle:");
+	for (int j=0; j<DIMENSION_OF_SENSOR; j++) {
+		printf (" %7.2f", example_sensor_with_angle[j]);
+	}
+
+	printf ("\nMinimal distance will be for neuron number 1 (count from 0), because 10 degree nearest to 350 degree (distance=20 degree):\n");
+	printf ("Distance between Weight (with angle) and Sensor (with angle) calculations (also with respect to angle):\n");
+	calculate_distance_in_mixed_space_weight_sensor (mixed_space_distances, example_sensor_with_angle, example_gng_with_angle, distances);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (example_gng_with_angle[i].active == ON ) {
+			printf (" %7.2f", distances[i]);
+		} else {printf (" NaN");}
+	}
 
 	return 0;
 }

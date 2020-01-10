@@ -29,6 +29,15 @@
 #define square(x) (x)*(x)
 
 
+
+// for distance need add: (sqrt (+ (euclidean-distance a b) (euclidean-distance c d) (euclidean-distance e f) ...))
+float euclidean_distance (float a, float b)
+{
+	return square (a - b);
+}
+
+
+
 float euclidean_distance_vector (float *a, float *b, int size)
 {
 	float sum = 0.0;
@@ -39,3 +48,29 @@ float euclidean_distance_vector (float *a, float *b, int size)
 
 	return sqrt (sum);
 }
+
+
+
+float constrain_angle (float angle, float max_angle_unit)
+{
+	float a = fmod (angle, max_angle_unit); // remainder
+	return ((a < 0.0) ? (a + max_angle_unit) : a);
+}
+
+
+
+float min_angle_between_two_angles (float a, float b, float max_angle_unit)
+{
+	float x = fabs (constrain_angle (a, max_angle_unit) - // no need constranin for x
+			constrain_angle (b, max_angle_unit));
+	return fmin (x, (max_angle_unit - x));
+}
+
+
+
+// for distance need add: (sqrt (+ (angle-distance a b) (angle-distance c d) (angle-distance e f) ...))
+float angle_distance (float a, float b)
+{
+	return square (min_angle_between_two_angles (a, b, 360.0));
+}
+
