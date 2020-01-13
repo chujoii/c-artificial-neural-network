@@ -258,5 +258,17 @@ int main ()
 
 
 
+	printf ("\nincrease by 1 all connections form neuron print neighbour for winner (for example neuron number 0 (use different neuron only for example)):\n");
+	inc_neighbours_conn_age (0, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+	printf ("\nincrease by 1 all connections form neuron print neighbour (for example neuron number 3 (use different neuron only for example)):\n");
+	inc_neighbours_conn_age (3, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+
 	return 0;
 }

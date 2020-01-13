@@ -137,7 +137,17 @@ void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng)
 }
 
 
-// fixme: inc-neighbours-conn-age (a gng)
+void inc_neighbours_conn_age (int neuron_a, NEURON *gng)
+{
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
+			update_neuron_conn_age (neuron_a, i, 1, gng);
+		}
+	}
+}
+
+
+
 // fixme: remove-old-conn-age (limit-conn-age gng)
 
 
