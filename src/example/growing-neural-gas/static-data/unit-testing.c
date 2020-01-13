@@ -157,5 +157,75 @@ int main ()
 		} else {printf (" NaN");}
 	}
 
+
+
+	printf ("\n\nFind indexes of two minimal elementt (first correct answer), (then calculated answer)");
+
+	float ti[3];
+	int to[3];
+	int ts;
+
+	ts = 2;
+	ti[0] = 1; ti[1] = 1;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(0 1) (%d %d)", to[0], to[1]);
+
+	ts = 2;
+	ti[0] = 1; ti[1] = 2;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(0 1) (%d %d)", to[0], to[1]);
+
+	ts = 2;
+	ti[0] = 2; ti[1] = 1;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(1 0) (%d %d)", to[0], to[1]);
+
+	ts = 3;
+	ti[0] = 1; ti[1] = 1; ti[2] = 2;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(0 1) (%d %d)", to[0], to[1]);
+	
+	ts = 3;
+	ti[0] = 1; ti[1] = 2; ti[2] = 1;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(0 2) (%d %d)", to[0], to[1]);
+	
+	ts = 3;
+	ti[0] = 2; ti[1] = 1; ti[2] = 1;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(1 2) (%d %d)", to[0], to[1]);
+	
+	ts = 3;
+	ti[0] = 1; ti[1] = 2; ti[2] = 3;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(0 1) (%d %d)", to[0], to[1]);
+
+	ts = 3;
+	ti[0] = 1; ti[1] = 3; ti[2] = 2;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(0 2) (%d %d)", to[0], to[1]);
+
+	ts = 3;
+	ti[0] = 2; ti[1] = 1; ti[2] = 3;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(1 0) (%d %d)", to[0], to[1]);
+
+	ts = 3;
+	ti[0] = 2; ti[1] = 3; ti[2] = 1;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(2 0) (%d %d)", to[0], to[1]);
+
+	ts = 3;
+	ti[0] = 3; ti[1] = 1; ti[2] = 2;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(1 2) (%d %d)", to[0], to[1]);
+
+	ts = 3;
+	ti[0] = 3; ti[1] = 2; ti[2] = 1;
+	find_index_of_two_minimal (ti, ts, to);
+	printf ("\n(2 1) (%d %d)", to[0], to[1]);
+
+
+	printf("\n");
 	return 0;
 }

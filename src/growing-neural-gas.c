@@ -186,7 +186,43 @@ void calculate_distance_in_mixed_space_weight_sensor (int *mixed_space, float *s
 
 
 
-// fixme: find-index-of-two-minimal (in-list)
+void find_index_of_two_minimal (float *in_arr, int in_size, int *out_indexes)
+{
+	int index_a, index_b;
+	float val_a, val_b;
+
+	if (in_arr[0] <= in_arr[1]) {
+		index_a = 0;
+		val_a = in_arr[0];
+		index_b = 1;
+		val_b = in_arr[1];
+	} else {
+		index_a = 1;
+		val_a = in_arr[1];
+		index_b = 0;
+		val_b = in_arr[0];
+	}
+
+	for (int i=2; i<in_size; i++) {
+		if (in_arr[i] < val_a) {
+			index_b = index_a;
+			val_b = val_a;
+			index_a = i;
+			val_a = in_arr[i];
+		} else {
+			if (in_arr[i] < val_b && i != index_a) {
+				index_b = i;
+				val_b = in_arr[i];
+			}
+		}
+	}
+
+	out_indexes[0] = index_a;
+	out_indexes[1] = index_b;
+}
+
+
+
 // fixme: find-neuron-index-with-max-local-error (gng)
 // fixme: find-neighbours-index-with-max-local-error (index-max-local-error gng)
 // fixme: adaptive-step-create-new-neuron (gng)

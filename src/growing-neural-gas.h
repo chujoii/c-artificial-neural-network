@@ -41,7 +41,7 @@ void update_neuron_local_error (int neuron_a, float step, NEURON *gng);
 // fixme: decrease-all-neuron-local-errors-and-utility-factor (factor-beta gng)
 void calculate_distance_weight_sensor (float *sensor, NEURON *gng, float *distance);
 void calculate_distance_in_mixed_space_weight_sensor (int *mixed_space, float *sensor, NEURON *gng, float *return_distance);
-// fixme: find-index-of-two-minimal (in-list)
+void find_index_of_two_minimal (float *in_arr, int in_size, int *out_indexes);
 // fixme: find-neuron-index-with-max-local-error (gng)
 // fixme: find-neighbours-index-with-max-local-error (index-max-local-error gng)
 // fixme: adaptive-step-create-new-neuron (gng)
