@@ -226,6 +226,37 @@ int main ()
 	printf ("\n(2 1) (%d %d)", to[0], to[1]);
 
 
-	printf("\n");
+
+	printf ("\n\nsimple 6 neurons (repeat):\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+	printf ("\nprint neighbour for neuron number 2:\n(number 0 (conn-age=2), number 1 (conn-age = 1), nc, nc, nc, nc):\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (testing_gng[i].active == ON ) {
+			printf (" %d", testing_gng[2].conn_age[i]);
+		} else {printf (" -");}
+	}
+	printf ("\n\nupdate weight for this neurons (0 and 1):\n");
+	update_neighbours_weights (2, EPS_NEIGHBOUR, example_sensor, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+
+	printf ("\nprint neighbour for neuron number 3:\n(nc, nc, nc, nc, number 4 (conn-age = 3), nc):\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (testing_gng[i].active == ON ) {
+			printf (" %d", testing_gng[3].conn_age[i]);
+		} else {printf (" -");}
+	}
+	printf ("\n\nupdate weight for this neuron (4):\n");
+	update_neighbours_weights (3, EPS_NEIGHBOUR, example_sensor, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+
+
 	return 0;
 }

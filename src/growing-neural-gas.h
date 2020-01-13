@@ -31,7 +31,7 @@ int print_neuron (NEURON neuron);
 int add_neuron (NEURON *gng);
 // fixme: find-and-del-neuron-with-min-utility-factor (k gng)
 void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng);
-// fixme: update-neighbours-weights (function list-neighbour eps-step gng)
+void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, NEURON *gng);
 void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng);
 void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng);
 // fixme: inc-neighbours-conn-age (a gng)

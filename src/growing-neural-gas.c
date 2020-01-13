@@ -111,7 +111,14 @@ void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON
 
 
 
-// fixme: update-neighbours-weights (function list-neighbour eps-step gng)
+void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, NEURON *gng)
+{
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
+			update_neuron_weight_vector (i, eps_step, sensor, gng);
+		}
+	}
+}
 
 
 
