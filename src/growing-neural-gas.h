@@ -33,7 +33,7 @@ int add_neuron (NEURON *gng);
 void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng);
 void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, NEURON *gng);
 void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng);
-void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng);
+void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, NEURON *gng);
 void inc_neighbours_conn_age (int neuron_a, NEURON *gng);
 // fixme: remove-old-conn-age (limit-conn-age gng)
 void update_neuron_local_error (int neuron_a, float step, NEURON *gng);

@@ -65,7 +65,7 @@ int main ()
 		print_neuron (testing_gng[i]);
 	}
 
-	disconnect_neuron(0, 1, testing_gng);
+	set_neuron_conn_age (0, 1, NOT_CONNECTED, testing_gng);
 	printf ("\nsimple 6 neurons (all disconnected):\n");
 	add_neuron(testing_gng);add_neuron(testing_gng);add_neuron(testing_gng);add_neuron(testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
@@ -268,6 +268,15 @@ int main ()
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing_gng[i]);
 	}
+
+
+
+	printf ("\nset connection to 0 (*initial-connection-age*) between two winners (1 2):\n");
+	set_neuron_conn_age (1, 2, INITIAL_CONNECTION_AGE, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
 
 
 	return 0;

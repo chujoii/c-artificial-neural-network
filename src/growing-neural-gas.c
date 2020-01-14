@@ -130,10 +130,10 @@ void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng)
 
 
 
-void disconnect_neuron (int neuron_a, int neuron_b, NEURON *gng)
+void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, NEURON *gng)
 {
-	gng[neuron_a].conn_age[neuron_b] = NOT_CONNECTED;
-	gng[neuron_b].conn_age[neuron_a] = NOT_CONNECTED;
+	gng[neuron_a].conn_age[neuron_b] = conn_age;
+	gng[neuron_b].conn_age[neuron_a] = conn_age;
 }
 
 
