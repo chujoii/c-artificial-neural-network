@@ -35,7 +35,7 @@ void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, NEU
 void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng);
 void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, NEURON *gng);
 void inc_neighbours_conn_age (int neuron_a, NEURON *gng);
-// fixme: remove-old-conn-age (limit-conn-age gng)
+void remove_old_conn_age (int limit_conn_age, NEURON *gng);
 void update_neuron_local_error (int neuron_a, float step, NEURON *gng);
 // fixme: update-neuron-utility-factor (a function step gng)
 // fixme: decrease-all-neuron-local-errors-and-utility-factor (factor-beta gng)
