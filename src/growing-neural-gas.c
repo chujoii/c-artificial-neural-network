@@ -137,6 +137,9 @@ void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, NEURON *gng)
 }
 
 
+/*
+  increase by 1 neighbours connection age
+*/
 void inc_neighbours_conn_age (int neuron_a, NEURON *gng)
 {
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
@@ -187,6 +190,11 @@ void calculate_distance_weight_sensor (float *sensor, NEURON *gng, float *return
 
 
 
+/*
+  because: euclidean-distance not good for cyclic data (angles, ...)
+  functions-mixed-space == (list euclidean-distance euclidean-distance angle-distance angle-distance ...)
+  dimension of functions-mixed-space --- equivalent to dimension of sensor
+*/
 void calculate_distance_in_mixed_space_weight_sensor (int *mixed_space, float *sensor, NEURON *gng, float *return_distance)
 {
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
