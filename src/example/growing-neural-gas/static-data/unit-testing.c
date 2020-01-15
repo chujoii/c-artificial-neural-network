@@ -295,6 +295,12 @@ int main ()
 	}
 
 
+	printf ("\nset k-utility to %7.2f\n", K_UTILITY);
+	printf ("remove neurons with min utility-factor, and so all utility-factor=0 leave only 2:\n");
+	find-and-del-neuron-with-min-utility-factor (*k-utility* *example2-gng*);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing2_gng[i]);
+	}
 
 	return 0;
 }

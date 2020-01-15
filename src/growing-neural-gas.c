@@ -98,7 +98,49 @@ int add_neuron (NEURON *gng)
 
 
 
-// fixme: find-and-del-neuron-with-min-utility-factor (k gng)
+void find_and_del_neuron_with_min_utility_factor (int k, NEURON *gng)
+{
+	int E_max = index_of_maximum_local_error (gng);
+}
+
+
+
+int index_of_maximum_local_error (NEURON *gng)
+{
+	int counter = 0;
+	float value;
+	int index;
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[i].active == ON) {
+			if (counter == 0) { /* choise first element */
+				counter ++;
+				index = i;
+				value = gng[i].local_error;
+			} else { /* find extremum */
+				if (value < gng[i].local_error) {
+					index = i;
+					value = gng[i].local_error;
+				}
+			}
+		}
+	}
+	return index;
+}
+
+
+
+int length_gng (NEURON *gng)
+{
+	int len = 0;
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[i].active == ON) len++;
+	}
+	return len;
+}
+//  (define (delete_neuron_U_min counter deleted_list E_max minimum_size_of_gng igng)
+//  (define (make_consistent_gng del_list igng)
+//  (define (remove_unexisted_conn_age del_list conn_age)
+//  (define (reconnect igng)
 
 
 

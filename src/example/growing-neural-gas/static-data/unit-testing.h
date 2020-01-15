@@ -17,6 +17,12 @@
 
 #define LIMIT_CONN_AGE 3
 
+/*
+  big value of k-utility leave rare neurons and cause slow adaptation
+  small value for fast remove too many neurons, and accordingly fast adaptation
+*/
+#define K_UTILITY 100.0
+
 /* Adaptation step (add neuron in each LAMBDA_STEP to network)
 
    Inactived nodes may appear if lambda=very_small (high frequency
