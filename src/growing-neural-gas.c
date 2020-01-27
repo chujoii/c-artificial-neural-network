@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <float.h> // #include <limits.h>
+#include <stdlib.h> // for qsort
 
 #include "growing-neural-gas.h"
 
@@ -137,7 +138,69 @@ int length_gng (NEURON *gng)
 	}
 	return len;
 }
-//  (define (delete_neuron_U_min counter deleted_list E_max minimum_size_of_gng igng)
+
+
+
+static int cmp_neuron_local_error_with_index(const void * a, const void * b)
+{
+	LOCALERROR *leA = (LOCALERROR *)a;
+	LOCALERROR *leB = (LOCALERROR *)b;
+
+	return ( leB->local_error - leA->local_error );
+}
+
+
+
+int index_of_median_local_error (NEURON *gng)
+{
+	LOCALERROR lerr_arr[LIMIT_NETWORK_SIZE];
+	int counter = 0;
+
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[i].active == ON ) {
+			lerr_arr[counter].local_error = gng[i].local_error;
+			lerr_arr[counter].index_in_gng = i;
+			counter++;
+		}
+	}
+
+	qsort(lerr_arr, counter, sizeof(LOCALERROR *), cmp_neuron_local_error_with_index); /* for thread use qsort_r */
+
+	return lerr_arr[counter/2].index_in_gng;
+}
+
+
+
+
+static int cmp_neuron_local_error(const void * a, const void * b)
+{
+	return ( ((float *) a) - ((float *) b) );
+}
+
+
+
+int value_of_median_local_error (NEURON *gng)
+{
+	int return_index = 0;
+	float lerr_arr[LIMIT_NETWORK_SIZE];
+	int counter = 0;
+
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[i].active == ON ) {
+			lerr_arr[counter] = gng[i].local_error;
+			counter++;
+		}
+	}
+
+	qsort(lerr_arr, counter, sizeof(float), cmp_neuron_local_error); /* for thread use qsort_r */
+
+	return lerr_arr[counter/2];
+}
+
+
+
+
+
 //  (define (make_consistent_gng del_list igng)
 //  (define (remove_unexisted_conn_age del_list conn_age)
 //  (define (reconnect igng)

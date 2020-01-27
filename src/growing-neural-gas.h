@@ -25,6 +25,11 @@ typedef struct Neuron {
         float utility_factor;
 } NEURON;
 
+typedef struct LocalError {
+	int index_in_gng;
+        float local_error;
+} LOCALERROR;
+
 void initialization (NEURON *gng);
 int print_neuron (NEURON neuron);
 // fixme: print-gng-as-list (gng)
