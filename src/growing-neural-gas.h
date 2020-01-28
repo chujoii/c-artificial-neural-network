@@ -34,7 +34,11 @@ void initialization (NEURON *gng);
 int print_neuron (NEURON neuron);
 // fixme: print-gng-as-list (gng)
 int add_neuron (NEURON *gng);
-// fixme: find-and-del-neuron-with-min-utility-factor (k gng)
+void find_and_del_neuron_with_min_utility_factor (int k, NEURON *gng);
+int index_of_minimum_utility_factor (NEURON *gng);
+int length_gng (NEURON *gng);
+float value_of_median_local_error (NEURON *gng);
+void reconnect (NEURON *gng);
 void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng);
 void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, NEURON *gng);
 void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng);

@@ -296,8 +296,32 @@ int main ()
 
 
 	printf ("\nset k-utility to %7.2f\n", K_UTILITY);
-	printf ("remove neurons with min utility-factor, and so all utility-factor=0 leave only 2:\n");
-	find-and-del-neuron-with-min-utility-factor (*k-utility* *example2-gng*);
+	printf ("remove neurons with min utility-factor (first element (if utility-factor equal)):\n");
+	find_and_del_neuron_with_min_utility_factor (K_UTILITY, testing2_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing2_gng[i]);
+	}
+
+	printf ("repeat deletion:\n");
+	find_and_del_neuron_with_min_utility_factor (K_UTILITY, testing2_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing2_gng[i]);
+	}
+
+	printf ("repeat deletion:\n");
+	find_and_del_neuron_with_min_utility_factor (K_UTILITY, testing2_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing2_gng[i]);
+	}
+
+	printf ("repeat deletion:\n");
+	find_and_del_neuron_with_min_utility_factor (K_UTILITY, testing2_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing2_gng[i]);
+	}
+
+	printf ("last repeat deletion (because size of network=2 and nothing will be deleted):\n");
+	find_and_del_neuron_with_min_utility_factor (K_UTILITY, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing2_gng[i]);
 	}

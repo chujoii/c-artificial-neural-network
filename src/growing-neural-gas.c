@@ -101,12 +101,30 @@ int add_neuron (NEURON *gng)
 
 void find_and_del_neuron_with_min_utility_factor (int k, NEURON *gng)
 {
-	int E_max = index_of_maximum_local_error (gng);
+	float E_median = value_of_median_local_error (gng);
+	int index_of_U_min = index_of_minimum_utility_factor (gng);
+
+	if (length_gng (gng) > 2    &&
+	    (E_median / gng[index_of_U_min].utility_factor) > k) {
+		/* delete-neuron-U-min */
+		printf("remove neuron number %d\n", index_of_U_min);
+		gng[index_of_U_min].active = OFF;
+
+		/* make-consistent-gng */
+		/* remove-unexisted-conn-age */
+		for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+			if (gng[i].active == ON) {
+				gng[i].conn_age[index_of_U_min] = NOT_CONNECTED;
+			}
+		}
+
+		reconnect (gng); // fixme: really need?
+	}
 }
 
 
 
-int index_of_maximum_local_error (NEURON *gng)
+int index_of_minimum_utility_factor (NEURON *gng)
 {
 	int counter = 0;
 	float value = 0.0;
@@ -116,11 +134,11 @@ int index_of_maximum_local_error (NEURON *gng)
 			if (counter == 0) { /* choise first element */
 				counter ++;
 				index = i;
-				value = gng[i].local_error;
+				value = gng[i].utility_factor;
 			} else { /* find extremum */
-				if (value < gng[i].local_error) {
+				if (value > gng[i].utility_factor) {
 					index = i;
-					value = gng[i].local_error;
+					value = gng[i].utility_factor;
 				}
 			}
 		}
@@ -142,7 +160,7 @@ int length_gng (NEURON *gng)
 
 
 static int cmp_neuron_local_error_with_index(const void * a, const void * b)
-{
+{ // fixme: remove function?
 	LOCALERROR *leA = (LOCALERROR *)a;
 	LOCALERROR *leB = (LOCALERROR *)b;
 
@@ -152,7 +170,7 @@ static int cmp_neuron_local_error_with_index(const void * a, const void * b)
 
 
 int index_of_median_local_error (NEURON *gng)
-{
+{ // fixme: remove function?
 	LOCALERROR lerr_arr[LIMIT_NETWORK_SIZE];
 	int counter = 0;
 
@@ -198,11 +216,33 @@ float value_of_median_local_error (NEURON *gng)
 
 
 
+/*
+  if set very aggressive coefficients, then network delete all
+  neurons and leave two (maybe unconnected) so need reconnect them
+*/
+void reconnect (NEURON *gng)
+{
+	int len = length_gng (gng);
+	int neuron_a = -1;
+	int neuron_b = -1;
 
+	if (len <= 2) {
+		for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+			if (gng[i].active == ON ) {
+				if (neuron_a == -1) {
+					neuron_a = i;
+				} else {
+					if (neuron_b == -1) {
+						neuron_b = i;
+						set_neuron_conn_age (neuron_a, neuron_b, INITIAL_CONNECTION_AGE, gng);
+						break;
+					}
+				}
+			}
+		}
+	}
 
-//  (define (make_consistent_gng del_list igng)
-//  (define (remove_unexisted_conn_age del_list conn_age)
-//  (define (reconnect igng)
+}
 
 
 
