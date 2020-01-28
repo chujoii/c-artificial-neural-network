@@ -109,8 +109,8 @@ void find_and_del_neuron_with_min_utility_factor (int k, NEURON *gng)
 int index_of_maximum_local_error (NEURON *gng)
 {
 	int counter = 0;
-	float value;
-	int index;
+	float value = 0.0;
+	int index = 0;
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		if (gng[i].active == ON) {
 			if (counter == 0) { /* choise first element */
@@ -146,7 +146,7 @@ static int cmp_neuron_local_error_with_index(const void * a, const void * b)
 	LOCALERROR *leA = (LOCALERROR *)a;
 	LOCALERROR *leB = (LOCALERROR *)b;
 
-	return ( leB->local_error - leA->local_error );
+	return leA->local_error > leB->local_error ? 1 : -1;
 }
 
 
@@ -174,14 +174,13 @@ int index_of_median_local_error (NEURON *gng)
 
 static int cmp_neuron_local_error(const void * a, const void * b)
 {
-	return ( ((float *) a) - ((float *) b) );
+	return *(float*)a > *(float*)b ? 1 : -1;
 }
 
 
 
-int value_of_median_local_error (NEURON *gng)
+float value_of_median_local_error (NEURON *gng)
 {
-	int return_index = 0;
 	float lerr_arr[LIMIT_NETWORK_SIZE];
 	int counter = 0;
 
