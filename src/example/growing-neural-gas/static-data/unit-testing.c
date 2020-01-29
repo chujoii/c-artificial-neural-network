@@ -281,7 +281,6 @@ int main ()
 
 
 	printf ("\ncopy artificial neural network (because next two manipulation decrease size of net):\n");
-	printf ("\nif age > limit (%d), then remove connection:\n", LIMIT_CONN_AGE);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		testing2_gng[i].active = testing_gng[i].active;
 		for (int j=0; j<DIMENSION_OF_SENSOR; j++) testing2_gng[i].weight[j] = testing_gng[i].weight[j];
@@ -289,6 +288,8 @@ int main ()
 		testing2_gng[i].local_error = testing_gng[i].local_error;
 		testing2_gng[i].utility_factor = testing_gng[i].utility_factor;
 	}
+
+	printf ("\nif age > limit (%d), then remove connection:\n", LIMIT_CONN_AGE);
 	remove_old_conn_age (LIMIT_CONN_AGE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing2_gng[i]);
@@ -325,6 +326,36 @@ int main ()
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing2_gng[i]);
 	}
+
+
+
+	printf ("\ncopy artificial neural network (because next two manipulation decrease size of net)\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		testing2_gng[i].active = testing_gng[i].active;
+		for (int j=0; j<DIMENSION_OF_SENSOR; j++) testing2_gng[i].weight[j] = testing_gng[i].weight[j];
+		for (int j=0; j<LIMIT_NETWORK_SIZE; j++) testing2_gng[i].conn_age[j] = testing_gng[i].conn_age[j];
+		testing2_gng[i].local_error = testing_gng[i].local_error;
+		testing2_gng[i].utility_factor = testing_gng[i].utility_factor;
+	}
+	
+	printf("set <<random>> utility factor:\n");
+	update_neuron_utility_factor (0, 0.9, testing2_gng);
+	update_neuron_utility_factor (1, 0.4, testing2_gng);
+	update_neuron_utility_factor (2, 0.5, testing2_gng);
+	update_neuron_utility_factor (3, 0.8, testing2_gng);
+	update_neuron_utility_factor (4, 0.7, testing2_gng);
+	update_neuron_utility_factor (5, 0.1, testing2_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing2_gng[i]);
+	}
+	
+	printf ("\nremove neurons with min utility-factor:\n");
+	find_and_del_neuron_with_min_utility_factor (K_UTILITY, testing2_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing2_gng[i]);
+	}
+
+
 
 	return 0;
 }

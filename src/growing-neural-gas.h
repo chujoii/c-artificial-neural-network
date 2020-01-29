@@ -34,7 +34,7 @@ void initialization (NEURON *gng);
 int print_neuron (NEURON neuron);
 // fixme: print-gng-as-list (gng)
 int add_neuron (NEURON *gng);
-void find_and_del_neuron_with_min_utility_factor (int k, NEURON *gng);
+void find_and_del_neuron_with_min_utility_factor (float k, NEURON *gng);
 int index_of_minimum_utility_factor (NEURON *gng);
 int length_gng (NEURON *gng);
 float value_of_median_local_error (NEURON *gng);

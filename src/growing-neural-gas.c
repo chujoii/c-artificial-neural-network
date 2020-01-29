@@ -99,13 +99,14 @@ int add_neuron (NEURON *gng)
 
 
 
-void find_and_del_neuron_with_min_utility_factor (int k, NEURON *gng)
+void find_and_del_neuron_with_min_utility_factor (float k, NEURON *gng)
 {
 	float E_median = value_of_median_local_error (gng);
 	int index_of_U_min = index_of_minimum_utility_factor (gng);
 
 	if (length_gng (gng) > 2    &&
 	    (E_median / gng[index_of_U_min].utility_factor) > k) {
+		printf("[d]Emedian=%f Umin[%d]=%f    Emedian/Umin=%f > k=%f\n", E_median, index_of_U_min, gng[index_of_U_min].utility_factor, E_median / gng[index_of_U_min].utility_factor, k);
 		/* delete-neuron-U-min */
 		printf("remove neuron number %d\n", index_of_U_min);
 		gng[index_of_U_min].active = OFF;
@@ -316,7 +317,14 @@ void update_neuron_local_error (int neuron_a, float step, NEURON *gng)
 }
 
 
-// fixme: update-neuron-utility-factor (a function step gng)
+
+void update_neuron_utility_factor (int neuron_a, float step, NEURON *gng)
+{
+	gng[neuron_a].utility_factor += step;
+}
+
+
+
 // fixme: decrease-all-neuron-local-errors-and-utility-factor (factor-beta gng)
 
 
