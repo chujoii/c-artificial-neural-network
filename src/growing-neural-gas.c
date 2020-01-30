@@ -435,6 +435,31 @@ int find_neuron_index_with_max_local_error (NEURON *gng)
 
 
 
-// fixme: find-neighbours-index-with-max-local-error (index-max-local-error gng)
+// fixme: it is necessary to combine the calculations for finding the values of "maximum local error" and "median local error"
+/* if not found, then return index_max_local_error */
+int find_neighbours_index_with_max_local_error (int index_max_local_error, NEURON *gng)
+{
+	int counter = 0;
+	float value = 0.0;
+	int index = index_max_local_error;
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[index_max_local_error].conn_age[i] >= INITIAL_CONNECTION_AGE) {
+			if (counter == 0) { /* choise first element */
+				counter ++;
+				index = i;
+				value = gng[i].local_error;
+			} else { /* find extremum */
+				if (value < gng[i].local_error) {
+					index = i;
+					value = gng[i].local_error;
+				}
+			}
+		}
+	}
+	return index;
+}
+
+
+
 // fixme: adaptive-step-create-new-neuron (gng)
 // fixme: growing-neural-gas epoch sensor (gng)

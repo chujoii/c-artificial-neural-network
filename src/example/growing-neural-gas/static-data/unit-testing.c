@@ -370,6 +370,9 @@ int main ()
 
 	int index_max_local_error = find_neuron_index_with_max_local_error (testing_gng);
 	printf ("\nindex of neuron with max local error: %d\n", index_max_local_error);
+	printf ("neighbour (for neuron number %d) index of neuron with max local error: %d\n",
+		index_max_local_error,
+		find_neighbours_index_with_max_local_error (index_max_local_error, testing_gng));
 
 
 
