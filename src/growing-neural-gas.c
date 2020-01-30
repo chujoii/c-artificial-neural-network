@@ -170,6 +170,7 @@ static int cmp_neuron_local_error_with_index(const void * a, const void * b)
 
 
 
+// fixme: it is necessary to combine the calculations for finding the values of "maximum local error" and "median local error"
 int index_of_median_local_error (NEURON *gng)
 { // fixme: remove function?
 	LOCALERROR lerr_arr[LIMIT_NETWORK_SIZE];
@@ -197,7 +198,7 @@ static int cmp_neuron_local_error(const void * a, const void * b)
 }
 
 
-
+// fixme: it is necessary to combine the calculations for finding the values of "maximum local error" and "median local error"
 float value_of_median_local_error (NEURON *gng)
 {
 	float lerr_arr[LIMIT_NETWORK_SIZE];
@@ -409,7 +410,31 @@ void find_index_of_two_minimal (float *in_arr, int in_size, int *out_indexes)
 
 
 
-// fixme: find-neuron-index-with-max-local-error (gng)
+// fixme: it is necessary to combine the calculations for finding the values of "maximum local error" and "median local error"
+int find_neuron_index_with_max_local_error (NEURON *gng)
+{
+	int counter = 0;
+	float value = 0.0;
+	int index = 0;
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[i].active == ON) {
+			if (counter == 0) { /* choise first element */
+				counter ++;
+				index = i;
+				value = gng[i].local_error;
+			} else { /* find extremum */
+				if (value < gng[i].local_error) {
+					index = i;
+					value = gng[i].local_error;
+				}
+			}
+		}
+	}
+	return index;
+}
+
+
+
 // fixme: find-neighbours-index-with-max-local-error (index-max-local-error gng)
 // fixme: adaptive-step-create-new-neuron (gng)
 // fixme: growing-neural-gas epoch sensor (gng)

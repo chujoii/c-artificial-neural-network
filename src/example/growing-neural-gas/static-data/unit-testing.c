@@ -356,6 +356,23 @@ int main ()
 	}
 
 
+	printf ("\nrestore big artificial neural network\n");
+	update_neuron_utility_factor (0, 0.9, testing_gng);
+	update_neuron_utility_factor (1, 0.4, testing_gng);
+	update_neuron_utility_factor (2, 0.5, testing_gng);
+	update_neuron_utility_factor (3, 0.8, testing_gng);
+	update_neuron_utility_factor (4, 0.7, testing_gng);
+	update_neuron_utility_factor (5, 0.1, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+
+	int index_max_local_error = find_neuron_index_with_max_local_error (testing_gng);
+	printf ("\nindex of neuron with max local error: %d\n", index_max_local_error);
+
+
+
 
 	return 0;
 }
