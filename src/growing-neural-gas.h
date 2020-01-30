@@ -30,14 +30,26 @@ typedef struct LocalError {
         float local_error;
 } LOCALERROR;
 
+typedef struct Statistic_LocalError {
+	int index_in_gng_min;
+        //float local_error_min;
+	int index_in_gng_median;
+        //float local_error_median;
+	int index_in_gng_max;
+        //float local_error_max;
+} STAT_LOCALERROR;
+
+
+
 void initialization (NEURON *gng);
 int print_neuron (NEURON neuron);
 // fixme: print-gng-as-list (gng)
 int add_neuron (NEURON *gng);
-void find_and_del_neuron_with_min_utility_factor (float k, NEURON *gng);
+void find_and_del_neuron_with_min_utility_factor (float E_median, float k, NEURON *gng);
 int index_of_minimum_utility_factor (NEURON *gng);
 int length_gng (NEURON *gng);
-float value_of_median_local_error (NEURON *gng);
+STAT_LOCALERROR index_of_stat_local_error (NEURON *gng);
+//float value_of_median_local_error (NEURON *gng);
 void reconnect (NEURON *gng);
 void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng);
 void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, NEURON *gng);

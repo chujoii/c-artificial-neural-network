@@ -99,9 +99,8 @@ int add_neuron (NEURON *gng)
 
 
 
-void find_and_del_neuron_with_min_utility_factor (float k, NEURON *gng)
+void find_and_del_neuron_with_min_utility_factor (float E_median, float k, NEURON *gng)
 {
-	float E_median = value_of_median_local_error (gng);
 	int index_of_U_min = index_of_minimum_utility_factor (gng);
 
 	if (length_gng (gng) > 2    &&
@@ -161,7 +160,7 @@ int length_gng (NEURON *gng)
 
 
 static int cmp_neuron_local_error_with_index(const void * a, const void * b)
-{ // fixme: remove function?
+{
 	LOCALERROR *leA = (LOCALERROR *)a;
 	LOCALERROR *leB = (LOCALERROR *)b;
 
@@ -170,8 +169,9 @@ static int cmp_neuron_local_error_with_index(const void * a, const void * b)
 
 
 
-int index_of_median_local_error (NEURON *gng)
-{ // fixme: remove function?
+STAT_LOCALERROR index_of_stat_local_error (NEURON *gng)
+{
+	STAT_LOCALERROR stat;
 	LOCALERROR lerr_arr[LIMIT_NETWORK_SIZE];
 	int counter = 0;
 
@@ -185,21 +185,29 @@ int index_of_median_local_error (NEURON *gng)
 
 	qsort(lerr_arr, counter, sizeof(LOCALERROR *), cmp_neuron_local_error_with_index); /* for thread use qsort_r */
 
-	return lerr_arr[counter/2].index_in_gng;
+	stat.index_in_gng_min = lerr_arr[0].index_in_gng;
+        //stat.local_error_min = lerr_arr[0].local_error;
+	stat.index_in_gng_median = lerr_arr[counter/2].index_in_gng;
+        //stat.local_error_median = lerr_arr[counter/2].local_error;
+	stat.index_in_gng_max = lerr_arr[counter - 1].index_in_gng;
+        //stat.local_error_max = lerr_arr[counter - 1].local_error;
+
+	return stat;
 }
 
 
 
 
+/*
 static int cmp_neuron_local_error(const void * a, const void * b)
-{
+{ // fixme: remove function?
 	return *(float*)a > *(float*)b ? 1 : -1;
 }
 
 
 
 float value_of_median_local_error (NEURON *gng)
-{
+{ // fixme: remove function?
 	float lerr_arr[LIMIT_NETWORK_SIZE];
 	int counter = 0;
 
@@ -210,11 +218,11 @@ float value_of_median_local_error (NEURON *gng)
 		}
 	}
 
-	qsort(lerr_arr, counter, sizeof(float), cmp_neuron_local_error); /* for thread use qsort_r */
+	qsort(lerr_arr, counter, sizeof(float), cmp_neuron_local_error); // for thread use qsort_r
 
 	return lerr_arr[counter/2];
 }
-
+*/
 
 
 /*
@@ -409,7 +417,10 @@ void find_index_of_two_minimal (float *in_arr, int in_size, int *out_indexes)
 
 
 
-// fixme: find-neuron-index-with-max-local-error (gng)
+// for find-neuron-index-with-max-local-error (gng) see: STAT_LOCALERROR index_of_stat_local_error (NEURON *gng)
+
+
+
 // fixme: find-neighbours-index-with-max-local-error (index-max-local-error gng)
 // fixme: adaptive-step-create-new-neuron (gng)
 // fixme: growing-neural-gas epoch sensor (gng)
