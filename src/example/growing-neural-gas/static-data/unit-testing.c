@@ -375,6 +375,11 @@ int main ()
 		find_neighbours_index_with_max_local_error (index_max_local_error, testing_gng));
 
 
+	printf ("\nadaptive step: create new neuron:\n");
+	adaptive_step_create_new_neuron (testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
 
 
 	return 0;

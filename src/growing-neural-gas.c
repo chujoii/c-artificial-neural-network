@@ -73,8 +73,8 @@ int print_neuron (NEURON neuron)
 			printf(" %d", neuron.conn_age[i]);
 	}
 
-	printf("\te: %5.1f\t", neuron.local_error);
-	printf("u: %5.1f\n", neuron.utility_factor);
+	printf("\te: %5.3f\t", neuron.local_error);
+	printf("u: %5.3f\n", neuron.utility_factor);
 
 	return 0;
 }
@@ -251,7 +251,7 @@ void reconnect (NEURON *gng)
 void update_neuron_weight_vector(int neuron_a, float step, float *sensor, NEURON *gng)
 {
 	for (int i=0; i<DIMENSION_OF_SENSOR; i++) {
-		gng[neuron_a].weight[i] = gng[neuron_a].weight[i] + step*(gng[neuron_a].weight[i] - sensor[i]);
+		gng[neuron_a].weight[i] += step*(gng[neuron_a].weight[i] - sensor[i]);
 	}
 }
 
@@ -441,7 +441,7 @@ int find_neighbours_index_with_max_local_error (int index_max_local_error, NEURO
 {
 	int counter = 0;
 	float value = 0.0;
-	int index = index_max_local_error;
+	int index = -1;
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		if (gng[index_max_local_error].conn_age[i] >= INITIAL_CONNECTION_AGE) {
 			if (counter == 0) { /* choise first element */
@@ -461,5 +461,55 @@ int find_neighbours_index_with_max_local_error (int index_max_local_error, NEURO
 
 
 
-// fixme: adaptive-step-create-new-neuron (gng)
+void adaptive_step_create_new_neuron (NEURON *gng)
+{
+	int index_neuron_max_local_error = find_neuron_index_with_max_local_error (gng); // algorithm:13
+	int index_neighbour_for_max_local_error = find_neighbours_index_with_max_local_error (index_neuron_max_local_error, gng); // algorithm:14
+	int index_of_new_neuron = add_neuron(gng); // algorithm:15.a
+
+	if (index_neighbour_for_max_local_error < 0) { // fix situation when all index = -1
+		// more correct solution: use not aggressive coefficients (k_utility)
+		for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+			if ((gng[i].active == ON) &&
+			    index_neighbour_for_max_local_error != index_neuron_max_local_error) { index_neighbour_for_max_local_error = i; }
+		}
+	}
+
+	// fixme: move "algorithm:15.b" to function update_neuron_weight_vector
+	// algorithm:15.b
+	for (int i=0; i<DIMENSION_OF_SENSOR; i++) {
+		gng[index_of_new_neuron].weight[i] = (gng[index_neuron_max_local_error].weight[i] +
+						      gng[index_neighbour_for_max_local_error].weight[i]) / 2.0;
+	}
+
+
+
+	// algorithm:16
+	set_neuron_conn_age(index_neuron_max_local_error,
+			    index_of_new_neuron,
+			    gng[index_neuron_max_local_error].conn_age[index_neighbour_for_max_local_error],
+			    gng);
+	set_neuron_conn_age(index_of_new_neuron,
+			    index_neighbour_for_max_local_error,
+			    gng[index_neuron_max_local_error].conn_age[index_neighbour_for_max_local_error],
+			    gng);
+	set_neuron_conn_age(index_neuron_max_local_error,
+			    index_neighbour_for_max_local_error,
+			    NOT_CONNECTED,
+			    gng);
+
+
+
+	// algorithm:17
+	gng[index_of_new_neuron].utility_factor = (gng[index_neuron_max_local_error].utility_factor +
+						   gng[index_neighbour_for_max_local_error].utility_factor) / 2.0;
+
+	// algorithm:18
+	gng[index_neuron_max_local_error].local_error *= EPS_LOCAL_ERROR;
+	gng[index_neighbour_for_max_local_error].local_error *= EPS_LOCAL_ERROR;
+	gng[index_of_new_neuron].local_error = gng[index_neuron_max_local_error].local_error;
+}
+
+
+
 // fixme: growing-neural-gas epoch sensor (gng)
