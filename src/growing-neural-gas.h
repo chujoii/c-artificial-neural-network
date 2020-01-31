@@ -56,5 +56,7 @@ int find_neighbours_index_with_max_local_error (int index_max_local_error, NEURO
 void adaptive_step_create_new_neuron (NEURON *gng);
 // fixme: growing-neural-gas epoch sensor (gng)
 // fixme: extract-groups-from-conn-ages (gng)
+int write_gng_to_file (char *file_name, NEURON *gng);
+int read_gng_from_file (char *file_name, NEURON *gng);
 
 #endif /* GROWING_NEURAL_GAS_H */

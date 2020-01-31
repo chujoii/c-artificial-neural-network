@@ -45,10 +45,12 @@ int main ()
 	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
 	NEURON testing_gng[LIMIT_NETWORK_SIZE];
 	NEURON testing2_gng[LIMIT_NETWORK_SIZE];
+	NEURON testing3_gng[LIMIT_NETWORK_SIZE];
 	float example_sensor_with_angle[DIMENSION_OF_SENSOR] = {10,     20,     350,   40};
 	int mixed_space_distances[DIMENSION_OF_SENSOR] ={EUCLIDEAN, EUCLIDEAN, ANGLE, EUCLIDEAN};
 	NEURON example_gng_with_angle[LIMIT_NETWORK_SIZE];
 	float distances[LIMIT_NETWORK_SIZE];
+	int result;
 
 	printf("empty network: (%d elements)\n", LIMIT_NETWORK_SIZE);
 	initialization (testing_gng);
@@ -388,6 +390,17 @@ int main ()
 		print_neuron (testing_gng[i]);
 	}
 
+	printf ("\nwrite GNG to file knowledge-base.gng ...");
+	result = write_gng_to_file ("knowledge-base.gng", testing_gng);
+	printf (" %s\n", (result == 0) ? "OK" : "Error");
+
+	printf ("\nread GNG from file knowledge-base.gng ...");
+	result = read_gng_from_file ("knowledge-base.gng", testing3_gng);
+	printf (" %s\n", (result == 0) ? "OK" : "Error");
+	printf ("\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing3_gng[i]);
+	}
 
 	return 0;
 }

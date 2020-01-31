@@ -522,3 +522,42 @@ void adaptive_step_create_new_neuron (NEURON *gng)
 
 // fixme: growing-neural-gas epoch sensor (gng)
 // fixme: extract-groups-from-conn-ages (gng)
+
+
+
+/* return 0 if all good */
+int write_gng_to_file (char *file_name, NEURON *gng)
+{
+	FILE * ifp;
+	size_t result;
+	int sum_res = 0;
+
+	ifp = fopen(file_name, "wb");
+	if (ifp != NULL) {
+		for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+			result = fwrite(&(gng[i]), sizeof(struct Neuron), 1, ifp);
+			sum_res += (result == 1) ? 1 : 0;
+		}
+		fclose(ifp);
+	}
+	return (sum_res == LIMIT_NETWORK_SIZE) ? 0 : 1;
+}
+
+
+/* return 0 if all good */
+int read_gng_from_file (char *file_name, NEURON *gng)
+{
+	FILE * ifp;
+	size_t result;
+	int sum_res = 0;
+
+	ifp = fopen(file_name, "rb");
+	if (ifp != NULL) {
+		for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+			result = fread(&(gng[i]), sizeof(struct Neuron), 1, ifp);
+			sum_res += (result == 1) ? 1 : 0;
+		}
+		fclose(ifp);
+	}
+	return (sum_res == LIMIT_NETWORK_SIZE) ? 0 : 1;
+}

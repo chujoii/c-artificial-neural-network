@@ -11,6 +11,7 @@
 *.toc
 *.gv
 *.cmapx
+knowledge-base.gng
 revision.txt
 fig.[0-9]*
 fig.mpx
