@@ -326,7 +326,15 @@ void update_neuron_utility_factor (int neuron_a, float step, NEURON *gng)
 
 
 
-// fixme: decrease-all-neuron-local-errors-and-utility-factor (factor-beta gng)
+void decrease_all_neuron_local_errors_and_utility_factor (float factor_beta, NEURON *gng)
+{
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		if (gng[i].active == ON ) {
+			gng[i].local_error *= factor_beta;
+			gng[i].utility_factor *= factor_beta;
+		}
+	}
+}
 
 
 
@@ -513,3 +521,4 @@ void adaptive_step_create_new_neuron (NEURON *gng)
 
 
 // fixme: growing-neural-gas epoch sensor (gng)
+// fixme: extract-groups-from-conn-ages (gng)

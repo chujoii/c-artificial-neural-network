@@ -47,7 +47,7 @@ void inc_neighbours_conn_age (int neuron_a, NEURON *gng);
 void remove_old_conn_age (int limit_conn_age, NEURON *gng);
 void update_neuron_local_error (int neuron_a, float step, NEURON *gng);
 void update_neuron_utility_factor (int neuron_a, float step, NEURON *gng);
-// fixme: decrease-all-neuron-local-errors-and-utility-factor (factor-beta gng)
+void decrease_all_neuron_local_errors_and_utility_factor (float factor_beta, NEURON *gng);
 void calculate_distance_weight_sensor (float *sensor, NEURON *gng, float *distance);
 void calculate_distance_in_mixed_space_weight_sensor (int *mixed_space, float *sensor, NEURON *gng, float *return_distance);
 void find_index_of_two_minimal (float *in_arr, int in_size, int *out_indexes);
@@ -55,5 +55,6 @@ int find_neuron_index_with_max_local_error (NEURON *gng);
 int find_neighbours_index_with_max_local_error (int index_max_local_error, NEURON *gng);
 void adaptive_step_create_new_neuron (NEURON *gng);
 // fixme: growing-neural-gas epoch sensor (gng)
+// fixme: extract-groups-from-conn-ages (gng)
 
 #endif /* GROWING_NEURAL_GAS_H */

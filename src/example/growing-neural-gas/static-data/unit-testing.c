@@ -382,5 +382,12 @@ int main ()
 	}
 
 
+	printf ("\ndecrease local-error and utility-factor:\n");
+	decrease_all_neuron_local_errors_and_utility_factor (FACTOR_BETA_DECREASE_LOCAL_ERROR, testing_gng);
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (testing_gng[i]);
+	}
+
+
 	return 0;
 }
