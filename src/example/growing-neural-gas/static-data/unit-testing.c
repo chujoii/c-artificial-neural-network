@@ -42,13 +42,12 @@
 
 int main ()
 {
+
 	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
 	NEURON testing_gng[LIMIT_NETWORK_SIZE];
 	NEURON testing2_gng[LIMIT_NETWORK_SIZE];
-	NEURON testing3_gng[LIMIT_NETWORK_SIZE];
 	float example_sensor_with_angle[DIMENSION_OF_SENSOR] = {10,     20,     350,   40};
 	int mixed_space_distances[DIMENSION_OF_SENSOR] ={EUCLIDEAN, EUCLIDEAN, ANGLE, EUCLIDEAN};
-	NEURON example_gng_with_angle[LIMIT_NETWORK_SIZE];
 	float distances[LIMIT_NETWORK_SIZE];
 	int result;
 
@@ -132,18 +131,18 @@ int main ()
 	}
 	
 	printf ("\n\n\nsimple 3 neurons with angle:\n");
-	initialization (example_gng_with_angle);
-	add_neuron(example_gng_with_angle);add_neuron(example_gng_with_angle);add_neuron(example_gng_with_angle);
+	initialization (testing2_gng);
+	add_neuron(testing2_gng);add_neuron(testing2_gng);add_neuron(testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		for (int j=0; j<DIMENSION_OF_SENSOR; j++) {
-			example_gng_with_angle[i].weight[j] =i + (j + 1)/10.0;
+			testing2_gng[i].weight[j] =i + (j + 1)/10.0;
 		}
 	}
-	example_gng_with_angle[0].weight[2] = 270.0;
-	example_gng_with_angle[1].weight[2] =  10.0;
-	example_gng_with_angle[2].weight[2] = 300.0;
+	testing2_gng[0].weight[2] = 270.0;
+	testing2_gng[1].weight[2] =  10.0;
+	testing2_gng[2].weight[2] = 300.0;
 	for (int j=0; j<LIMIT_NETWORK_SIZE; j++) {
-		print_neuron (example_gng_with_angle[j]);
+		print_neuron (testing2_gng[j]);
 	}
 
 	printf ("\nSensor with angle:");
@@ -153,9 +152,9 @@ int main ()
 
 	printf ("\nMinimal distance will be for neuron number 1 (count from 0), because 10 degree nearest to 350 degree (distance=20 degree):\n");
 	printf ("Distance between Weight (with angle) and Sensor (with angle) calculations (also with respect to angle):\n");
-	calculate_distance_in_mixed_space_weight_sensor (mixed_space_distances, example_sensor_with_angle, example_gng_with_angle, distances);
+	calculate_distance_in_mixed_space_weight_sensor (mixed_space_distances, example_sensor_with_angle, testing2_gng, distances);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		if (example_gng_with_angle[i].active == ON ) {
+		if (testing2_gng[i].active == ON ) {
 			printf (" %7.2f", distances[i]);
 		} else {printf (" NaN");}
 	}
@@ -390,17 +389,28 @@ int main ()
 		print_neuron (testing_gng[i]);
 	}
 
+	printf("\ntest binary-formatted output: see file knowledge-base.gng\n");
 	printf ("\nwrite GNG to file knowledge-base.gng ...");
 	result = write_gng_to_file ("knowledge-base.gng", testing_gng);
 	printf (" %s\n", (result == 0) ? "OK" : "Error");
-
+	printf ("\ninitialize (clean) gng\n");
+	initialization (testing_gng);
 	printf ("\nread GNG from file knowledge-base.gng ...");
-	result = read_gng_from_file ("knowledge-base.gng", testing3_gng);
+	result = read_gng_from_file ("knowledge-base.gng", testing_gng);
 	printf (" %s\n", (result == 0) ? "OK" : "Error");
 	printf ("\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (testing3_gng[i]);
+		print_neuron (testing_gng[i]);
 	}
+
+
+
+	/* fixme:
+	printf ("\nfrom conn-age\n");
+	printf ("\nextract groups:\n");
+	extract_groups_from_conn_ages (testing3_gng);
+	*/
+
 
 	return 0;
 }
