@@ -23,11 +23,11 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "unit-testing.h"
-//#include "../../../growing-neural-gas.h" # fixme: uncomment? //extern const int DIMENSION_OF_SENSOR; extern const int LIMIT_NETWORK_SIZE;
+#include "../../../growing-neural-gas.h"
 #include "../../../vector.h"
-#include "../../../growing-neural-gas.c" // fixme
 
 /* Use  for debug print, or #f for silent */
 //#define DEBUG
