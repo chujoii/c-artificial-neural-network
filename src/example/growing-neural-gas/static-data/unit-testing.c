@@ -43,9 +43,44 @@
 int main ()
 {
 
+	NEURON *testing_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing_gng));
+	if (testing_gng == NULL) {
+		return 1;
+	}
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		testing_gng[i].weight = malloc(DIMENSION_OF_SENSOR * sizeof (* (testing_gng[i].weight)));
+		if (testing_gng[i].weight == NULL) {
+			// fixme: free (testing_gng); and already allocation weights and conn_ages
+			return 2;
+		}
+
+		testing_gng[i].conn_age = malloc(LIMIT_NETWORK_SIZE * sizeof (* (testing_gng[i].conn_age)));
+		if (testing_gng[i].conn_age == NULL) {
+			// fixme: free (testing_gng); and already allocation weights and conn_ages
+			return 2;
+		}
+	}
+
+
+	NEURON *testing2_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing2_gng));
+	if (testing2_gng == NULL) {
+		return 1;
+	}
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		testing2_gng[i].weight = malloc(DIMENSION_OF_SENSOR * sizeof (* (testing2_gng[i].weight)));
+		if (testing2_gng[i].weight == NULL) {
+			// fixme: free (testing2_gng); and already allocation weights and conn_ages
+			return 2;
+		}
+
+		testing2_gng[i].conn_age = malloc(LIMIT_NETWORK_SIZE * sizeof (* (testing2_gng[i].conn_age)));
+		if (testing2_gng[i].conn_age == NULL) {
+			// fixme: free (testing2_gng); and already allocation weights and conn_ages
+			return 2;
+		}
+	}
+
 	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
-	NEURON testing_gng[LIMIT_NETWORK_SIZE];
-	NEURON testing2_gng[LIMIT_NETWORK_SIZE];
 	float example_sensor_with_angle[DIMENSION_OF_SENSOR] = {10,     20,     350,   40};
 	int mixed_space_distances[DIMENSION_OF_SENSOR] ={EUCLIDEAN, EUCLIDEAN, ANGLE, EUCLIDEAN};
 	float distances[LIMIT_NETWORK_SIZE];
@@ -390,15 +425,14 @@ int main ()
 	}
 
 	printf("\ntest binary-formatted output: see file knowledge-base.gng\n");
-	printf ("\nwrite GNG to file knowledge-base.gng ...");
+	printf ("write GNG to file knowledge-base.gng ...");
 	result = write_gng_to_file ("knowledge-base.gng", testing_gng);
 	printf (" %s\n", (result == 0) ? "OK" : "Error");
-	printf ("\ninitialize (clean) gng\n");
+	printf ("initialize (clean) gng\n");
 	initialization (testing_gng);
-	printf ("\nread GNG from file knowledge-base.gng ...");
+	printf ("read GNG from file knowledge-base.gng ...");
 	result = read_gng_from_file ("knowledge-base.gng", testing_gng);
 	printf (" %s\n", (result == 0) ? "OK" : "Error");
-	printf ("\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (testing_gng[i]);
 	}
@@ -411,6 +445,12 @@ int main ()
 	extract_groups_from_conn_ages (testing3_gng);
 	*/
 
+
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		free (testing_gng[i].weight);
+		free (testing_gng[i].conn_age);
+	}
+	free (testing_gng);
 
 	return 0;
 }

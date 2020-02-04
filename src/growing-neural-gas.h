@@ -19,8 +19,8 @@ enum mixed_space_distance_variants { EUCLIDEAN, ANGLE };
 
 typedef struct Neuron {
 	unsigned char active;
-        float weight[DIMENSION_OF_SENSOR];
-        int conn_age[LIMIT_NETWORK_SIZE];
+        float *weight; // DIMENSION_OF_SENSOR * sizeof (* (gng[i].weight))
+        int *conn_age; // LIMIT_NETWORK_SIZE * sizeof (* (gng[i].conn_age))
         float local_error;
         float utility_factor;
 } NEURON;

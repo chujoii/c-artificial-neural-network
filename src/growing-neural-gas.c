@@ -537,10 +537,14 @@ int write_gng_to_file (char *file_name, NEURON *gng)
 		for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 			result = fwrite(&(gng[i]), sizeof(struct Neuron), 1, ifp);
 			sum_res += (result == 1) ? 1 : 0;
+			result = fwrite(gng[i].weight, DIMENSION_OF_SENSOR * sizeof (* (gng[i].weight)), 1, ifp);
+			sum_res += (result == 1) ? 1 : 0;
+			result = fwrite(gng[i].conn_age, LIMIT_NETWORK_SIZE * sizeof (* (gng[i].conn_age)), 1, ifp);
+			sum_res += (result == 1) ? 1 : 0;
 		}
 		fclose(ifp);
 	}
-	return (sum_res == LIMIT_NETWORK_SIZE) ? 0 : 1;
+	return (sum_res == 3 * LIMIT_NETWORK_SIZE) ? 0 : 1; /* 3 = gng + weight + conn_age */
 }
 
 
@@ -556,8 +560,12 @@ int read_gng_from_file (char *file_name, NEURON *gng)
 		for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 			result = fread(&(gng[i]), sizeof(struct Neuron), 1, ifp);
 			sum_res += (result == 1) ? 1 : 0;
+			result = fread(gng[i].weight, DIMENSION_OF_SENSOR * sizeof (* (gng[i].weight)), 1, ifp);
+			sum_res += (result == 1) ? 1 : 0;
+			result = fread(gng[i].conn_age, LIMIT_NETWORK_SIZE * sizeof (* (gng[i].conn_age)), 1, ifp);
+			sum_res += (result == 1) ? 1 : 0;
 		}
 		fclose(ifp);
 	}
-	return (sum_res == LIMIT_NETWORK_SIZE) ? 0 : 1;
+	return (sum_res == 3 * LIMIT_NETWORK_SIZE) ? 0 : 1; /* 3 = gng + weight + conn_age */
 }
