@@ -251,7 +251,7 @@ void reconnect (int limit_network_size, NEURON *gng)
 void update_neuron_weight_vector (int neuron_a, float step, float *sensor, int dimension_of_sensor, NEURON *gng)
 {
 	for (int i=0; i<dimension_of_sensor; i++) {
-		gng[neuron_a].weight[i] += step*(gng[neuron_a].weight[i] - sensor[i]);
+		gng[neuron_a].weight[i] += step*(sensor[i] - gng[neuron_a].weight[i]);
 	}
 }
 
