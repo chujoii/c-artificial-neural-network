@@ -330,8 +330,8 @@ void decrease_all_neuron_local_errors_and_utility_factor (float factor_beta, int
 {
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON ) {
-			gng[i].local_error *= factor_beta;
-			gng[i].utility_factor *= factor_beta;
+			gng[i].local_error *= 1.0 - factor_beta;
+			gng[i].utility_factor *= 1.0 - factor_beta;
 		}
 	}
 }
