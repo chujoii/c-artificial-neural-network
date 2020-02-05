@@ -199,7 +199,7 @@ int main ()
 	printf ("\n\nFind indexes of two minimal elementt (first correct answer), (then calculated answer)");
 
 	float ti[3];
-	int to[3];
+	int to[2]; // need only two elements
 	int ts;
 
 	ts = 2;

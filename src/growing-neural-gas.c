@@ -248,7 +248,7 @@ void reconnect (int limit_network_size, NEURON *gng)
 
 
 
-void update_neuron_weight_vector(int neuron_a, float step, float *sensor, int dimension_of_sensor, NEURON *gng)
+void update_neuron_weight_vector (int neuron_a, float step, float *sensor, int dimension_of_sensor, NEURON *gng)
 {
 	for (int i=0; i<dimension_of_sensor; i++) {
 		gng[neuron_a].weight[i] += step*(gng[neuron_a].weight[i] - sensor[i]);
@@ -520,7 +520,55 @@ void adaptive_step_create_new_neuron (float eps_local_error, int dimension_of_se
 
 
 
-// fixme: growing-neural-gas epoch sensor (gng)
+void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float eps_local_error, float factor_beta_decrease_local_error, int limit_conn_age, float k_utility, int lambda_step, int *mixed_space, float *sensor, int dimension_of_sensor, int limit_network_size, NEURON *gng)
+{
+	float distances_w_s[limit_network_size];
+	if (mixed_space == NULL) {
+		calculate_distance_weight_sensor (sensor, dimension_of_sensor, limit_network_size, gng, distances_w_s);
+	} else {
+		calculate_distance_in_mixed_space_weight_sensor (mixed_space, sensor, dimension_of_sensor, limit_network_size, gng, distances_w_s);
+	}
+
+	// algorithm:04
+	int winners[2];
+	find_index_of_two_minimal (distances_w_s, limit_network_size, winners);
+
+	// algorithm:05
+	update_neuron_local_error (winners[0], square (distances_w_s[winners[0]]), gng);
+
+	// algorithm:07 for winner
+	update_neuron_weight_vector (winners[0], eps_winner, sensor, dimension_of_sensor, gng);
+
+	// algorithm:07 for neighbours
+	update_neighbours_weights (winners[0], eps_neighbour, sensor, dimension_of_sensor, limit_network_size, gng);
+
+	// algorithm:08
+	update_neuron_utility_factor (winners[0], square (distances_w_s[winners[1]]) - square (distances_w_s[winners[0]]), gng);
+
+	// algorithm:09
+	inc_neighbours_conn_age (winners[0], limit_network_size, gng);
+
+	// algorithm:10: set connection to 0 (*initial-connection-age*) between two winners
+	set_neuron_conn_age (winners[0], winners[1], INITIAL_CONNECTION_AGE, gng);
+
+	// algorithm:11.a
+	remove_old_conn_age (limit_conn_age, limit_network_size, gng);
+
+	// algorithm:11.b
+	find_and_del_neuron_with_min_utility_factor (k_utility, limit_network_size, gng);
+
+	// algorithm:12
+	if ((epoch % lambda_step == 0) &&
+	    (limit_network_size > length_gng (limit_network_size, gng))) {
+		adaptive_step_create_new_neuron (eps_local_error, dimension_of_sensor, limit_network_size, gng);
+	}
+
+	// algorithm:20,21
+	decrease_all_neuron_local_errors_and_utility_factor (factor_beta_decrease_local_error, limit_network_size, gng);
+}
+
+
+
 // fixme: extract-groups-from-conn-ages (gng)
 
 
