@@ -20,7 +20,7 @@ endif
 DB	= -ldb
 #DB	= -l:libdb-4.4.so
 
-all : unit-testing
+all : unit-testing example
 
 # create object file
 %.o: %.c
@@ -35,6 +35,11 @@ UNIT-TESTING_SRC=../../../growing-neural-gas.c ../../../vector.c unit-testing.o
 unit-testing : unit-testing.o
 	$(CC) $(CFLAGS) $(UNIT-TESTING_SRC) -lm -o $@
 
+# example for "growing neural gas"
+EXAMPLE_SRC=../../../growing-neural-gas.c ../../../vector.c example.o
+example : example.o
+	$(CC) $(CFLAGS) $(EXAMPLE_SRC) -lm -o $@
+
 # installation process
 #install :
 
@@ -43,5 +48,5 @@ unit-testing : unit-testing.o
 
 # clean directory
 clean :
-	rm *.o unit-testing
+	rm *.o unit-testing example
 

@@ -18,5 +18,6 @@ fig.mpx
 image-2D
 image-cluster
 unit-testing
+example
 !.gitignore
 !*.example
