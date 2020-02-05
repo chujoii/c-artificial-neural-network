@@ -26,7 +26,6 @@
 
 #include "vector.h"
 
-#define square(x) (x)*(x)
 
 
 
