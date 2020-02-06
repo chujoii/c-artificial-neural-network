@@ -20,7 +20,7 @@ endif
 DB	= -ldb
 #DB	= -l:libdb-4.4.so
 
-all : unit-testing example
+all : unit-testing example-gng gng-to-dot_unit-testing
 
 # create object file
 %.o: %.c
@@ -37,8 +37,13 @@ unit-testing : unit-testing.o
 
 # example for "growing neural gas"
 EXAMPLE_SRC=../../../growing-neural-gas.c ../../../vector.c example.o
-example : example.o
+example-gng : example.o
 	$(CC) $(CFLAGS) $(EXAMPLE_SRC) -lm -o $@
+
+# gng-to-dot_unit-testing for visualization "growing neural gas" with graphviz
+GNG-TO-DOT_UNIT-TESTING_SRC=../../../growing-neural-gas.c ../../../vector.c gng-to-dot_unit-testing.o
+gng-to-dot_unit-testing : gng-to-dot_unit-testing.o
+	$(CC) $(CFLAGS) $(GNG-TO-DOT_UNIT-TESTING_SRC) -lm -o $@
 
 # installation process
 #install :
@@ -48,5 +53,5 @@ example : example.o
 
 # clean directory
 clean :
-	rm *.o unit-testing example
+	rm *.o unit-testing example-gng gng-to-dot_unit-testing
 
