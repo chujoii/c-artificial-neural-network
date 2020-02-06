@@ -1,7 +1,7 @@
 /*
    example.h --- header for example.c
 
-   Copyright (C) 2019 Roman V. Prikhodchenko
+   Copyright (C) 2019-2020 Roman V. Prikhodchenko
 
    Author: Roman V. Prikhodchenko <chujoii@gmail.com>
 */

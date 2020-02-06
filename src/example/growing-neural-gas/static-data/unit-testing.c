@@ -1,7 +1,7 @@
 /* 
    unit-testing.c ---  Unit testing for growing-neural-gas code
 
-   Copyright (C) 2019 Roman V. Prikhodchenko
+   Copyright (C) 2019-2020 Roman V. Prikhodchenko
    
    Author: Roman V. Prikhodchenko <chujoii@gmail.com>
 

@@ -18,6 +18,7 @@ fig.mpx
 image-2D
 image-cluster
 unit-testing
-example
+example-gng
+gng-to-dot_unit-testing
 !.gitignore
 !*.example
