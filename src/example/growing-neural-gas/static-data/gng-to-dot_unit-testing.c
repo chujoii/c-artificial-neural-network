@@ -22,6 +22,19 @@
 
 */
 
+/*
+  Keywords: algorithm neuron network machine learning growing neural gas visualization graphviz
+*/
+
+
+
+/* Usage: (instead of spring model of graphviz "neato", you can use "fdp" or "sfdp") (instead of "feh" any image and graphic viewer)
+   make
+   ./gng-to-dot_unit-testing
+   neato -Tpng -O test.gv
+   feh test.gv.png
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -29,6 +42,7 @@
 #include "../../../growing-neural-gas.h"
 #include "../../../vector.h"
 #include "../../../gng-to-dot.h"
+#include "gng-to-dot_unit-testing.h"
 
 /* Use  for debug print, or #f for silent */
 //#define DEBUG
@@ -63,10 +77,6 @@ int main ()
 	}
 
 
-
-	float example_sensor[DIMENSION_OF_SENSOR] = {0, 0, 5, 7};
-	float distances[LIMIT_NETWORK_SIZE];
-	int result;
 
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<7; i++) { // add only 7 neurons
@@ -138,12 +148,12 @@ int main ()
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
-	printf("\nconn_ages as simple list:\n");
+	printf ("\nconn_ages as simple list:\n");
 	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
 
-	printf("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
-	gng_to_dot_file (LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
-	printf("see result in \"test.gv\"\n");
+	printf ("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
+	gng_to_dot_file (IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
+	printf ("see result in \"test.gv\"\n");
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		free (testing_gng[i].weight);

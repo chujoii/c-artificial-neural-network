@@ -47,17 +47,72 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 //number-to-group-color number group
 //convert-gng-to-string-node-attributes index-column-list list-of-port-positions list-of-groups weight-limits current-sensor-weight weights utilities
 //weights-to-string weights
-//add-head-tail winners body tooltip
+
+
+
+void add_head (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, FILE *ifp)
+{
+	fprintf (ifp, "graph ai {\n");
+	fprintf (ifp, "graph [size=\"%d,%d\", dpi=%d, ratio=\"%s\"];\n",
+		image_size_width, image_size_height, image_dpi, image_ratio);
+	fprintf (ifp, "node [shape=circle, color=darkgreen, penwidth=3];\n");
+	fprintf (ifp, "edge [color=black, penwidth=3];\n");
+
+	/* Adding additional space around the nodes */
+	fprintf (ifp, "sep=\"+11\";\n");
+
+	/*
+	  Adding space for edge. Margin used around polygons for
+	  purposes of SPLINE edge routing. Should normally be
+	  strictly less than sep.
+	*/
+	fprintf (ifp, "esep=\"+10\";\n");
+
+	/*
+	  Controls how, and if, edges are represented.
+	  True (spline): nice edges, but increase CPU load.
+
+	  false=line (time=3.23s),
+	  polyline (time=10.40s),
+	  curved (time=3.25s),
+	  ortho (time=3.22s),
+	  true=spline (time=10.35s),
+	  compound for fdp
+	*/
+	fprintf (ifp, "splines=%s;\n", edge_splines);
+
+	/* Determines if and how node overlaps should be removed. */
+	fprintf (ifp, "overlap=scalexy;\n");
+
+	/*
+	  When drawn, a node’s actual size is the greater of the
+	  requested size and the area needed for its text label,
+	  unless fixedsize=true, in which case the width and height
+	  values are enforced.
+	*/
+	fprintf (ifp, "fixedsize=true;\n");
+	fprintf (ifp, "\n");
+}
+
+
+
+void add_tail (FILE *ifp)
+{
+	fprintf (ifp, "}\n");
+}
 
 
 /* fixme: add: list_for_print_tooltip list_of_port_positions list_of_groups limits_of_weight current_sensor_weight winners */
-void gng_to_dot_file (int limit_network_size, NEURON *gng, char *file_name)
+void gng_to_dot_file (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int limit_network_size, NEURON *gng, char *file_name)
 {
 	FILE *ifp;
 
 	ifp = fopen(file_name, "w");
 	if (ifp != NULL) {
+		add_head (image_size_width, image_size_height, image_dpi, image_ratio, edge_splines, ifp);
 		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
+		//fixme: convert-gng-to-string-node-attributes
+		add_tail (ifp);
 	}
 	fclose(ifp);
 }

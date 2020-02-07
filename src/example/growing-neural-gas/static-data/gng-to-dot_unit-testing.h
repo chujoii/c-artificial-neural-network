@@ -37,4 +37,24 @@
 #define DIMENSION_OF_SENSOR 4
 
 
+#define IMAGE_SIZE_WIDTH 100
+#define IMAGE_SIZE_HEIGHT 80
+#define IMAGE_DPI 100
+
+
+#define IMAGE_RATIO "compress"
+
+/*
+  Controls how, and if, edges are represented.
+  True (spline): nice edges, but increase CPU load.
+
+  false=line (time=3.23s),
+  polyline (time=10.40s),
+  curved (time=3.25s),
+  ortho (time=3.22s),
+  true=spline (time=10.35s),
+  compound (for fdp only time=?)
+*/
+#define EDGE_SPLINES "true"
+
 #endif /* GNG_TO_DOT_UNIT_TESTING_H */

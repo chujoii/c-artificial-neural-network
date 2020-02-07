@@ -10,6 +10,7 @@
 *.out
 *.toc
 *.gv
+*.png
 *.cmapx
 knowledge-base.gng
 revision.txt
