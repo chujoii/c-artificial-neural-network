@@ -41,7 +41,7 @@ example-gng : example.o
 	$(CC) $(CFLAGS) $(EXAMPLE_SRC) -lm -o $@
 
 # gng-to-dot_unit-testing for visualization "growing neural gas" with graphviz
-GNG-TO-DOT_UNIT-TESTING_SRC=../../../growing-neural-gas.c ../../../vector.c gng-to-dot_unit-testing.o
+GNG-TO-DOT_UNIT-TESTING_SRC=../../../growing-neural-gas.c ../../../vector.c ../../../gng-to-dot.c gng-to-dot_unit-testing.o
 gng-to-dot_unit-testing : gng-to-dot_unit-testing.o
 	$(CC) $(CFLAGS) $(GNG-TO-DOT_UNIT-TESTING_SRC) -lm -o $@
 

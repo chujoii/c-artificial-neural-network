@@ -28,6 +28,7 @@
 #include "unit-testing.h"
 #include "../../../growing-neural-gas.h"
 #include "../../../vector.h"
+#include "../../../gng-to-dot.h"
 
 /* Use  for debug print, or #f for silent */
 //#define DEBUG
@@ -137,6 +138,7 @@ int main ()
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
+	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		free (testing_gng[i].weight);

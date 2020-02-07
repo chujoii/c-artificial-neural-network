@@ -22,7 +22,25 @@
 
 */
 
-//convert-gng-conn-ages-to-simple-list gng
+#include <stdio.h>
+#include "growing-neural-gas.h"
+
+
+
+void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, FILE *ifp)
+{
+	for (int i=0; i<limit_network_size; i++) {
+		gng[i].active = ON;
+		for (int j=i; j<limit_network_size; j++) {
+			if (gng[i].conn_age[j] >= INITIAL_CONNECTION_AGE) {
+				fprintf(ifp, "%d -- %d\n", i, j);
+			}
+		}
+	}
+}
+
+
+
 //list-to-string-dot-format conn-list
 //in-limit? limits weights
 //port-position index list-of-port-positions
