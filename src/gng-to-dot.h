@@ -17,6 +17,6 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 //convert-gng-to-string-node-attributes index-column-list list-of-port-positions list-of-groups weight-limits current-sensor-weight weights utilities
 //weights-to-string weights
 //add-head-tail winners body tooltip
-//void gng_to_dot_file (int limit_network_size, NEURON *gng, char *file_name);
+void gng_to_dot_file (int limit_network_size, NEURON *gng, char *file_name);
 
 #endif /* GNG_TO_DOT_H */

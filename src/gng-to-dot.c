@@ -48,4 +48,16 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 //convert-gng-to-string-node-attributes index-column-list list-of-port-positions list-of-groups weight-limits current-sensor-weight weights utilities
 //weights-to-string weights
 //add-head-tail winners body tooltip
-//gng-to-dot-file list-for-print-tooltip list-of-port-positions list-of-groups limits-of-weight current-sensor-weight winners gng filename
+
+
+/* fixme: add: list_for_print_tooltip list_of_port_positions list_of_groups limits_of_weight current_sensor_weight winners */
+void gng_to_dot_file (int limit_network_size, NEURON *gng, char *file_name)
+{
+	FILE *ifp;
+
+	ifp = fopen(file_name, "w");
+	if (ifp != NULL) {
+		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
+	}
+	fclose(ifp);
+}

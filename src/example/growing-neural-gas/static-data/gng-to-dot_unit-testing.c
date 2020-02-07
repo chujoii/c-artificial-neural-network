@@ -138,7 +138,12 @@ int main ()
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
+	printf("\nconn_ages as simple list:\n");
 	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
+
+	printf("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
+	gng_to_dot_file (LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
+	printf("see result in \"test.gv\"\n");
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		free (testing_gng[i].weight);
