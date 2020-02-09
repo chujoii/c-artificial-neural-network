@@ -52,8 +52,17 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 //in-limit? limits weights
 //port-position index list-of-port-positions
 //number-to-group-color number group
-//convert-gng-to-string-node-attributes index-column-list list-of-port-positions list-of-groups weight-limits current-sensor-weight weights utilities
 //weights-to-string weights
+//
+// fixme: index_column_list list_of_port_positions list_of_groups weight_limits current_sensor_weight utilities
+void convert_gng_to_string_node_attributes (int limit_network_size, NEURON *gng, FILE *ifp)
+{
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[i].active == ON) {
+			fprintf (ifp, "%d;", i);
+		}
+	}
+}
 
 
 
@@ -118,7 +127,7 @@ void gng_to_dot_file (int image_size_width, int image_size_height, int image_dpi
 	if (ifp != NULL) {
 		add_head (image_size_width, image_size_height, image_dpi, image_ratio, edge_splines, ifp);
 		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
-		//fixme: convert-gng-to-string-node-attributes
+		convert_gng_to_string_node_attributes (limit_network_size, gng, ifp);
 		add_tail (ifp);
 	}
 	fclose(ifp);
