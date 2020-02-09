@@ -33,7 +33,7 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 		for (int j=i; j<limit_network_size; j++) {
 			if (gng[i].conn_age[j] >= INITIAL_CONNECTION_AGE) {
 				/* list-to-string-dot-format */
-				fprintf(ifp, "%d -- %d [label=\"%d\"]\n", i, j, gng[i].conn_age[j]);
+				fprintf(ifp, "%d -- %d [label=\"%d\"];\n", i, j, gng[i].conn_age[j]);
 				/* fixme: add weight="(distance between neurons)"
 
 				   Weight of edge. A larger weight
