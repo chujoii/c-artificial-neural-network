@@ -14,8 +14,8 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 //in-limit? limits weights
 //port-position index list-of-port-positions
 //number-to-group-color number group
-//convert-gng-to-string-node-attributes index-column-list list-of-port-positions list-of-groups weight-limits current-sensor-weight weights utilities
 //weights-to-string weights
+void convert_gng_to_string_node_attributes (int limit_network_size, NEURON *gng, FILE *ifp);
 void add_head (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, FILE *ifp);
 void add_tail (FILE *ifp);
 void gng_to_dot_file (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int limit_network_size, NEURON *gng, char *file_name);

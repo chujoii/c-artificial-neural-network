@@ -59,7 +59,7 @@ void convert_gng_to_string_node_attributes (int limit_network_size, NEURON *gng,
 {
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON) {
-			fprintf (ifp, "%d;", i);
+			fprintf (ifp, "%d;\n", i);
 		}
 	}
 }
@@ -71,7 +71,7 @@ void add_head (int image_size_width, int image_size_height, int image_dpi, char 
 	fprintf (ifp, "graph ai {\n");
 	fprintf (ifp, "graph [size=\"%d,%d\", dpi=%d, ratio=\"%s\"];\n",
 		image_size_width, image_size_height, image_dpi, image_ratio);
-	fprintf (ifp, "node [shape=circle, color=darkgreen, penwidth=3];\n");
+	fprintf (ifp, "node [shape=circle, color=darkgreen, style=filled, penwidth=3];\n");
 	fprintf (ifp, "edge [color=black, penwidth=3];\n");
 
 	/* Adding additional space around the nodes */
@@ -126,8 +126,8 @@ void gng_to_dot_file (int image_size_width, int image_size_height, int image_dpi
 	ifp = fopen(file_name, "w");
 	if (ifp != NULL) {
 		add_head (image_size_width, image_size_height, image_dpi, image_ratio, edge_splines, ifp);
-		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
 		convert_gng_to_string_node_attributes (limit_network_size, gng, ifp);
+		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
 		add_tail (ifp);
 	}
 	fclose(ifp);

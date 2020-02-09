@@ -143,6 +143,8 @@ int main ()
 	update_neuron_utility_factor (5, 0.7, testing_gng);
 	update_neuron_utility_factor (6, 0.45, testing_gng);
 
+	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
+
 	printf ("\nsimple 7 neurons:\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);

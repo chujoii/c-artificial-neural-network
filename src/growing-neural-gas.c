@@ -48,6 +48,7 @@ void initialization (int dimension_of_sensor, int limit_network_size, NEURON *gn
 		for (int j=0; j<limit_network_size; j++) gng[i].conn_age[j] = NOT_CONNECTED;
 		gng[i].local_error = 0.0;
 		gng[i].utility_factor = 0.0;
+		gng[i].group = NOT_IN_ANY_GROUPS;
 	}
 }
 
@@ -74,7 +75,8 @@ int print_neuron (int dimension_of_sensor, int limit_network_size, NEURON neuron
 	}
 
 	printf("\te: %5.3f\t", neuron.local_error);
-	printf("u: %5.3f\n", neuron.utility_factor);
+	printf("u: %5.3f\t", neuron.utility_factor);
+	printf("g: %d\n", neuron.group);
 
 	return 0;
 }
@@ -568,8 +570,39 @@ void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float
 }
 
 
+void recursive_search (int neuron_a, int limit_network_size, NEURON *gng)
+{
+	for (int i=neuron_a+1; i<limit_network_size; i++) {
+		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
+			gng[i].group = gng[neuron_a].group;
+			recursive_search (i, limit_network_size, gng);
+		}
+	}
+}
 
-// fixme: extract-groups-from-conn-ages (gng)
+
+void extract_groups_from_conn_ages (int limit_network_size, NEURON *gng)
+{
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[i].active == ON) {
+			 /* fixme: need optimization: clean only:
+			    if new neuron created
+			    OR
+			    if neuron or group disconnected from existed group
+			    OR
+			    two neurons or groups connected
+			 */
+			gng[i].group = NOT_IN_ANY_GROUPS;
+		}
+	}
+
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[i].active == ON && gng[i].group == NOT_IN_ANY_GROUPS) {
+			gng[i].group = i;
+			recursive_search(i, limit_network_size, gng);
+		}
+	}
+}
 
 
 
