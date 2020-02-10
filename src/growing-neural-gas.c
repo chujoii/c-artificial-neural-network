@@ -244,7 +244,7 @@ void reconnect (int limit_network_size, NEURON *gng)
 				} else {
 					if (neuron_b == -1) {
 						neuron_b = i;
-						set_neuron_conn_age (neuron_a, neuron_b, INITIAL_CONNECTION_AGE, gng);
+						set_neuron_conn_age (neuron_a, neuron_b, INITIAL_CONNECTION_AGE, limit_network_size, gng);
 						break;
 					}
 				}
@@ -276,16 +276,26 @@ void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, int
 
 
 
-void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng)
+void update_neuron_conn_age (int neuron_a, int neuron_b, int step, int limit_network_size, NEURON *gng)
 {
+	if (gng[neuron_a].conn_age[neuron_b] == NOT_CONNECTED) {
+		// fixme: make algorithm slightly slow, but use only for visual enchanced
+		ungroup (neuron_a, limit_network_size, gng);
+		ungroup (neuron_b, limit_network_size, gng);
+	}
 	gng[neuron_a].conn_age[neuron_b] += step;
 	gng[neuron_b].conn_age[neuron_a] += step;
 }
 
 
 
-void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, NEURON *gng)
+void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, int limit_network_size, NEURON *gng)
 {
+	if (gng[neuron_a].conn_age[neuron_b] == NOT_CONNECTED || conn_age == NOT_CONNECTED) {
+		// fixme: make algorithm slightly slow, but use only for visual enchanced
+		ungroup (neuron_a, limit_network_size, gng);
+		ungroup (neuron_b, limit_network_size, gng);
+	}
 	gng[neuron_a].conn_age[neuron_b] = conn_age;
 	gng[neuron_b].conn_age[neuron_a] = conn_age;
 }
@@ -298,7 +308,7 @@ void inc_neighbours_conn_age (int neuron_a, int limit_network_size, NEURON *gng)
 {
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
-			update_neuron_conn_age (neuron_a, i, 1, gng);
+			update_neuron_conn_age (neuron_a, i, 1, limit_network_size, gng);
 		}
 	}
 }
@@ -311,7 +321,7 @@ void remove_old_conn_age (int limit_conn_age, int limit_network_size, NEURON *gn
 		if (gng[i].active == ON) {
 			for (int j=i; j<limit_network_size; j++) {
 				if (gng[i].conn_age[j] > limit_conn_age)
-					set_neuron_conn_age (i, j, NOT_CONNECTED, gng);
+					set_neuron_conn_age (i, j, NOT_CONNECTED, limit_network_size, gng);
 			}
 		}
 	}
@@ -504,14 +514,17 @@ void adaptive_step_create_new_neuron (float eps_local_error, int dimension_of_se
 	set_neuron_conn_age(index_neuron_max_local_error,
 			    index_of_new_neuron,
 			    gng[index_neuron_max_local_error].conn_age[index_neighbour_for_max_local_error],
+			    limit_network_size,
 			    gng);
 	set_neuron_conn_age(index_of_new_neuron,
 			    index_neighbour_for_max_local_error,
 			    gng[index_neuron_max_local_error].conn_age[index_neighbour_for_max_local_error],
+			    limit_network_size,
 			    gng);
 	set_neuron_conn_age(index_neuron_max_local_error,
 			    index_neighbour_for_max_local_error,
 			    NOT_CONNECTED,
+			    limit_network_size,
 			    gng);
 
 
@@ -557,7 +570,7 @@ void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float
 	inc_neighbours_conn_age (winners[0], limit_network_size, gng);
 
 	// algorithm:10: set connection to 0 (*initial-connection-age*) between two winners
-	set_neuron_conn_age (winners[0], winners[1], INITIAL_CONNECTION_AGE, gng);
+	set_neuron_conn_age (winners[0], winners[1], INITIAL_CONNECTION_AGE, limit_network_size, gng);
 
 	// algorithm:11.a
 	remove_old_conn_age (limit_conn_age, limit_network_size, gng);
@@ -593,17 +606,25 @@ int recursive_search_group (int neuron_a, int group_number, int limit_network_si
 
 
 
-/* fixme: need clean group number:
-   if neuron or group disconnected from existed group
-   OR
-   if two neurons or groups has connected
-*/
 void extract_groups_from_conn_ages (int limit_network_size, NEURON *gng)
 {
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON && gng[i].group == NOT_IN_ANY_GROUPS) {
 			gng[i].group = recursive_search_group(i, NOT_IN_ANY_GROUPS, limit_network_size, gng);
 			if (gng[i].group == NOT_IN_ANY_GROUPS) {gng[i].group = i;}
+		}
+	}
+}
+
+
+
+void ungroup (int neuron_a, int limit_network_size, NEURON *gng)
+{
+	// fixme: if group splitted to two (or more) groups, one of group (bigest?, most heavy?) can continue use old group_number
+	int group_for_del = gng[neuron_a].group;
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[i].active == ON && gng[i].group == group_for_del) {
+			gng[i].group = NOT_IN_ANY_GROUPS;
 		}
 	}
 }

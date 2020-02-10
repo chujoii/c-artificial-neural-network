@@ -67,10 +67,12 @@ int main ()
 	printf("empty network: (%d elements)\n", LIMIT_NETWORK_SIZE);
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 
+	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
+	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<6; i++) { // add only 6 neurons
 		add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	}
@@ -105,23 +107,26 @@ int main ()
 	testing_gng[5].weight[2] = 1.6056498050450605;
 	testing_gng[5].weight[3] = 1.4681365733934029;
 
+	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	printf ("\nsimple 6 neurons (all disconnected):\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	printf ("\nupdate connection age:\n");
-	update_neuron_conn_age (0, 1, 1, testing_gng); /* need create link beetwin first neuron! */
-	update_neuron_conn_age (1, 2, 2, testing_gng);
-	update_neuron_conn_age (2, 0, 3, testing_gng);
-	update_neuron_conn_age (3, 4, 4, testing_gng);
+	update_neuron_conn_age (0, 1, 1, LIMIT_NETWORK_SIZE, testing_gng); /* need create link beetwin first neuron! */
+	update_neuron_conn_age (1, 2, 2, LIMIT_NETWORK_SIZE, testing_gng);
+	update_neuron_conn_age (2, 0, 3, LIMIT_NETWORK_SIZE, testing_gng);
+	update_neuron_conn_age (3, 4, 4, LIMIT_NETWORK_SIZE, testing_gng);
 
+	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	growing_neural_gas (0, EPS_WINNER, EPS_NEIGHBOUR, EPS_LOCAL_ERROR, FACTOR_BETA_DECREASE_LOCAL_ERROR, LIMIT_CONN_AGE, K_UTILITY, LAMBDA_STEP, NULL, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 
+	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	printf ("\n\n\nResult of one step working \"growing neural gas\":\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);

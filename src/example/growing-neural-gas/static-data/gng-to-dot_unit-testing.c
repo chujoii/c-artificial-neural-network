@@ -121,11 +121,11 @@ int main ()
 	testing_gng[6].weight[2] = -13.5;
 	testing_gng[6].weight[3] = -18.4;
 
-	set_neuron_conn_age (0, 1, 1, testing_gng);
-	set_neuron_conn_age (0, 6, 3, testing_gng);
-	set_neuron_conn_age (1, 2, 0, testing_gng);
-	set_neuron_conn_age (2, 6, 3, testing_gng);
-	set_neuron_conn_age (3, 4, 4, testing_gng);
+	set_neuron_conn_age (0, 1, 1, LIMIT_NETWORK_SIZE, testing_gng);
+	set_neuron_conn_age (0, 6, 3, LIMIT_NETWORK_SIZE, testing_gng);
+	set_neuron_conn_age (1, 2, 0, LIMIT_NETWORK_SIZE, testing_gng);
+	set_neuron_conn_age (2, 6, 3, LIMIT_NETWORK_SIZE, testing_gng);
+	set_neuron_conn_age (3, 4, 4, LIMIT_NETWORK_SIZE, testing_gng);
 
 	update_neuron_local_error (0, 1.0, testing_gng);
 	update_neuron_local_error (1, 2.0, testing_gng);

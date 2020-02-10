@@ -44,8 +44,8 @@ float value_of_median_local_error (int limit_network_size, NEURON *gng);
 void reconnect (int limit_network_size, NEURON *gng);
 void update_neuron_weight_vector(int neuron_a, float step, float *sensor, int dimension_of_sensor, NEURON *gng);
 void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, int dimension_of_sensor, int limit_network_size, NEURON *gng);
-void update_neuron_conn_age (int neuron_a, int neuron_b, int step, NEURON *gng);
-void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, NEURON *gng);
+void update_neuron_conn_age (int neuron_a, int neuron_b, int step, int limit_network_size, NEURON *gng);
+void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, int limit_network_size, NEURON *gng);
 void inc_neighbours_conn_age (int neuron_a, int limit_network_size, NEURON *gng);
 void remove_old_conn_age (int limit_conn_age, int limit_network_size, NEURON *gng);
 void update_neuron_local_error (int neuron_a, float step, NEURON *gng);
@@ -58,8 +58,8 @@ int find_neuron_index_with_max_local_error (int limit_network_size, NEURON *gng)
 int find_neighbours_index_with_max_local_error (int index_max_local_error, int limit_network_size, NEURON *gng);
 void adaptive_step_create_new_neuron (float eps_local_error, int dimension_of_sensor, int limit_network_size, NEURON *gng);
 void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float eps_local_error, float factor_beta_decrease_local_error, int limit_conn_age, float k_utility, int lambda_step, int *mixed_space, float *sensor, int dimension_of_sensor, int limit_network_size, NEURON *gng);
-void extract_groups_from_conn_ages_old (int limit_network_size, NEURON *gng);
 void extract_groups_from_conn_ages (int limit_network_size, NEURON *gng);
+void ungroup (int neuron_a, int limit_network_size, NEURON *gng);
 int write_gng_to_file (char *file_name, int dimension_of_sensor, int limit_network_size, NEURON *gng);
 int read_gng_from_file (char *file_name, int dimension_of_sensor, int limit_network_size, NEURON *gng);
 
