@@ -58,11 +58,35 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 // fixme: index_column_list list_of_port_positions list_of_groups weight_limits current_sensor_weight utilities
 void convert_gng_to_string_node_attributes (int color_len, char * color_list[], int limit_network_size, NEURON *gng, FILE *ifp)
 {
+	/* fixme: move to function: search Umin and Umax for node diameter */
+	int counter = 0;
+	float Umin, Umax;
+	Umin = Umax = 0.0; // fix warning
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON) {
-			fprintf (ifp, "%d [fillcolor=%s];\n",
+			if (counter == 0) { /* choise first element */
+				counter ++;
+				Umin = Umax = gng[i].utility_factor;
+			} else { /* find extremum */
+				if (Umin > gng[i].utility_factor) {Umin = gng[i].utility_factor;}
+				if (Umax < gng[i].utility_factor) {Umax = gng[i].utility_factor;}
+			}
+		}
+	}
+
+
+
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[i].active == ON) {
+			fprintf (ifp, "%d [fillcolor=%s, width=%.2f];\n",
 				 i,
-				 color_list[gng[i].group % color_len]);
+				 color_list[gng[i].group % color_len],
+				 /* utilities ("node width = diameter"):
+				    D   - Dmin    U   - Umin
+				    ----------- = -----------
+				    Dmax - Dmin   Umax - Umin
+				 */
+				 (((gng[i].utility_factor - Umin) * (DMAX - DMIN)) / (Umax - Umin)) + DMIN);
 		}
 	}
 }

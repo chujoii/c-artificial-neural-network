@@ -9,6 +9,10 @@
 #ifndef GNG_TO_DOT_H
 #define GNG_TO_DOT_H
 
+// diameter of node
+#define DMIN 0.1
+#define DMAX 1.0
+
 void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, FILE *ifp);
 //list-to-string-dot-format conn-list
 //in-limit? limits weights
