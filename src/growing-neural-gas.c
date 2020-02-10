@@ -132,6 +132,25 @@ void find_and_del_neuron_with_min_utility_factor (float k, int limit_network_siz
 }
 
 
+/* search Umin and Umax for node diameter */
+// fixme: many duplicated functions: extremum_utility_factor, index_of_minimum_utility_factor
+void extremum_utility_factor (float *Umin, float *Umax, int limit_network_size, NEURON *gng)
+{
+	int counter = 0;
+	*Umin = *Umax = 0.0; // fix warning
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[i].active == ON) {
+			if (counter == 0) { /* choise first element */
+				counter ++;
+				*Umin = *Umax = gng[i].utility_factor;
+			} else { /* find extremum */
+				if (*Umin > gng[i].utility_factor) {*Umin = gng[i].utility_factor;}
+				if (*Umax < gng[i].utility_factor) {*Umax = gng[i].utility_factor;}
+			}
+		}
+	}
+}
+
 
 int index_of_minimum_utility_factor (int limit_network_size, NEURON *gng)
 {
