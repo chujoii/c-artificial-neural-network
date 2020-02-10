@@ -570,36 +570,36 @@ void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float
 }
 
 
-void recursive_search (int neuron_a, int limit_network_size, NEURON *gng)
+/* return group number if exist */
+// fixme: need more unit-testings
+int recursive_search_group (int neuron_a, int group_number, int limit_network_size, NEURON *gng)
 {
-	for (int i=neuron_a+1; i<limit_network_size; i++) {
+	int search_from = (group_number == NOT_IN_ANY_GROUPS) ? 0 : neuron_a + 1;
+
+	for (int i=search_from; i<limit_network_size; i++) {
 		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
-			gng[i].group = gng[neuron_a].group;
-			recursive_search (i, limit_network_size, gng);
+			group_number = recursive_search_group (i, i, limit_network_size, gng);
+			gng[i].group = group_number;
 		}
 	}
+	return group_number;
 }
 
 
+
+/* fixme: need clean group number:
+   if new neuron created
+   OR
+   if neuron or group disconnected from existed group
+   OR
+   if two neurons or groups has connected
+*/
 void extract_groups_from_conn_ages (int limit_network_size, NEURON *gng)
 {
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[i].active == ON) {
-			 /* fixme: need optimization: clean only:
-			    if new neuron created
-			    OR
-			    if neuron or group disconnected from existed group
-			    OR
-			    two neurons or groups connected
-			 */
-			gng[i].group = NOT_IN_ANY_GROUPS;
-		}
-	}
-
-	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON && gng[i].group == NOT_IN_ANY_GROUPS) {
-			gng[i].group = i;
-			recursive_search(i, limit_network_size, gng);
+			gng[i].group = recursive_search_group(i, NOT_IN_ANY_GROUPS, limit_network_size, gng);
+			if (gng[i].group == NOT_IN_ANY_GROUPS) {gng[i].group = i;}
 		}
 	}
 }

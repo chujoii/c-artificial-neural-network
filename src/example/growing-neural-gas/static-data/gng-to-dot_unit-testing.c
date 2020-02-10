@@ -150,6 +150,21 @@ int main ()
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
+	printf("remove group number manually from neuron number 1:\n");
+	testing_gng[1].group = NOT_IN_ANY_GROUPS;
+
+	printf ("see group for neuron number 1:\n");
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+	}
+	printf ("\ngenerate group number again:\n");
+	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
+
+	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+	}
+
+
 	printf ("\nconn_ages as simple list:\n");
 	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
 
