@@ -54,6 +54,24 @@
 #endif
 
 
+#define COLOR_LEN 11
+char * color_list [] = { //list based on https://en.wikipedia.org/wiki/Web_colors
+	//"White",
+	//"Silver", // similar to Gray
+	"Gray",
+	//"Black", // fixme: need change font color for contrast
+	//"Red", // already used for border (border=red if value out of limit)
+	"Maroon",
+	"Yellow",
+	"Olive",
+	"Lime",
+	//"Green", // already used for border (border=green if value inside limit)
+	"Aqua",
+	"Teal",
+	"Blue",
+	"Navy",
+	"Fuchsia",
+	"Purple"};
 
 int main ()
 {
@@ -169,8 +187,10 @@ int main ()
 	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
 
 	printf ("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
-	gng_to_dot_file (IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
+	gng_to_dot_file (IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, COLOR_LEN, color_list, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
 	printf ("see result in \"test.gv\"\n");
+
+
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		free (testing_gng[i].weight);
