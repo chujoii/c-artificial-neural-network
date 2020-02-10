@@ -124,7 +124,9 @@ int main ()
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
-	growing_neural_gas (0, EPS_WINNER, EPS_NEIGHBOUR, EPS_LOCAL_ERROR, FACTOR_BETA_DECREASE_LOCAL_ERROR, LIMIT_CONN_AGE, K_UTILITY, LAMBDA_STEP, NULL, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
+	int winners[2];
+	growing_neural_gas (0, EPS_WINNER, EPS_NEIGHBOUR, EPS_LOCAL_ERROR, FACTOR_BETA_DECREASE_LOCAL_ERROR, LIMIT_CONN_AGE, K_UTILITY, LAMBDA_STEP, winners, NULL, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
+	printf("index of winners: [%d] and [%d]", winners[0], winners[1]);
 
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	printf ("\n\n\nResult of one step working \"growing neural gas\":\n");
