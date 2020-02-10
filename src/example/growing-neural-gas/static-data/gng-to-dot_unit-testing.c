@@ -80,7 +80,7 @@ int main ()
 
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<7; i++) { // add only 7 neurons
-		add_neuron (LIMIT_NETWORK_SIZE, testing_gng);
+		add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	}
 
 

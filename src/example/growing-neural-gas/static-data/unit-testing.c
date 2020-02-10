@@ -92,8 +92,8 @@ int main ()
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
-	printf("\nadd neuron: number=%d\n", add_neuron (LIMIT_NETWORK_SIZE, testing_gng));
-	printf("add neuron: number=%d\n", add_neuron (LIMIT_NETWORK_SIZE, testing_gng));
+	printf("\nadd neuron: number=%d\n", add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng));
+	printf("add neuron: number=%d\n", add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng));
 
 	printf("\nconnect neurons 0 and 1\n");
 	printf("weight\t\t\t\t\tconn-age\t\tlocal-error\tutility-factor\n");
@@ -104,7 +104,7 @@ int main ()
 
 	set_neuron_conn_age (0, 1, NOT_CONNECTED, testing_gng);
 	printf ("\nsimple 6 neurons (all disconnected):\n");
-	add_neuron (LIMIT_NETWORK_SIZE, testing_gng);add_neuron (LIMIT_NETWORK_SIZE, testing_gng);add_neuron (LIMIT_NETWORK_SIZE, testing_gng);add_neuron (LIMIT_NETWORK_SIZE, testing_gng);
+	add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
@@ -167,7 +167,7 @@ int main ()
 	
 	printf ("\n\n\nsimple 3 neurons with angle:\n");
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);
-	add_neuron (LIMIT_NETWORK_SIZE, testing2_gng);add_neuron (LIMIT_NETWORK_SIZE, testing2_gng);add_neuron (LIMIT_NETWORK_SIZE, testing2_gng);
+	add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		for (int j=0; j<DIMENSION_OF_SENSOR; j++) {
 			testing2_gng[i].weight[j] =i + (j + 1)/10.0;

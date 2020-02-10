@@ -36,7 +36,7 @@ typedef struct LocalError {
 void initialization (int dimension_of_sensor, int limit_network_size, NEURON *gng);
 int print_neuron (int dimension_of_sensor, int limit_network_size, NEURON neuron);
 // fixme: print-gng-as-list (gng)
-int add_neuron (int limit_network_size, NEURON *gng);
+int add_neuron (int dimension_of_sensor, int limit_network_size, NEURON *gng);
 void find_and_del_neuron_with_min_utility_factor (float k, int limit_network_size, NEURON *gng);
 int index_of_minimum_utility_factor (int limit_network_size, NEURON *gng);
 int length_gng (int limit_network_size, NEURON *gng);

@@ -87,13 +87,19 @@ int print_neuron (int dimension_of_sensor, int limit_network_size, NEURON neuron
 
 
 
-int add_neuron (int limit_network_size, NEURON *gng)
+int add_neuron (int dimension_of_sensor, int limit_network_size, NEURON *gng)
 {
 	int index = -1;
 	int i = 0;
 	while ((gng[i].active == ON) && i < limit_network_size) {i++;}
 	if (i < limit_network_size) {
 		gng[i].active = ON;
+		for (int j=0; j<dimension_of_sensor; j++) gng[i].weight[j] = 0.0;
+		for (int j=0; j<limit_network_size; j++) gng[i].conn_age[j] = NOT_CONNECTED;
+		gng[i].local_error = 0.0;
+		gng[i].utility_factor = 0.0;
+		gng[i].group = NOT_IN_ANY_GROUPS;
+
 		index = i;
 	}
 	return index;
@@ -475,7 +481,7 @@ void adaptive_step_create_new_neuron (float eps_local_error, int dimension_of_se
 {
 	int index_neuron_max_local_error = find_neuron_index_with_max_local_error (limit_network_size, gng); // algorithm:13
 	int index_neighbour_for_max_local_error = find_neighbours_index_with_max_local_error (index_neuron_max_local_error, limit_network_size, gng); // algorithm:14
-	int index_of_new_neuron = add_neuron(limit_network_size, gng); // algorithm:15.a
+	int index_of_new_neuron = add_neuron(dimension_of_sensor, limit_network_size, gng); // algorithm:15.a
 
 	if (index_neighbour_for_max_local_error < 0) { // fix situation when all index = -1
 		// more correct solution: use not aggressive coefficients (k_utility)
@@ -588,8 +594,6 @@ int recursive_search_group (int neuron_a, int group_number, int limit_network_si
 
 
 /* fixme: need clean group number:
-   if new neuron created
-   OR
    if neuron or group disconnected from existed group
    OR
    if two neurons or groups has connected

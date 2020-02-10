@@ -72,7 +72,7 @@ int main ()
 	}
 
 	for (int i=0; i<6; i++) { // add only 6 neurons
-		add_neuron (LIMIT_NETWORK_SIZE, testing_gng);
+		add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	}
 	/* very strange: copy random numbers from lisp for test algorithm */
 	testing_gng[0].weight[0] = 3.899109226504383E-2;
