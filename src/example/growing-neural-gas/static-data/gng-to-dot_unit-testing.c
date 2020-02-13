@@ -93,7 +93,7 @@ int main ()
 			return 2;
 		}
 	}
-
+	int winners[2];
 
 
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
@@ -161,6 +161,9 @@ int main ()
 	update_neuron_utility_factor (5, 0.7, testing_gng);
 	update_neuron_utility_factor (6, 0.45, testing_gng);
 
+	winners[0] = 1;
+	winners[1] = 0;
+	
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 
 	printf ("\nsimple 7 neurons:\n");
@@ -187,7 +190,7 @@ int main ()
 	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
 
 	printf ("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
-	gng_to_dot_file (IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, COLOR_LEN, color_list, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
+	gng_to_dot_file (IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, COLOR_LEN, color_list, winners, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
 	printf ("see result in \"test.gv\"\n");
 
 
