@@ -13,6 +13,7 @@
 #define INITIAL_CONNECTION_AGE 0
 
 #define NOT_IN_ANY_GROUPS -1
+#define SEARCH_GROUPS -2
 
 #define OFF 0
 #define ON 1

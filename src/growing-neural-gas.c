@@ -609,27 +609,56 @@ void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float
 
 /* return group number if exist */
 // fixme: need more unit-testings
-int recursive_search_group (int neuron_a, int group_number, int limit_network_size, NEURON *gng)
+int recursive_search_group (int neuron_a, int limit_network_size, NEURON *gng)
 {
-	int search_from = (group_number == NOT_IN_ANY_GROUPS) ? 0 : neuron_a + 1;
-
-	for (int i=search_from; i<limit_network_size; i++) {
-		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
-			group_number = recursive_search_group (i, i, limit_network_size, gng);
-			gng[i].group = group_number;
+	int group_number = NOT_IN_ANY_GROUPS;
+	
+	if (gng[neuron_a].active == ON && gng[neuron_a].group == NOT_IN_ANY_GROUPS) {
+		gng[neuron_a].group = SEARCH_GROUPS;
+	}
+	
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE &&
+		    gng[i].active == ON) {
+			if (gng[i].group == NOT_IN_ANY_GROUPS) {
+				group_number = recursive_search_group (i, limit_network_size, gng);
+			} else {
+				if (gng[i].group != SEARCH_GROUPS) {
+					// found it!
+					return gng[i].group;
+				}
+			}
 		}
 	}
+
 	return group_number;
+}
+
+void recursive_set_group (int neuron_a, int group_number, int limit_network_size, NEURON *gng)
+{
+	gng[neuron_a].group = group_number;
+		
+	for (int i=0; i<limit_network_size; i++) {
+		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE &&
+		    gng[i].active == ON &&
+		    (gng[i].group == NOT_IN_ANY_GROUPS || gng[i].group == SEARCH_GROUPS || gng[i].group != group_number)) {
+			recursive_set_group (i, group_number, limit_network_size, gng);
+		}
+	}
 }
 
 
 
 void extract_groups_from_conn_ages (int limit_network_size, NEURON *gng)
 {
+	int group_number;
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON && gng[i].group == NOT_IN_ANY_GROUPS) {
-			gng[i].group = recursive_search_group(i, NOT_IN_ANY_GROUPS, limit_network_size, gng);
-			if (gng[i].group == NOT_IN_ANY_GROUPS) {gng[i].group = i;}
+			/* first run for find existed group */
+			group_number = recursive_search_group(i, limit_network_size, gng);
+			/* second run for assign group */
+			if (group_number == NOT_IN_ANY_GROUPS || group_number == SEARCH_GROUPS) {recursive_set_group(i, i, limit_network_size, gng);}
+			else {recursive_set_group(i, group_number, limit_network_size, gng);}
 		}
 	}
 }
