@@ -60,6 +60,9 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 {
 	float Umin, Umax;
 	extremum_utility_factor (&Umin, &Umax, limit_network_size, gng);
+	if ((Umax - Umin) < 0.001) { // fixme: NaN
+		Umax += 0.001;
+	}
 
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON) {
