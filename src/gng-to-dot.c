@@ -81,11 +81,11 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 
 
 
-void add_head (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, FILE *ifp)
+void add_head (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, FILE *ifp)
 {
 	fprintf (ifp, "graph ai {\n");
-	fprintf (ifp, "graph [size=\"%d,%d\", dpi=%d, ratio=\"%s\"];\n",
-		image_size_width, image_size_height, image_dpi, image_ratio);
+	fprintf (ifp, "graph [size=\"%d,%d\", dpi=%d, ratio=\"%s\", %s];\n",
+		 image_size_width, image_size_height, image_dpi, image_ratio, img_caption);
 	fprintf (ifp, "node [shape=circle, color=darkgreen, style=filled, penwidth=3];\n");
 	fprintf (ifp, "edge [color=black, penwidth=3];\n");
 
@@ -134,13 +134,13 @@ void add_tail (FILE *ifp)
 
 
 /* fixme: add: list_for_print_tooltip list_of_port_positions list_of_groups limits_of_weight current_sensor_weight */
-void gng_to_dot_file (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int color_len, char * color_list[], int *winners, int limit_network_size, NEURON *gng, char *file_name)
+void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int color_len, char * color_list[], int *winners, int limit_network_size, NEURON *gng, char *file_name)
 {
 	FILE *ifp;
 
 	ifp = fopen(file_name, "w");
 	if (ifp != NULL) {
-		add_head (image_size_width, image_size_height, image_dpi, image_ratio, edge_splines, ifp);
+		add_head (img_caption, image_size_width, image_size_height, image_dpi, image_ratio, edge_splines, ifp);
 
 		fprintf(ifp, "c -- %d [style=dashed];\n", winners[0]);
 		fprintf(ifp, "c -- %d [style=dotted];\n", winners[1]);

@@ -20,8 +20,8 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 //number-to-group-color number group
 //weights-to-string weights
 void convert_gng_to_string_node_attributes (int color_len, char * color_list[], int limit_network_size, NEURON *gng, FILE *ifp);
-void add_head (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, FILE *ifp);
+void add_head (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, FILE *ifp);
 void add_tail (FILE *ifp);
-void gng_to_dot_file (int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int color_len, char * color_list[], int *winners, int limit_network_size, NEURON *gng, char *file_name);
+void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int color_len, char * color_list[], int *winners, int limit_network_size, NEURON *gng, char *file_name);
 
 #endif /* GNG_TO_DOT_H */
