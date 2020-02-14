@@ -114,9 +114,8 @@ void find_and_del_neuron_with_min_utility_factor (float k, int limit_network_siz
 
 	if (length_gng (limit_network_size, gng) > 2    &&
 	    (E_median / gng[index_of_U_min].utility_factor) > k) {
-		printf("[d]Emedian=%f Umin[%d]=%f    Emedian/Umin=%f > k=%f\n", E_median, index_of_U_min, gng[index_of_U_min].utility_factor, E_median / gng[index_of_U_min].utility_factor, k);
+		fprintf(stderr, "[d]Emedian=%f Umin[%d]=%f    Emedian/Umin=%f > k=%f\n", E_median, index_of_U_min, gng[index_of_U_min].utility_factor, E_median / gng[index_of_U_min].utility_factor, k);
 		/* delete-neuron-U-min */
-		printf("remove neuron number %d\n", index_of_U_min);
 		gng[index_of_U_min].active = OFF;
 
 		/* make-consistent-gng */
