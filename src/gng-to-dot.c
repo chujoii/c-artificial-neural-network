@@ -77,7 +77,7 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 		if (gng[i].active == ON) {
 			if (group_checked[gng[i].group] == 0) { // if not used, set position pinned
 				group_checked[gng[i].group] = 1;
-				sprintf (port, ":%s ", port_positions[gng[i].group % num_of_port_positions]);
+				sprintf (port, ":%s", port_positions[gng[i].group % num_of_port_positions]);
 			} else { // position already pinned
 				strcpy (port, "");
 			}
