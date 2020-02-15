@@ -687,7 +687,7 @@ int write_gng_to_file (char *file_name, int dimension_of_sensor, int limit_netwo
 	ifp = fopen(file_name, "wb");
 	if (ifp != NULL) {
 		for (int i=0; i<limit_network_size; i++) {
-			result = fwrite(&(gng[i]), sizeof(struct Neuron), 1, ifp);
+			result = fwrite(&(gng[i]), sizeof(struct Neuron), 1, ifp); // fixme: not need to write adress of weight and conn_age (because it is useless information for next run of programm)
 			sum_res += (result == 1) ? 1 : 0;
 			result = fwrite(gng[i].weight, dimension_of_sensor * sizeof (* (gng[i].weight)), 1, ifp);
 			sum_res += (result == 1) ? 1 : 0;
@@ -707,14 +707,23 @@ int read_gng_from_file (char *file_name, int dimension_of_sensor, int limit_netw
 	size_t result;
 	int sum_res = 0;
 
+	// fixme: for restore adress of weight and conn_age
+	float *weight;
+	int *conn_age;
+
 	ifp = fopen(file_name, "rb");
 	if (ifp != NULL) {
 		for (int i=0; i<limit_network_size; i++) {
-			result = fread(&(gng[i]), sizeof(struct Neuron), 1, ifp);
+			weight = gng[i].weight;// fixme: store adress of weight
+			conn_age = gng[i].conn_age;// fixme: store adress of conn_age
+			result = fread(&(gng[i]), sizeof(NEURON), 1, ifp);
+			gng[i].weight = weight;// fixme: restore adress of weight
+			gng[i].conn_age = conn_age;// fixme: restore adress of conn_age
+
 			sum_res += (result == 1) ? 1 : 0;
-			result = fread(gng[i].weight, dimension_of_sensor * sizeof (* (gng[i].weight)), 1, ifp);
+			result = fread(gng[i].weight, sizeof (* (gng[i].weight)), dimension_of_sensor, ifp);
 			sum_res += (result == 1) ? 1 : 0;
-			result = fread(gng[i].conn_age, limit_network_size * sizeof (* (gng[i].conn_age)), 1, ifp);
+			result = fread(gng[i].conn_age, sizeof (* (gng[i].conn_age)), limit_network_size, ifp);
 			sum_res += (result == 1) ? 1 : 0;
 		}
 		fclose(ifp);
