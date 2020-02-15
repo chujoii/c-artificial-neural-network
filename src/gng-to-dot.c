@@ -23,6 +23,7 @@
 */
 
 #include <stdio.h>
+#include <string.h> // only for for strcpy
 #include "growing-neural-gas.h"
 #include "gng-to-dot.h"
 
@@ -64,10 +65,24 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 		Umax += 0.001;
 	}
 
+	char port[4]; // ":se\0" min_size=4
+	char *port_positions[] = {"n", "ne", "e", "se", "s", "sw", "w", "nw", "c", "_"};
+	int num_of_port_positions = 8; // from "n"-to-"nw" (not include "_")
+	int group_checked [limit_network_size];
+	for (int i=0; i<limit_network_size; i++) {
+		group_checked[i] = 0;
+	}
+
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON) {
-			fprintf (ifp, "%d [fillcolor=%s, width=%.2f];\n",
-				 i,
+			if (group_checked[gng[i].group] == 0) { // if not used, set position pinned
+				group_checked[gng[i].group] = 1;
+				sprintf (port, ":%s ", port_positions[gng[i].group % num_of_port_positions]);
+			} else { // position already pinned
+				strcpy (port, "");
+			}
+			fprintf (ifp, "%d%s [fillcolor=%s, width=%.2f];\n",
+				 i, port,
 				 color_list[gng[i].group % color_len],
 				 /* utilities ("node width = diameter"):
 				    D   - Dmin    U   - Umin
