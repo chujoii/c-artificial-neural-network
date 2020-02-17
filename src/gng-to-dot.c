@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <string.h> // only for for strcpy
+#include <math.h> // check for NaN
 #include "growing-neural-gas.h"
 #include "gng-to-dot.h"
 
@@ -89,7 +90,8 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 				    ----------- = -----------
 				    Dmax - Dmin   Umax - Umin
 				 */
-				 (((gng[i].utility_factor - Umin) * (DMAX - DMIN)) / (Umax - Umin)) + DMIN);
+				 //  if (isnan(a)) ... OR  if (isnoraml(a)) ... , fixme: need check it at calculation algorithm
+				 (isnormal(gng[i].utility_factor)) ? ((((gng[i].utility_factor - Umin) * (DMAX - DMIN)) / (Umax - Umin)) + DMIN) : DMAX);
 		}
 	}
 }
