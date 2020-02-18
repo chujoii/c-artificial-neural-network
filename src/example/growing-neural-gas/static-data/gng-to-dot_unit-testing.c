@@ -37,6 +37,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h> // similar to limits.h for int, ...
 
 #include "unit-testing.h"
 #include "../../../growing-neural-gas.h"
@@ -73,6 +74,9 @@ char * color_list [] = { //list based on https://en.wikipedia.org/wiki/Web_color
 	"Fuchsia",
 	"Purple"};
 
+
+void fill_limits (int dimension_of_sensor, float limits_of_weight[][2]);
+
 int main ()
 {
 
@@ -94,7 +98,8 @@ int main ()
 		}
 	}
 	int winners[2];
-
+	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
+	float limits_of_weight[DIMENSION_OF_SENSOR][2];
 
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<7; i++) { // add only 7 neurons
@@ -163,6 +168,8 @@ int main ()
 
 	winners[0] = 1;
 	winners[1] = 0;
+
+	fill_limits (DIMENSION_OF_SENSOR, limits_of_weight);
 	
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 
@@ -189,8 +196,9 @@ int main ()
 	printf ("\nconn_ages as simple list:\n");
 	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
 
+	fill_limits (DIMENSION_OF_SENSOR, limits_of_weight);
 	printf ("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
-	gng_to_dot_file (IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, COLOR_LEN, color_list, winners, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
+	gng_to_dot_file ("label=\"test image\"", IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, COLOR_LEN, color_list, winners, limits_of_weight, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
 	printf ("see result in \"test.gv\"\n");
 
 
@@ -202,4 +210,16 @@ int main ()
 	free (testing_gng);
 
 	return 0;
+}
+
+void fill_limits (int dimension_of_sensor, float limits_of_weight[][2])
+{
+	for(int i=0; i<dimension_of_sensor; i++) {
+		limits_of_weight[i][LO] = -FLT_MIN; // see float.h: FLT_MIN=1.175494e-38 (limits.h for int, ...)
+		limits_of_weight[i][HI] = FLT_MAX; // see float.h
+	}
+	/* fixme: all sensor data does not have limits except voltage */
+	/* fixme:     Ua=0                      Ub=1                      Uc=3        normal_value  +-   deviation*/
+	limits_of_weight[0][LO] = limits_of_weight[1][LO] = limits_of_weight[3][LO] =      10       -    5;
+	limits_of_weight[0][HI] = limits_of_weight[1][HI] = limits_of_weight[3][HI] =      10       +    5;
 }

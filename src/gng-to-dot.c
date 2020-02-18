@@ -159,8 +159,8 @@ void add_tail (FILE *ifp)
 }
 
 
-/* fixme: add: list_for_print_tooltip list_of_port_positions list_of_groups limits_of_weight current_sensor_weight */
-void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int color_len, char * color_list[], int *winners, int limit_network_size, NEURON *gng, char *file_name)
+/* fixme: add: list_for_print_tooltip list_of_groups */
+void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int color_len, char * color_list[], int *winners, float limits_of_weight[][2], float *current_sensor_weight, int dimension_of_sensor, int limit_network_size, NEURON *gng, char *file_name)
 {
 	FILE *ifp;
 
@@ -170,7 +170,8 @@ void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_he
 
 		fprintf(ifp, "c -- %d [style=dashed];\n", winners[0]);
 		fprintf(ifp, "c -- %d [style=dotted];\n", winners[1]);
-		fprintf(ifp, "c [tooltip=\"replace by measured value\", shape=box, color=black, fillcolor=red, fontcolor=white];\n");
+		fprintf(ifp, "c [tooltip=\"replace by measured value\", shape=box, color=black, fillcolor=%s, fontcolor=white];\n",
+			(in_limit(dimension_of_sensor, limits_of_weight, current_sensor_weight) == 0) ? "green" : "red");
 
 		convert_gng_to_string_node_attributes (color_len, color_list, limit_network_size, gng, ifp);
 		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
