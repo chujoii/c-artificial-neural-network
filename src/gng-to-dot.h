@@ -13,12 +13,10 @@
 #define DMIN 0.1
 #define DMAX 1.0
 
+#define LO 0
+#define HI 1
+
 void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, FILE *ifp);
-//list-to-string-dot-format conn-list
-//in-limit? limits weights
-//port-position index list-of-port-positions
-//number-to-group-color number group
-//weights-to-string weights
 void convert_gng_to_string_node_attributes (int color_len, char * color_list[], int limit_network_size, NEURON *gng, FILE *ifp);
 void add_head (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, FILE *ifp);
 void add_tail (FILE *ifp);

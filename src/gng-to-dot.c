@@ -52,11 +52,20 @@ void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, 
 
 
 
-//in-limit? limits weights
-//port-position index list-of-port-positions
-//number-to-group-color number group
-//weights-to-string weights
-//
+/* return 0 if weights in limit
+   return 1 if weights out of limit
+ */
+int in_limit (int dimension_of_sensor, float limits[][2], float *weights)
+{
+	for (int i=0; i<dimension_of_sensor; i++) {
+		if ((weights[i] < limits[i][LO]) || (weights[i] > limits[i][HI]))
+			return 1;
+	}
+	return 0;
+}
+
+
+
 // fixme: index_column_list list_of_port_positions list_of_groups weight_limits current_sensor_weight utilities
 void convert_gng_to_string_node_attributes (int color_len, char * color_list[], int limit_network_size, NEURON *gng, FILE *ifp)
 {
