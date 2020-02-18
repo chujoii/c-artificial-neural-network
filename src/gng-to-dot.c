@@ -67,7 +67,7 @@ int in_limit (int dimension_of_sensor, float limits[][2], float *weights)
 
 
 // fixme: index_column_list list_of_port_positions list_of_groups weight_limits current_sensor_weight utilities
-void convert_gng_to_string_node_attributes (int color_len, char * color_list[], int limit_network_size, NEURON *gng, FILE *ifp)
+void convert_gng_to_string_node_attributes (int color_len, char * color_list[], float limits_of_weight[][2], int dimension_of_sensor, int limit_network_size, NEURON *gng, FILE *ifp)
 {
 	float Umin, Umax;
 	extremum_utility_factor (&Umin, &Umax, limit_network_size, gng);
@@ -91,8 +91,10 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 			} else { // position already pinned
 				strcpy (port, "");
 			}
-			fprintf (ifp, "%d%s [fillcolor=%s, width=%.2f];\n",
+			fprintf (ifp, "%d%s [%sfillcolor=%s, width=%.2f];\n",
 				 i, port,
+				 // green color for border already set in node section (node [shape=circle, color=green,...)
+				 (in_limit(dimension_of_sensor, limits_of_weight, gng[i].weight) == 0) ? "" : "color=red, ",
 				 color_list[gng[i].group % color_len],
 				 /* utilities ("node width = diameter"):
 				    D   - Dmin    U   - Umin
@@ -112,7 +114,7 @@ void add_head (char *img_caption, int image_size_width, int image_size_height, i
 	fprintf (ifp, "graph ai {\n");
 	fprintf (ifp, "graph [size=\"%d,%d\", dpi=%d, ratio=\"%s\", %s];\n",
 		 image_size_width, image_size_height, image_dpi, image_ratio, img_caption);
-	fprintf (ifp, "node [shape=circle, color=darkgreen, style=filled, penwidth=3];\n");
+	fprintf (ifp, "node [shape=circle, color=green, style=filled, penwidth=3];\n");
 	fprintf (ifp, "edge [color=black, penwidth=3];\n");
 
 	/* Adding additional space around the nodes */
@@ -173,7 +175,7 @@ void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_he
 		fprintf(ifp, "c [tooltip=\"replace by measured value\", shape=box, color=black, fillcolor=%s, fontcolor=white];\n",
 			(in_limit(dimension_of_sensor, limits_of_weight, current_sensor_weight) == 0) ? "green" : "red");
 
-		convert_gng_to_string_node_attributes (color_len, color_list, limit_network_size, gng, ifp);
+		convert_gng_to_string_node_attributes (color_len, color_list, limits_of_weight, dimension_of_sensor, limit_network_size, gng, ifp);
 		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
 		add_tail (ifp);
 	}
