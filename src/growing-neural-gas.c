@@ -559,7 +559,7 @@ void adaptive_step_create_new_neuron (float eps_local_error, int dimension_of_se
 
 
 
-void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float eps_local_error, float factor_beta_decrease_local_error, int limit_conn_age, float k_utility, int lambda_step, int winners[2], int *mixed_space, float *sensor, int dimension_of_sensor, int limit_network_size, NEURON *gng)
+void growing_neural_gas (unsigned long int epoch, float eps_winner, float eps_neighbour, float eps_local_error, float factor_beta_decrease_local_error, int limit_conn_age, float k_utility, unsigned long int lambda_step, int winners[2], int *mixed_space, float *sensor, int dimension_of_sensor, int limit_network_size, NEURON *gng)
 {
 	float distances_w_s[limit_network_size];
 	if (mixed_space == NULL) {

@@ -30,7 +30,7 @@
 
    For lambda=big start to learning goes very smoothly, but rough
    clusters are created */
-#define LAMBDA_STEP 1
+#define LAMBDA_STEP 1L
 
 
 #define LIMIT_NETWORK_SIZE 10

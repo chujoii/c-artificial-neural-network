@@ -59,7 +59,7 @@ void find_index_of_two_minimal (float *in_arr, int in_size, int *out_indexes);
 int find_neuron_index_with_max_local_error (int limit_network_size, NEURON *gng);
 int find_neighbours_index_with_max_local_error (int index_max_local_error, int limit_network_size, NEURON *gng);
 void adaptive_step_create_new_neuron (float eps_local_error, int dimension_of_sensor, int limit_network_size, NEURON *gng);
-void growing_neural_gas (int epoch, float eps_winner, float eps_neighbour, float eps_local_error, float factor_beta_decrease_local_error, int limit_conn_age, float k_utility, int lambda_step, int winners_for_return_from_function[2], int *mixed_space, float *sensor, int dimension_of_sensor, int limit_network_size, NEURON *gng);
+void growing_neural_gas (unsigned long int epoch, float eps_winner, float eps_neighbour, float eps_local_error, float factor_beta_decrease_local_error, int limit_conn_age, float k_utility, unsigned long int lambda_step, int winners_for_return_from_function[2], int *mixed_space, float *sensor, int dimension_of_sensor, int limit_network_size, NEURON *gng);
 void extract_groups_from_conn_ages (int limit_network_size, NEURON *gng);
 void ungroup (int neuron_a, int limit_network_size, NEURON *gng);
 int write_gng_to_file (char *file_name, int dimension_of_sensor, int limit_network_size, NEURON *gng);
