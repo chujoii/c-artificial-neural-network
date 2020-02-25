@@ -57,26 +57,26 @@ void initialization (int dimension_of_sensor, int limit_network_size, NEURON *gn
 int print_neuron (int dimension_of_sensor, int limit_network_size, NEURON neuron)
 {
 	if (neuron.active == OFF) {
-		printf("-\n");
+		fprintf(stderr, "-\n");
 		return 0;
 	}
 
-	printf("w:");
+	fprintf(stderr, "w:");
 	for (int i=0; i<dimension_of_sensor; i++) {
-		printf(" %7.1f", neuron.weight[i]);
+		fprintf(stderr, " %7.1f", neuron.weight[i]);
 	}
 
-	printf("\ta:");
+	fprintf(stderr, "\ta:");
 	for (int i=0; i<limit_network_size; i++) {
 		if (neuron.conn_age[i] < INITIAL_CONNECTION_AGE)
 			printf (" -");
 		else
-			printf(" %d", neuron.conn_age[i]);
+			fprintf(stderr, " %d", neuron.conn_age[i]);
 	}
 
-	printf("\te: %5.3f\t", neuron.local_error);
-	printf("u: %5.3f\t", neuron.utility_factor);
-	printf("g: %d\n", neuron.group);
+	fprintf(stderr, "\te: %5.3f\t", neuron.local_error);
+	fprintf(stderr, "u: %5.3f\t", neuron.utility_factor);
+	fprintf(stderr, "g: %d\n", neuron.group);
 
 	return 0;
 }
