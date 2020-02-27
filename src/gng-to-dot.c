@@ -29,14 +29,15 @@
 #include "gng-to-dot.h"
 
 
-void convert_gng_conn_ages_to_simple_list (int limit_network_size, NEURON *gng, FILE *ifp)
+void convert_gng_conn_ages_to_simple_list (int min_conn_width, int max_conn_width, int limit_conn_age, int limit_network_size, NEURON *gng, FILE *ifp)
 {
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == ON) {
 			for (int j=i; j<limit_network_size; j++) {
 				if (gng[i].conn_age[j] >= INITIAL_CONNECTION_AGE) {
 					/* list-to-string-dot-format */
-					fprintf(ifp, "%d -- %d [label=\"%d\"];\n", i, j, gng[i].conn_age[j]);
+					fprintf(ifp, "%d -- %d [label=\"%d\", penwidth=%d];\n", i, j, gng[i].conn_age[j],
+						max_conn_width + gng[i].conn_age[j]*(min_conn_width - max_conn_width - 1)/limit_conn_age);
 					/* fixme: add weight="(distance between neurons)"
 					   Weight of edge. A larger weight
 					   encourages the layout to make the
@@ -115,7 +116,7 @@ void add_head (char *img_caption, int image_size_width, int image_size_height, i
 	fprintf (ifp, "graph [size=\"%d,%d\", dpi=%d, ratio=\"%s\", %s];\n",
 		 image_size_width, image_size_height, image_dpi, image_ratio, img_caption);
 	fprintf (ifp, "node [shape=circle, color=green, style=filled, penwidth=3];\n");
-	fprintf (ifp, "edge [color=black, penwidth=3];\n");
+	fprintf (ifp, "edge [color=black];\n");
 
 	/* Adding additional space around the nodes */
 	fprintf (ifp, "sep=\"+11\";\n");
@@ -162,7 +163,7 @@ void add_tail (FILE *ifp)
 
 
 /* fixme: add: list_for_print_tooltip list_of_groups */
-void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int color_len, char * color_list[], int *winners, float limits_of_weight[][2], float *current_sensor_weight, int dimension_of_sensor, int limit_network_size, NEURON *gng, char *file_name)
+void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int min_conn_width, int max_conn_width, int limit_conn_age, int color_len, char * color_list[], int *winners, float limits_of_weight[][2], float *current_sensor_weight, int dimension_of_sensor, int limit_network_size, NEURON *gng, char *file_name)
 {
 	FILE *ifp;
 
@@ -176,7 +177,7 @@ void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_he
 			(in_limit(dimension_of_sensor, limits_of_weight, current_sensor_weight) == 0) ? "green" : "red");
 
 		convert_gng_to_string_node_attributes (color_len, color_list, limits_of_weight, dimension_of_sensor, limit_network_size, gng, ifp);
-		convert_gng_conn_ages_to_simple_list (limit_network_size, gng, ifp);
+		convert_gng_conn_ages_to_simple_list (min_conn_width, max_conn_width, limit_conn_age, limit_network_size, gng, ifp);
 		add_tail (ifp);
 	}
 	fclose(ifp);
