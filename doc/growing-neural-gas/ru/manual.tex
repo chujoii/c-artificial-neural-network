@@ -44,13 +44,14 @@
 \tableofcontents
 
 \section{Алгоритм}
-Описание алгоритма и список основных источников в файле algorithm.pdf
+Описание алгоритма и список основных источников в файле\\
+\verb'c-artificial-neural-network/doc/growing-neural-gas/ru/algorithm.pdf'
 
 
 \clearpage
 \section{Что содержит внутри себя нейрон и база знаний?}
 
-Юнит-тесты и примеры работы нейронных сетей лежат в каталоге
+Юнит-тесты и примеры работы нейронных сетей лежат в каталоге\\
 \verb'c-artificial-neural-network/src/example/growing-neural-gas/static-data'
 \begin{itemize}
 \item \verb'unit-testing.c' --- проверка работы всех функций (можно
@@ -61,7 +62,7 @@
 \end{itemize}
 
 В файле \verb'growing-neural-gas.h' описана структура нейрона,
-заметьте которой есть ссылки на массивы \verb'weight' и
+заметьте, структура содержит ссылки на массивы \verb'weight' и
 \verb'conn_age':
 
 \begin{lstlisting}[language=C,
@@ -79,9 +80,9 @@ typedef struct Neuron {
 \end{lstlisting}
 
 
-Нейронная сеть это просто массив нейронов (пример из файлов:
+Нейронная сеть это просто массив нейронов (пример из файлов:\\
 \verb'unit-testing.c', \verb'gng-to-dot_unit-testing.c',
-\verb'example.c', \verb'clusterizator.c', ).  Здесь выделяется место
+\verb'example.c', \verb'clusterizator.c').  Здесь выделяется место
 для массива нейронов.  Для каждого нейрона дополнительно выделяется
 память для массивов \verb'weight' и \verb'conn_age':
 
@@ -127,7 +128,7 @@ free (pq_gng);
 
 В файле \verb'growing-neural-gas.c' есть функция для отладочной печати
 \verb'print_neuron'.  Её можно добавить в файл \verb'clusterizator.c',
-но предварительно необходимо уменьшить размер нейронной сети в файле
+но предварительно необходимо уменьшить размер нейронной сети в файле\\
 \verb'clusterizator.h' (иначе нейронная сеть просто не влезет в экран)
 
 \begin{lstlisting}[language=C,
@@ -145,9 +146,11 @@ free (pq_gng);
 
 
 Следующие добавки могут испортить вывод номера эпохи в
-\verb'epoch.txt', и соответственно изменить режим обучения (решение:
-использовать \verb'fprintf(stderr, ...)' вместо \verb'printf'). Чтобы
-добавить в файл \verb'clusterizator.c' отладочную печать:
+\verb'epoch.txt', и соответственно изменить режим обучения
+(решение: использовать\\
+\verb'fprintf(stderr, ...)' вместо \verb'printf').
+
+Чтобы добавить в файл \verb'clusterizator.c' отладочную печать:
 \begin{enumerate}
 \item после считывания из файла базы знаний (содержимое
   knowledge-base.gng) и
