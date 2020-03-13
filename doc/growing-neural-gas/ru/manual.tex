@@ -122,5 +122,56 @@ free (pq_gng);
 
 
 
+\clearpage
+\section{Как можно прочитать информацию, которую содержит нейрон и база знаний?}
+
+В файле \verb'growing-neural-gas.c' есть функция для отладочной печати
+\verb'print_neuron'.  Её можно добавить в файл \verb'clusterizator.c',
+но предварительно необходимо уменьшить размер нейронной сети в файле
+\verb'clusterizator.h' (иначе нейронная сеть просто не влезет в экран)
+
+\begin{lstlisting}[language=C,
+  caption={Файл clusterizator.h},
+  captionpos=b,
+  label={free:code}]
+#define LIMIT_NETWORK_SIZE 10
+\end{lstlisting}
+
+Также на невлезание в экран --- влияет размер
+\verb'DIMENSION_OF_SENSOR', поэтому печать весов (сейчас 1128) можно
+отключить в \verb'growing-neural-gas.c' закомментировав
+соответствующие строки в функции \verb'print_neuron'.
+
+
+
+Следующие добавки могут испортить вывод номера эпохи в
+\verb'epoch.txt', и соответственно изменить режим обучения (решение:
+использовать \verb'fprintf(stderr, ...)' вместо \verb'printf'). Чтобы
+добавить в файл \verb'clusterizator.c' отладочную печать:
+\begin{enumerate}
+\item после считывания из файла базы знаний (содержимое
+  knowledge-base.gng) и
+\item после расчёта по алгоритму растущего нейронного газа
+  (соответственно перед записью в файл \verb'knowledge-base.gng')
+\end{enumerate}
+В функции main необходимо добавить строки:
+
+\begin{lstlisting}[language=C,
+  caption={Файл clusterizator.c},
+  captionpos=b,
+  label={free:code}]
+if ( access(KNOWLEDGE_BASE_GNG_FILENAME, F_OK) != -1 ) { // file exists
+	read_gng_from_file (KNOWLEDGE_BASE_GNG_FILENAME, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, pq_gng);
++	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
++		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, pq_gng[i]);
++        }
+	if (epoch == 0L) {
+//...........................
+extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, pq_gng);
++for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
++	print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, pq_gng[i]);
++}
+write_gng_to_file (KNOWLEDGE_BASE_GNG_FILENAME, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, pq_gng);
+\end{lstlisting}
 
 \end{document}
