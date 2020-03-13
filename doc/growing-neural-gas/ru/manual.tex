@@ -1,0 +1,126 @@
+\documentclass[unicode, 12pt, a4paper,oneside,fleqn]{article}
+
+\input{../../../TeX/preambula-ru.tex}
+\usepackage[colorlinks=true]{hyperref} % url hyperlink (beamer already include it, so move here for prevent conflict)
+
+\author{Роман В. Приходченко}
+
+\title{Руководство по работе с программой}
+
+
+\makeindex
+
+
+
+\begin{document}
+
+% меняем английские термины на русские
+\renewcommand\bibname{СПИСОК ЛИТЕРАТУРЫ}
+\renewcommand\refname{\centering Список литературы}
+\renewcommand\contentsname{\centering Содержание}
+
+
+% образцы переноса сложных слов - не работает?
+% \hyphenation{веб=-ин-тер-фей-се веб-ин-тер-фей-с}
+% or use in text: веб"=интерфейс (require: \usepackage[russian]{babel})
+
+% печатаем титульный лист
+\makeatletter % generate \@title, \@date, ...
+\maketitle
+
+\begin{table}[ht]
+  \begin{tabular}{cc}
+    \includegraphics[width=2cm]{../../../CC_BY-SA_88x31.png} &
+    \shortstack{руководство распространяется в соответствии с
+      условиями\\
+      \href{http://creativecommons.org/licenses/by-sa/3.0/}{Attribution-ShareAlike} \\
+      (Атрибуция — С сохранением условий) CC BY-SA \\
+      Копирование и распространение приветствуется.}
+  \end{tabular}
+\end{table}
+
+\newpage
+% печатаем оглавление
+\tableofcontents
+
+\section{Алгоритм}
+Описание алгоритма и список основных источников в файле algorithm.pdf
+
+
+\clearpage
+\section{Что содержит внутри себя нейрон и база знаний?}
+
+Юнит-тесты и примеры работы нейронных сетей лежат в каталоге
+\verb'c-artificial-neural-network/src/example/growing-neural-gas/static-data'
+\begin{itemize}
+\item \verb'unit-testing.c' --- проверка работы всех функций (можно
+  пройтись по всему алгоритму)
+\item \verb'gng-to-dot_unit-testing.c' --- проверка работы функций
+  вывода в DOT файл (pq.gv)
+\item \verb'example.c' --- пример работы маленькой нейронной сети
+\end{itemize}
+
+В файле \verb'growing-neural-gas.h' описана структура нейрона,
+заметьте которой есть ссылки на массивы \verb'weight' и
+\verb'conn_age':
+
+\begin{lstlisting}[language=C,
+  caption={Описание структуры нейрона},
+  captionpos=b,
+  label={nueron:code}]
+typedef struct Neuron {
+	unsigned char active;
+        float *weight; // DIMENSION_OF_SENSOR * sizeof (* (gng[i].weight))
+	int *conn_age; // LIMIT_NETWORK_SIZE * sizeof (* (gng[i].conn_age))
+        float local_error;
+	float utility_factor;
+	int group; // only for visualization
+} NEURON;
+\end{lstlisting}
+
+
+Нейронная сеть это просто массив нейронов (пример из файлов:
+\verb'unit-testing.c', \verb'gng-to-dot_unit-testing.c',
+\verb'example.c', \verb'clusterizator.c', ).  Здесь выделяется место
+для массива нейронов.  Для каждого нейрона дополнительно выделяется
+память для массивов \verb'weight' и \verb'conn_age':
+
+\begin{lstlisting}[language=C,
+  caption={Выделение памяти},
+  captionpos=b,
+  label={malloc:code}]
+NEURON *pq_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* pq_gng));
+if (pq_gng == NULL) {
+	return 1;
+}
+for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+	pq_gng[i].weight = malloc(DIMENSION_OF_SENSOR * sizeof (* (pq_gng[i].weight)));
+	if (pq_gng[i].weight == NULL) {
+		// fixme: free (pq_gng); and already allocation weights and conn_ages
+		return 2;
+	}
+	pq_gng[i].conn_age = malloc(LIMIT_NETWORK_SIZE * sizeof (* (pq_gng[i].conn_age)));
+	if (pq_gng[i].conn_age == NULL) {
+		// fixme: free (pq_gng); and already allocation weights and conn_ages
+		return 2;
+	}
+}
+\end{lstlisting}
+
+И конечно же требуется освободить память в конце работы:
+\begin{lstlisting}[language=C,
+  caption={Освобождение памяти},
+  captionpos=b,
+  label={free:code}]
+/* free memory */
+for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
+	free (pq_gng[i].weight);
+	free (pq_gng[i].conn_age);
+}
+free (pq_gng);
+\end{lstlisting}
+
+
+
+
+\end{document}

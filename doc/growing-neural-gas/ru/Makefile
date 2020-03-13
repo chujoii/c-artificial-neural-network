@@ -11,6 +11,7 @@ pdf :
 	pdflatex algorithm.tex
 	bibtex algorithm
 	pdflatex algorithm.tex
+	pdflatex manual.tex
 
 # clean directory
 clean :
