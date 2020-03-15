@@ -1,0 +1,29 @@
+graph ai {
+graph [size="10,8", dpi=100, ratio="compress", label=""];
+node [shape=circle, color=grey, style=filled, penwidth=3];
+edge [color=grey, penwidth=3, fontcolor=grey];
+sep="+11";
+esep="+10";
+splines=true;
+overlap=scalexy;
+fixedsize=true;
+
+0 [fillcolor=orange];
+1 [fillcolor=orange];
+2 [fillcolor=orange];
+
+3 [fillcolor=green];
+4 [fillcolor=green];
+5 [fillcolor=green];
+6 [fillcolor=green];
+
+8 [fillcolor=lightskyblue];
+
+0 -- 1 [label="0"];
+0 -- 2 [label="2"];
+1 -- 2 [label="1"];
+
+3 -- 4 [label="3"];
+4 -- 6 [label="0"];
+5 -- 6 [label="0"];
+}

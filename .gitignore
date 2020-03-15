@@ -12,6 +12,7 @@
 *.gv
 *.png
 *.cmapx
+*.eps
 knowledge-base.gng
 revision.txt
 fig.[0-9]*
