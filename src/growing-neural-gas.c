@@ -687,7 +687,11 @@ int write_gng_to_file (char *file_name, int dimension_of_sensor, int limit_netwo
 	ifp = fopen(file_name, "wb");
 	if (ifp != NULL) {
 		for (int i=0; i<limit_network_size; i++) {
-			result = fwrite(&(gng[i]), sizeof(struct Neuron), 1, ifp); // fixme: not need to write adress of weight and conn_age (because it is useless information for next run of programm)
+			/* fixme: not need to write adress of weight
+			 * and conn_age (because it is useless
+			 * information for next run of programm) */
+			result = fwrite(&(gng[i]), sizeof(struct Neuron), 1, ifp);
+
 			sum_res += (result == 1) ? 1 : 0;
 			result = fwrite(gng[i].weight, dimension_of_sensor * sizeof (* (gng[i].weight)), 1, ifp);
 			sum_res += (result == 1) ? 1 : 0;

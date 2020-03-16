@@ -156,7 +156,7 @@ free (pq_gng);
 Чтобы добавить в файл \verb'clusterizator.c' отладочную печать:
 \begin{enumerate}
 \item после считывания из файла базы знаний (содержимое
-  knowledge-base.gng) и
+  \verb'knowledge-base.gng') и
 \item после расчёта по алгоритму растущего нейронного газа
   (соответственно перед записью в файл \verb'knowledge-base.gng')
 \end{enumerate}
@@ -180,6 +180,50 @@ extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, pq_gng);
 +}
 write_gng_to_file (KNOWLEDGE_BASE_GNG_FILENAME, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, pq_gng);
 \end{lstlisting}
+
+Вывод отладочной информации добавлен сразу после чтения и перед
+записью в базу знаний \verb'knowledge-base.gng' неслучайно. Если
+внимательно посмотреть на функции \verb'read_gng_from_file' и
+\verb'write_gng_to_file' из Листинга.~\ref{debug:print:code}, то можно
+увидеть что данные функции состоят из цикла \verb'for' внутри которого
+с помощью \verb'fwrite'/\verb'fread' (на примере записи
+Листинга.~\ref{code:write:gng:to:file}):
+
+\begin{lstlisting}[language=C,
+  caption={Функция write\_gng\_to\_file из файла growing-neural-gas.c},
+  captionpos=b,
+  label={code:write:gng:to:file},
+  linewidth=16.5cm]
+int write_gng_to_file (char *file_name, int dimension_of_sensor, int limit_network_size, NEURON *gng)
+...
+	for (int i=0; i<limit_network_size; i++) {
+		/* fixme: not need to write adress of weight
+		 * and conn_age (because it is useless
+		 * information for next run of programm) */
+		result = fwrite(&(gng[i]), sizeof(struct Neuron), 1, ifp);
+
+		sum_res += (result == 1) ? 1 : 0;
+		result = fwrite(gng[i].weight, dimension_of_sensor * sizeof (* (gng[i].weight)), 1, ifp);
+		sum_res += (result == 1) ? 1 : 0;
+		result = fwrite(gng[i].conn_age, limit_network_size * sizeof (* (gng[i].conn_age)), 1, ifp);
+		sum_res += (result == 1) ? 1 : 0;
+	}
+...
+\end{lstlisting}
+
+Таким образом, структура базы знаний хранящаяся в файле\\
+\verb'knowledge-base.gng', состоит из следующих элементов:
+\begin{itemize}
+\item нейрон \verb'gng[i]' (структура нейрона была
+  показана в Листинге.~\ref{nueron:code}, выделение памяти в
+  Листинге.~\ref{malloc:code})
+\item массив весов \verb'gng[i].weight' (ранее было
+  показано в виде Листинга.~\ref{malloc:code})
+\item массив соединений \verb'gng[i].conn_age' (ранее было показано в виде
+  Листинга.~\ref{malloc:code})
+\end{itemize}
+Число элементов соответствует размеру сети (см
+Листинг.~\ref{network:size:code}).
 
 \clearpage
 \section{Расшифровка отладочной печати}
