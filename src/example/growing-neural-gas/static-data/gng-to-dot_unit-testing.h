@@ -57,4 +57,7 @@
 */
 #define EDGE_SPLINES "true"
 
+#define MIN_CONN_WIDTH 1
+#define MAX_CONN_WIDTH 4
+
 #endif /* GNG_TO_DOT_UNIT_TESTING_H */

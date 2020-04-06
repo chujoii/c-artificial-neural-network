@@ -194,11 +194,11 @@ int main ()
 
 
 	printf ("\nconn_ages as simple list:\n");
-	convert_gng_conn_ages_to_simple_list (LIMIT_NETWORK_SIZE, testing_gng, stdout);
+	convert_gng_conn_ages_to_simple_list (MIN_CONN_WIDTH, MAX_CONN_WIDTH, LIMIT_CONN_AGE, LIMIT_NETWORK_SIZE, testing_gng, stdout);
 
 	fill_limits (DIMENSION_OF_SENSOR, limits_of_weight);
 	printf ("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
-	gng_to_dot_file ("label=\"test image\"", IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, COLOR_LEN, color_list, winners, limits_of_weight, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
+	gng_to_dot_file ("label=\"test image\"", IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, IMAGE_DPI, IMAGE_RATIO, EDGE_SPLINES, MIN_CONN_WIDTH, MAX_CONN_WIDTH, LIMIT_CONN_AGE, COLOR_LEN, color_list, winners, limits_of_weight, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
 	printf ("see result in \"test.gv\"\n");
 
 
