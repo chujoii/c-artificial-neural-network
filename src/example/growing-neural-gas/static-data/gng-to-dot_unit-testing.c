@@ -214,7 +214,7 @@ int main ()
 void fill_limits (int dimension_of_sensor, float limits_of_weight[][2])
 {
 	for(int i=0; i<dimension_of_sensor; i++) {
-		limits_of_weight[i][LO] = -FLT_MIN; // see float.h: FLT_MIN=1.175494e-38 (limits.h for int, ...)
+		limits_of_weight[i][LO] = -FLT_MAX; // see float.h
 		limits_of_weight[i][HI] = FLT_MAX; // see float.h
 	}
 	/* fixme: all sensor data does not have limits except voltage */
