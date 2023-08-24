@@ -43,7 +43,7 @@
 int main ()
 {
 
-	NEURON *testing_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing_gng));
+	GNG_NEURON *testing_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing_gng));
 	if (testing_gng == NULL) {
 		return 1;
 	}
@@ -62,7 +62,7 @@ int main ()
 	}
 
 
-	NEURON *testing2_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing2_gng));
+	GNG_NEURON *testing2_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing2_gng));
 	if (testing2_gng == NULL) {
 		return 1;
 	}
@@ -82,7 +82,7 @@ int main ()
 
 	float example_sensor[DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
 	float example_sensor_with_angle[DIMENSION_OF_SENSOR] = {10,     20,     350,   40};
-	int mixed_space_distances[DIMENSION_OF_SENSOR] ={EUCLIDEAN, EUCLIDEAN, ANGLE, EUCLIDEAN};
+	int mixed_space_distances[DIMENSION_OF_SENSOR] ={GNG_EUCLIDEAN, GNG_EUCLIDEAN, GNG_ANGLE, GNG_EUCLIDEAN};
 	float distances[LIMIT_NETWORK_SIZE];
 	int result;
 
@@ -90,26 +90,26 @@ int main ()
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng); // add extract_groups_from_conn_ages before print_neuron for update group list (only visual changes)
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
-	printf("\nadd neuron: number=%d\n", add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng));
-	printf("add neuron: number=%d\n", add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng));
+	printf("\nadd neuron: number=%d\n", add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng));
+	printf("add neuron: number=%d\n", add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng));
 
 	printf("\nconnect neurons 0 and 1\n");
 	printf("weight\t\t\t\t\tconn-age\t\tlocal-error\tutility-factor\n");
 	update_neuron_conn_age (0, 1, 1, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	set_neuron_conn_age (0, 1, NOT_CONNECTED, LIMIT_NETWORK_SIZE, testing_gng);
 	printf ("\nsimple 6 neurons (all disconnected):\n");
-	add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
+	add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -120,14 +120,14 @@ int main ()
 			testing_gng[i].weight[j] =i + (j + 1)/10.0;
 		}
 
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	printf ("\nupdate weight neuron number 3 (new_weight_vector = weight_vector + eps*(veight_vector - sensor_vector)):\n");
 	update_neuron_weight_vector(3, EPS_WINNER, example_sensor, DIMENSION_OF_SENSOR, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	printf ("\nupdate connection age:\n");
@@ -138,7 +138,7 @@ int main ()
 
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -151,7 +151,7 @@ int main ()
 	printf ("\nupdate local error (last column):\n");
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -167,14 +167,14 @@ int main ()
 		euclidean_distance_vector (testing_gng[3].weight, example_sensor, DIMENSION_OF_SENSOR));
 	calculate_distance_weight_sensor (example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng, distances);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		if (testing_gng[i].active == ON ) {
+		if (testing_gng[i].active == GNG_ON ) {
 			printf (" %7.2f", distances[i]);
 		} else {printf (" NaN");}
 	}
 	
 	printf ("\n\n\nsimple 3 neurons with angle:\n");
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);
-	add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);
+	add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
 		for (int j=0; j<DIMENSION_OF_SENSOR; j++) {
 			testing2_gng[i].weight[j] =i + (j + 1)/10.0;
@@ -185,7 +185,7 @@ int main ()
 	testing2_gng[2].weight[2] = 300.0;
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int j=0; j<LIMIT_NETWORK_SIZE; j++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[j]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[j]);
 	}
 
 	printf ("\nSensor with angle:");
@@ -197,7 +197,7 @@ int main ()
 	printf ("Distance between Weight (with angle) and Sensor (with angle) calculations (also with respect to angle):\n");
 	calculate_distance_in_mixed_space_weight_sensor (mixed_space_distances, example_sensor_with_angle, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng, distances);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		if (testing2_gng[i].active == ON ) {
+		if (testing2_gng[i].active == GNG_ON ) {
 			printf (" %7.2f", distances[i]);
 		} else {printf (" NaN");}
 	}
@@ -275,11 +275,11 @@ int main ()
 	printf ("\n\nsimple 6 neurons (repeat):\n");
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 	printf ("\nprint neighbour for neuron number 2:\n(number 0 (conn-age=2), number 1 (conn-age = 1), nc, nc, nc, nc):\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		if (testing_gng[i].active == ON ) {
+		if (testing_gng[i].active == GNG_ON ) {
 			printf (" %d", testing_gng[2].conn_age[i]);
 		} else {printf (" -");}
 	}
@@ -287,13 +287,13 @@ int main ()
 	update_neighbours_weights (2, EPS_NEIGHBOUR, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
 	printf ("\nprint neighbour for neuron number 3:\n(nc, nc, nc, nc, number 4 (conn-age = 3), nc):\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		if (testing_gng[i].active == ON ) {
+		if (testing_gng[i].active == GNG_ON ) {
 			printf (" %d", testing_gng[3].conn_age[i]);
 		} else {printf (" -");}
 	}
@@ -301,7 +301,7 @@ int main ()
 	update_neighbours_weights (3, EPS_NEIGHBOUR, example_sensor, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -310,13 +310,13 @@ int main ()
 	inc_neighbours_conn_age (0, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 	printf ("\nincrease by 1 all connections form neuron print neighbour (for example neuron number 3 (use different neuron only for example)):\n");
 	inc_neighbours_conn_age (3, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -325,7 +325,7 @@ int main ()
 	set_neuron_conn_age (1, 2, INITIAL_CONNECTION_AGE, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -343,7 +343,7 @@ int main ()
 	remove_old_conn_age (LIMIT_CONN_AGE, LIMIT_NETWORK_SIZE, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 
 
@@ -352,35 +352,35 @@ int main ()
 	find_and_del_neuron_with_min_utility_factor (K_UTILITY, LIMIT_NETWORK_SIZE, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 
 	printf ("repeat deletion:\n");
 	find_and_del_neuron_with_min_utility_factor (K_UTILITY, LIMIT_NETWORK_SIZE, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 
 	printf ("repeat deletion:\n");
 	find_and_del_neuron_with_min_utility_factor (K_UTILITY, LIMIT_NETWORK_SIZE, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 
 	printf ("repeat deletion:\n");
 	find_and_del_neuron_with_min_utility_factor (K_UTILITY, LIMIT_NETWORK_SIZE, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 
 	printf ("last repeat deletion (because size of network=2 and nothing will be deleted):\n");
 	find_and_del_neuron_with_min_utility_factor (K_UTILITY, LIMIT_NETWORK_SIZE, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 
 
@@ -403,14 +403,14 @@ int main ()
 	update_neuron_utility_factor (5, 0.1, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 	
 	printf ("\nremove neurons with min utility-factor:\n");
 	find_and_del_neuron_with_min_utility_factor (K_UTILITY, LIMIT_NETWORK_SIZE, testing2_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing2_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing2_gng[i]);
 	}
 
 
@@ -423,7 +423,7 @@ int main ()
 	update_neuron_utility_factor (5, 0.1, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -438,7 +438,7 @@ int main ()
 	adaptive_step_create_new_neuron (EPS_LOCAL_ERROR, DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
@@ -446,7 +446,7 @@ int main ()
 	decrease_all_neuron_local_errors_and_utility_factor (FACTOR_BETA_DECREASE_LOCAL_ERROR, LIMIT_NETWORK_SIZE, testing_gng);
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	printf("\ntest binary-formatted output: see file knowledge-base.gng\n");
@@ -460,7 +460,7 @@ int main ()
 	printf (" %s\n", (result == 0) ? "OK" : "Error");
 	// not need use  extract_groups_from_conn_ages, because nothing changes with GNG
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 

@@ -29,10 +29,10 @@
 #include "gng-to-dot.h"
 
 
-void convert_gng_conn_ages_to_simple_list (int min_conn_width, int max_conn_width, int limit_conn_age, int limit_network_size, NEURON *gng, FILE *ifp)
+void convert_gng_conn_ages_to_simple_list (int min_conn_width, int max_conn_width, int limit_conn_age, int limit_network_size, GNG_NEURON *gng, FILE *ifp)
 {
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[i].active == ON) {
+		if (gng[i].active == GNG_ON) {
 			for (int j=i; j<limit_network_size; j++) {
 				if (gng[i].conn_age[j] >= INITIAL_CONNECTION_AGE) {
 					/* list-to-string-dot-format */
@@ -68,7 +68,7 @@ int in_limit (int dimension_of_sensor, float limits[][2], float *weights)
 
 
 // fixme: index_column_list list_of_port_positions list_of_groups weight_limits current_sensor_weight utilities
-void convert_gng_to_string_node_attributes (int color_len, char * color_list[], float limits_of_weight[][2], int dimension_of_sensor, int limit_network_size, NEURON *gng, FILE *ifp)
+void convert_gng_to_string_node_attributes (int color_len, char * color_list[], float limits_of_weight[][2], int dimension_of_sensor, int limit_network_size, GNG_NEURON *gng, FILE *ifp)
 {
 	float Umin, Umax;
 	extremum_utility_factor (&Umin, &Umax, limit_network_size, gng);
@@ -85,7 +85,7 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 	}
 
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[i].active == ON) {
+		if (gng[i].active == GNG_ON) {
 			if (group_checked[gng[i].group] == 0) { // if not used, set position pinned
 				group_checked[gng[i].group] = 1;
 				sprintf (port, ":%s", port_positions[gng[i].group % num_of_port_positions]);
@@ -163,7 +163,7 @@ void add_tail (FILE *ifp)
 
 
 /* fixme: add: list_for_print_tooltip list_of_groups */
-void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int min_conn_width, int max_conn_width, int limit_conn_age, int color_len, char * color_list[], int *winners, float limits_of_weight[][2], float *current_sensor_weight, int dimension_of_sensor, int limit_network_size, NEURON *gng, char *file_name)
+void gng_to_dot_file (char *img_caption, int image_size_width, int image_size_height, int image_dpi, char *image_ratio, char *edge_splines, int min_conn_width, int max_conn_width, int limit_conn_age, int color_len, char * color_list[], int *winners, float limits_of_weight[][2], float *current_sensor_weight, int dimension_of_sensor, int limit_network_size, GNG_NEURON *gng, char *file_name)
 {
 	FILE *ifp;
 

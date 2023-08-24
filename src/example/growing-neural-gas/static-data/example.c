@@ -43,7 +43,7 @@
 int main ()
 {
 
-	NEURON *testing_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing_gng));
+	GNG_NEURON *testing_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing_gng));
 	if (testing_gng == NULL) {
 		return 1;
 	}
@@ -69,12 +69,12 @@ int main ()
 
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<6; i++) { // add only 6 neurons
-		add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
+		add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	}
 	/* very strange: copy random numbers from lisp for test algorithm */
 	testing_gng[0].weight[0] = 3.899109226504383E-2;
@@ -110,7 +110,7 @@ int main ()
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	printf ("\nsimple 6 neurons (all disconnected):\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	printf ("\nupdate connection age:\n");
@@ -121,7 +121,7 @@ int main ()
 
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	int winners[2];
@@ -131,7 +131,7 @@ int main ()
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 	printf ("\n\n\nResult of one step working \"growing neural gas\":\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {

@@ -80,7 +80,7 @@ void fill_limits (int dimension_of_sensor, float limits_of_weight[][2]);
 int main ()
 {
 
-	NEURON *testing_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing_gng));
+	GNG_NEURON *testing_gng = malloc(LIMIT_NETWORK_SIZE * sizeof(* testing_gng));
 	if (testing_gng == NULL) {
 		return 1;
 	}
@@ -103,7 +103,7 @@ int main ()
 
 	initialization (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	for (int i=0; i<7; i++) { // add only 7 neurons
-		add_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
+		add_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng);
 	}
 
 
@@ -175,7 +175,7 @@ int main ()
 
 	printf ("\nsimple 7 neurons:\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	printf("remove group number manually from neuron number 1:\n");
@@ -183,13 +183,13 @@ int main ()
 
 	printf ("see group for neuron number 1:\n");
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 	printf ("\ngenerate group number again:\n");
 	extract_groups_from_conn_ages (LIMIT_NETWORK_SIZE, testing_gng);
 
 	for (int i=0; i<LIMIT_NETWORK_SIZE; i++) {
-		print_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
+		print_gng_neuron (DIMENSION_OF_SENSOR, LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
