@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <string.h> // only for for strcpy
+#include <stdlib.h> // only for abs
 #include <math.h> // check for NaN
 #include "growing-neural-gas.h"
 #include "gng-to-dot.h"
@@ -96,7 +97,7 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 				 i, port,
 				 // green color for border already set in node section (node [shape=circle, color=green,...)
 				 (in_limit(dimension_of_sensor, limits_of_weight, gng[i].weight) == 0) ? "" : "color=red, ",
-				 color_list[gng[i].group % color_len],
+				 color_list[abs(gng[i].group) % color_len],
 				 /* utilities ("node width = diameter"):
 				    D   - Dmin    U   - Umin
 				    ----------- = -----------
