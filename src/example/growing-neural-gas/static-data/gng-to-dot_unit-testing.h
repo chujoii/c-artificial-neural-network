@@ -10,18 +10,18 @@
 #define GNG_TO_DOT_UNIT_TESTING_H
 
 /* adaptation coefficients for weight and local-error */
-#define EPS_WINNER 0.1
-#define EPS_NEIGHBOUR 0.01
-#define EPS_LOCAL_ERROR 0.5
-#define FACTOR_BETA_DECREASE_LOCAL_ERROR 0.1
+#define GNG_EPS_WINNER 0.1
+#define GNG_EPS_NEIGHBOUR 0.01
+#define GNG_EPS_LOCAL_ERROR 0.5
+#define GNG_FACTOR_BETA_DECREASE_LOCAL_ERROR 0.1
 
-#define LIMIT_CONN_AGE 3
+#define GNG_LIMIT_CONN_AGE 3
 
 /*
   big value of k-utility leave rare neurons and cause slow adaptation
   small value for fast remove too many neurons, and accordingly fast adaptation
 */
-#define K_UTILITY 2.0
+#define GNG_K_UTILITY 2.0
 
 /* Adaptation step (add neuron in each LAMBDA_STEP to network)
 
@@ -30,19 +30,19 @@
 
    For lambda=big start to learning goes very smoothly, but rough
    clusters are created */
-#define LAMBDA_STEP 1L
+#define GNG_LAMBDA_STEP 1L
 
 
-#define LIMIT_NETWORK_SIZE 10
-#define DIMENSION_OF_SENSOR 4
+#define GNG_LIMIT_NETWORK_SIZE 10
+#define GNG_DIMENSION_OF_SENSOR 4
 
 
-#define IMAGE_SIZE_WIDTH 100
-#define IMAGE_SIZE_HEIGHT 80
-#define IMAGE_DPI 100
+#define GNG_IMAGE_SIZE_WIDTH 100
+#define GNG_IMAGE_SIZE_HEIGHT 80
+#define GNG_IMAGE_DPI 100
 
 
-#define IMAGE_RATIO "compress"
+#define GNG_IMAGE_RATIO "compress"
 
 /*
   Controls how, and if, edges are represented.
@@ -55,9 +55,9 @@
   true=spline (time=10.35s),
   compound (for fdp only time=?)
 */
-#define EDGE_SPLINES "true"
+#define GNG_EDGE_SPLINES "true"
 
-#define MIN_CONN_WIDTH 1
-#define MAX_CONN_WIDTH 4
+#define GNG_MIN_CONN_WIDTH 1
+#define GNG_MAX_CONN_WIDTH 4
 
 #endif /* GNG_TO_DOT_UNIT_TESTING_H */

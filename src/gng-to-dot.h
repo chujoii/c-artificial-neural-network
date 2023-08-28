@@ -10,11 +10,11 @@
 #define GNG_TO_DOT_H
 
 // diameter of node
-#define DMIN 0.1
-#define DMAX 1.0
+#define GNG_DMIN 0.1
+#define GNG_DMAX 1.0
 
-#define LO 0
-#define HI 1
+#define GNG_LO 0
+#define GNG_HI 1
 
 void convert_gng_conn_ages_to_simple_list (int min_conn_width, int max_conn_width, int limit_conn_age, int limit_network_size, GNG_NEURON *gng, FILE *ifp);
 void convert_gng_to_string_node_attributes (int color_len, char * color_list[], float limits_of_weight[][2], int dimension_of_sensor, int limit_network_size, GNG_NEURON *gng, FILE *ifp);

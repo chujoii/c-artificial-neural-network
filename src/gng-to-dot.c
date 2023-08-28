@@ -35,7 +35,7 @@ void convert_gng_conn_ages_to_simple_list (int min_conn_width, int max_conn_widt
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == GNG_ON) {
 			for (int j=i; j<limit_network_size; j++) {
-				if (gng[i].conn_age[j] >= INITIAL_CONNECTION_AGE) {
+				if (gng[i].conn_age[j] >= GNG_INITIAL_CONNECTION_AGE) {
 					/* list-to-string-dot-format */
 					fprintf(ifp, "%d -- %d [label=\"%d\", penwidth=%d];\n", i, j, gng[i].conn_age[j],
 						max_conn_width + gng[i].conn_age[j]*(min_conn_width - max_conn_width - 1)/limit_conn_age);
@@ -60,7 +60,7 @@ void convert_gng_conn_ages_to_simple_list (int min_conn_width, int max_conn_widt
 int in_limit (int dimension_of_sensor, float limits[][2], float *weights)
 {
 	for (int i=0; i<dimension_of_sensor; i++) {
-		if ((weights[i] < limits[i][LO]) || (weights[i] > limits[i][HI]))
+		if ((weights[i] < limits[i][GNG_LO]) || (weights[i] > limits[i][GNG_HI]))
 			return 1;
 	}
 	return 0;
@@ -104,7 +104,7 @@ void convert_gng_to_string_node_attributes (int color_len, char * color_list[], 
 				    Dmax - Dmin   Umax - Umin
 				 */
 				 //  if (isnan(a)) ... OR  if (isnoraml(a)) ... , fixme: need check it at calculation algorithm
-				 (isnormal(gng[i].utility_factor)) ? ((((gng[i].utility_factor - Umin) * (DMAX - DMIN)) / (Umax - Umin)) + DMIN) : DMAX);
+				 (isnormal(gng[i].utility_factor)) ? ((((gng[i].utility_factor - Umin) * (GNG_DMAX - GNG_DMIN)) / (Umax - Umin)) + GNG_DMIN) : GNG_DMAX);
 		}
 	}
 }

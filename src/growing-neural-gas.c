@@ -45,10 +45,10 @@ void initialization (int dimension_of_sensor, int limit_network_size, GNG_NEURON
 		gng[i].active = GNG_OFF;
 		/* fixme: memset for float? */
 		for (int j=0; j<dimension_of_sensor; j++) gng[i].weight[j] = 0.0;
-		for (int j=0; j<limit_network_size; j++) gng[i].conn_age[j] = NOT_CONNECTED;
+		for (int j=0; j<limit_network_size; j++) gng[i].conn_age[j] = GNG_NOT_CONNECTED;
 		gng[i].local_error = 0.0;
 		gng[i].utility_factor = 0.0;
-		gng[i].group = NOT_IN_ANY_GROUPS;
+		gng[i].group = GNG_NOT_IN_ANY_GROUPS;
 	}
 }
 
@@ -68,7 +68,7 @@ int print_gng_neuron (int dimension_of_sensor, int limit_network_size, GNG_NEURO
 
 	fprintf(stderr, "\ta:");
 	for (int i=0; i<limit_network_size; i++) {
-		if (neuron.conn_age[i] < INITIAL_CONNECTION_AGE)
+		if (neuron.conn_age[i] < GNG_INITIAL_CONNECTION_AGE)
 			printf (" -");
 		else
 			fprintf(stderr, " %d", neuron.conn_age[i]);
@@ -95,10 +95,10 @@ int add_gng_neuron (int dimension_of_sensor, int limit_network_size, GNG_NEURON 
 	if (i < limit_network_size) {
 		gng[i].active = GNG_ON;
 		for (int j=0; j<dimension_of_sensor; j++) gng[i].weight[j] = 0.0;
-		for (int j=0; j<limit_network_size; j++) gng[i].conn_age[j] = NOT_CONNECTED;
+		for (int j=0; j<limit_network_size; j++) gng[i].conn_age[j] = GNG_NOT_CONNECTED;
 		gng[i].local_error = 0.0;
 		gng[i].utility_factor = 0.0;
-		gng[i].group = NOT_IN_ANY_GROUPS;
+		gng[i].group = GNG_NOT_IN_ANY_GROUPS;
 
 		index = i;
 	}
@@ -122,7 +122,7 @@ void find_and_del_neuron_with_min_utility_factor (float k, int limit_network_siz
 		/* remove-unexisted-conn-age */
 		for (int i=0; i<limit_network_size; i++) {
 			if (gng[i].active == GNG_ON) {
-				gng[i].conn_age[index_of_U_min] = NOT_CONNECTED;
+				gng[i].conn_age[index_of_U_min] = GNG_NOT_CONNECTED;
 			}
 		}
 
@@ -188,8 +188,8 @@ int length_gng (int limit_network_size, GNG_NEURON *gng)
 
 static int cmp_neuron_local_error_with_index(const void * a, const void * b)
 { // fixme: remove function?
-	LOCALERROR *leA = (LOCALERROR *)a;
-	LOCALERROR *leB = (LOCALERROR *)b;
+	GNG_LOCALERROR *leA = (GNG_LOCALERROR *)a;
+	GNG_LOCALERROR *leB = (GNG_LOCALERROR *)b;
 
 	return leA->local_error > leB->local_error ? 1 : -1;
 }
@@ -199,7 +199,7 @@ static int cmp_neuron_local_error_with_index(const void * a, const void * b)
 // fixme: it is necessary to combine the calculations for finding the values of "maximum local error" and "median local error"
 int index_of_median_local_error (int limit_network_size, GNG_NEURON *gng)
 { // fixme: remove function?
-	LOCALERROR lerr_arr[limit_network_size];
+	GNG_LOCALERROR lerr_arr[limit_network_size];
 	int counter = 0;
 
 	for (int i=0; i<limit_network_size; i++) {
@@ -210,7 +210,7 @@ int index_of_median_local_error (int limit_network_size, GNG_NEURON *gng)
 		}
 	}
 
-	qsort(lerr_arr, counter, sizeof(LOCALERROR *), cmp_neuron_local_error_with_index); /* for thread use qsort_r */
+	qsort(lerr_arr, counter, sizeof(GNG_LOCALERROR *), cmp_neuron_local_error_with_index); /* for thread use qsort_r */
 
 	return lerr_arr[counter/2].index_in_gng;
 }
@@ -262,7 +262,7 @@ void reconnect (int limit_network_size, GNG_NEURON *gng)
 				} else {
 					if (neuron_b == -1) {
 						neuron_b = i;
-						set_neuron_conn_age (neuron_a, neuron_b, INITIAL_CONNECTION_AGE, limit_network_size, gng);
+						set_neuron_conn_age (neuron_a, neuron_b, GNG_INITIAL_CONNECTION_AGE, limit_network_size, gng);
 						break;
 					}
 				}
@@ -286,7 +286,7 @@ void update_neuron_weight_vector (int neuron_a, float step, float *sensor, int d
 void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, int dimension_of_sensor, int limit_network_size, GNG_NEURON *gng)
 {
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
+		if (gng[neuron_a].conn_age[i] >= GNG_INITIAL_CONNECTION_AGE) {
 			update_neuron_weight_vector (i, eps_step, sensor, dimension_of_sensor, gng);
 		}
 	}
@@ -296,7 +296,7 @@ void update_neighbours_weights (int neuron_a, float eps_step, float *sensor, int
 
 void update_neuron_conn_age (int neuron_a, int neuron_b, int step, int limit_network_size, GNG_NEURON *gng)
 {
-	if (gng[neuron_a].conn_age[neuron_b] == NOT_CONNECTED) {
+	if (gng[neuron_a].conn_age[neuron_b] == GNG_NOT_CONNECTED) {
 		// fixme: make algorithm slightly slow, but use only for visual enchanced
 		ungroup (neuron_a, limit_network_size, gng);
 		ungroup (neuron_b, limit_network_size, gng);
@@ -309,7 +309,7 @@ void update_neuron_conn_age (int neuron_a, int neuron_b, int step, int limit_net
 
 void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, int limit_network_size, GNG_NEURON *gng)
 {
-	if (gng[neuron_a].conn_age[neuron_b] == NOT_CONNECTED || conn_age == NOT_CONNECTED) {
+	if (gng[neuron_a].conn_age[neuron_b] == GNG_NOT_CONNECTED || conn_age == GNG_NOT_CONNECTED) {
 		// fixme: make algorithm slightly slow, but use only for visual enchanced
 		ungroup (neuron_a, limit_network_size, gng);
 		ungroup (neuron_b, limit_network_size, gng);
@@ -325,7 +325,7 @@ void set_neuron_conn_age (int neuron_a, int neuron_b, int conn_age, int limit_ne
 void inc_neighbours_conn_age (int neuron_a, int limit_network_size, GNG_NEURON *gng)
 {
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE) {
+		if (gng[neuron_a].conn_age[i] >= GNG_INITIAL_CONNECTION_AGE) {
 			update_neuron_conn_age (neuron_a, i, 1, limit_network_size, gng);
 		}
 	}
@@ -339,7 +339,7 @@ void remove_old_conn_age (int limit_conn_age, int limit_network_size, GNG_NEURON
 		if (gng[i].active == GNG_ON) {
 			for (int j=i; j<limit_network_size; j++) {
 				if (gng[i].conn_age[j] > limit_conn_age)
-					set_neuron_conn_age (i, j, NOT_CONNECTED, limit_network_size, gng);
+					set_neuron_conn_age (i, j, GNG_NOT_CONNECTED, limit_network_size, gng);
 			}
 		}
 	}
@@ -487,7 +487,7 @@ int find_neighbours_index_with_max_local_error (int index_max_local_error, int l
 	float value = 0.0;
 	int index = -1;
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[index_max_local_error].conn_age[i] >= INITIAL_CONNECTION_AGE) {
+		if (gng[index_max_local_error].conn_age[i] >= GNG_INITIAL_CONNECTION_AGE) {
 			if (counter == 0) { /* choise first element */
 				counter ++;
 				index = i;
@@ -541,7 +541,7 @@ void adaptive_step_create_new_neuron (float eps_local_error, int dimension_of_se
 			    gng);
 	set_neuron_conn_age(index_neuron_max_local_error,
 			    index_neighbour_for_max_local_error,
-			    NOT_CONNECTED,
+			    GNG_NOT_CONNECTED,
 			    limit_network_size,
 			    gng);
 
@@ -587,7 +587,7 @@ void growing_neural_gas (unsigned long int epoch, float eps_winner, float eps_ne
 	inc_neighbours_conn_age (winners[0], limit_network_size, gng);
 
 	// algorithm:10: set connection to 0 (*initial-connection-age*) between two winners
-	set_neuron_conn_age (winners[0], winners[1], INITIAL_CONNECTION_AGE, limit_network_size, gng);
+	set_neuron_conn_age (winners[0], winners[1], GNG_INITIAL_CONNECTION_AGE, limit_network_size, gng);
 
 	// algorithm:11.a
 	remove_old_conn_age (limit_conn_age, limit_network_size, gng);
@@ -610,19 +610,19 @@ void growing_neural_gas (unsigned long int epoch, float eps_winner, float eps_ne
 // fixme: need more unit-testings
 int recursive_search_group (int neuron_a, int limit_network_size, GNG_NEURON *gng)
 {
-	int group_number = NOT_IN_ANY_GROUPS;
+	int group_number = GNG_NOT_IN_ANY_GROUPS;
 	
-	if (gng[neuron_a].active == GNG_ON && gng[neuron_a].group == NOT_IN_ANY_GROUPS) {
-		gng[neuron_a].group = SEARCH_GROUPS;
+	if (gng[neuron_a].active == GNG_ON && gng[neuron_a].group == GNG_NOT_IN_ANY_GROUPS) {
+		gng[neuron_a].group = GNG_SEARCH_GROUPS;
 	}
 	
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE &&
+		if (gng[neuron_a].conn_age[i] >= GNG_INITIAL_CONNECTION_AGE &&
 		    gng[i].active == GNG_ON) {
-			if (gng[i].group == NOT_IN_ANY_GROUPS) {
+			if (gng[i].group == GNG_NOT_IN_ANY_GROUPS) {
 				group_number = recursive_search_group (i, limit_network_size, gng);
 			} else {
-				if (gng[i].group != SEARCH_GROUPS) {
+				if (gng[i].group != GNG_SEARCH_GROUPS) {
 					// found it!
 					return gng[i].group;
 				}
@@ -638,9 +638,9 @@ void recursive_set_group (int neuron_a, int group_number, int limit_network_size
 	gng[neuron_a].group = group_number;
 		
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[neuron_a].conn_age[i] >= INITIAL_CONNECTION_AGE &&
+		if (gng[neuron_a].conn_age[i] >= GNG_INITIAL_CONNECTION_AGE &&
 		    gng[i].active == GNG_ON &&
-		    (gng[i].group == NOT_IN_ANY_GROUPS || gng[i].group == SEARCH_GROUPS || gng[i].group != group_number)) {
+		    (gng[i].group == GNG_NOT_IN_ANY_GROUPS || gng[i].group == GNG_SEARCH_GROUPS || gng[i].group != group_number)) {
 			recursive_set_group (i, group_number, limit_network_size, gng);
 		}
 	}
@@ -652,11 +652,11 @@ void extract_groups_from_conn_ages (int limit_network_size, GNG_NEURON *gng)
 {
 	int group_number;
 	for (int i=0; i<limit_network_size; i++) {
-		if (gng[i].active == GNG_ON && gng[i].group == NOT_IN_ANY_GROUPS) {
+		if (gng[i].active == GNG_ON && gng[i].group == GNG_NOT_IN_ANY_GROUPS) {
 			/* first run for find existed group */
 			group_number = recursive_search_group(i, limit_network_size, gng);
 			/* second run for assign group */
-			if (group_number == NOT_IN_ANY_GROUPS || group_number == SEARCH_GROUPS) {recursive_set_group(i, i, limit_network_size, gng);}
+			if (group_number == GNG_NOT_IN_ANY_GROUPS || group_number == GNG_SEARCH_GROUPS) {recursive_set_group(i, i, limit_network_size, gng);}
 			else {recursive_set_group(i, group_number, limit_network_size, gng);}
 		}
 	}
@@ -670,7 +670,7 @@ void ungroup (int neuron_a, int limit_network_size, GNG_NEURON *gng)
 	int group_for_del = gng[neuron_a].group;
 	for (int i=0; i<limit_network_size; i++) {
 		if (gng[i].active == GNG_ON && gng[i].group == group_for_del) {
-			gng[i].group = NOT_IN_ANY_GROUPS;
+			gng[i].group = GNG_NOT_IN_ANY_GROUPS;
 		}
 	}
 }

@@ -9,11 +9,11 @@
 #ifndef GROWING_NEURAL_GAS_H
 #define GROWING_NEURAL_GAS_H
 
-#define NOT_CONNECTED -1
-#define INITIAL_CONNECTION_AGE 0
+#define GNG_NOT_CONNECTED -1
+#define GNG_INITIAL_CONNECTION_AGE 0
 
-#define NOT_IN_ANY_GROUPS -1
-#define SEARCH_GROUPS -2
+#define GNG_NOT_IN_ANY_GROUPS -1
+#define GNG_SEARCH_GROUPS -2
 
 #define GNG_OFF 0
 #define GNG_ON 1
@@ -29,10 +29,10 @@ typedef struct gng_Neuron {
 	int group; // only for visualization
 } GNG_NEURON;
 
-typedef struct LocalError {
+typedef struct gng_LocalError {
 	int index_in_gng;
         float local_error;
-} LOCALERROR;
+} GNG_LOCALERROR;
 
 void initialization (int dimension_of_sensor, int limit_network_size, GNG_NEURON *gng);
 int print_gng_neuron (int dimension_of_sensor, int limit_network_size, GNG_NEURON neuron);
