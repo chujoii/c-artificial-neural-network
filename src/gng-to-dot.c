@@ -26,6 +26,7 @@
 #include <string.h> // only for for strcpy
 #include <stdlib.h> // only for abs
 #include <math.h> // check for NaN
+#include <float.h> // similar to limits.h for int, ...
 #include "growing-neural-gas.h"
 #include "gng-to-dot.h"
 
@@ -64,6 +65,20 @@ int in_limit (int dimension_of_sensor, float limits[][2], float *weights)
 			return 1;
 	}
 	return 0;
+}
+
+
+
+void fill_limits (int dimension_of_sensor, float limits_of_weight[][2])
+{
+	for(int i=0; i<dimension_of_sensor; i++) {
+		limits_of_weight[i][GNG_LO] = -FLT_MAX; // see float.h
+		limits_of_weight[i][GNG_HI] = FLT_MAX; // see float.h
+	}
+	/* fixme: all sensor data does not have limits except voltage */
+	/* fixme:     Ua=0                      Ub=1                      Uc=3        normal_value  +-   deviation*/
+	limits_of_weight[0][GNG_LO] = limits_of_weight[1][GNG_LO] = limits_of_weight[3][GNG_LO] =      10       -    5;
+	limits_of_weight[0][GNG_HI] = limits_of_weight[1][GNG_HI] = limits_of_weight[3][GNG_HI] =      10       +    5;
 }
 
 
