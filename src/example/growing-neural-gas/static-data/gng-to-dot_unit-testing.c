@@ -83,7 +83,7 @@ int main ()
 	if (testing_gng == NULL) {
 		return 1;
 	}
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		testing_gng[i].weight = malloc(GNG_DIMENSION_OF_SENSOR * sizeof (* (testing_gng[i].weight)));
 		if (testing_gng[i].weight == NULL) {
 			// fixme: free (testing_gng); and already allocation weights and conn_ages
@@ -100,9 +100,9 @@ int main ()
 	float example_sensor[GNG_DIMENSION_OF_SENSOR] = {10, 20, 30, 40};
 	float limits_of_weight[GNG_DIMENSION_OF_SENSOR][2];
 
-	initialization (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	for (int i=0; i<7; i++) { // add only 7 neurons
-		add_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	initialization (GNG_EPS_WINNER, GNG_EPS_NEIGHBOUR, GNG_EPS_LOCAL_ERROR, GNG_FACTOR_BETA_DECREASE_LOCAL_ERROR, GNG_LIMIT_CONN_AGE, GNG_K_UTILITY, GNG_LAMBDA_STEP, GNG_LIMIT_NETWORK_SIZE, GNG_DIMENSION_OF_SENSOR, testing_gng);
+	for (int i = 0; i < 7; i++) { // add only 7 neurons
+		add_gng_neuron (testing_gng);
 	}
 
 
@@ -143,11 +143,11 @@ int main ()
 	testing_gng[6].weight[2] = -13.5;
 	testing_gng[6].weight[3] = -18.4;
 
-	set_neuron_conn_age (0, 1, 1, GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	set_neuron_conn_age (0, 6, 3, GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	set_neuron_conn_age (1, 2, 0, GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	set_neuron_conn_age (2, 6, 3, GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	set_neuron_conn_age (3, 4, 4, GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	set_neuron_conn_age (0, 1, 1, testing_gng);
+	set_neuron_conn_age (0, 6, 3, testing_gng);
+	set_neuron_conn_age (1, 2, 0, testing_gng);
+	set_neuron_conn_age (2, 6, 3, testing_gng);
+	set_neuron_conn_age (3, 4, 4, testing_gng);
 
 	update_neuron_local_error (0, 1.0, testing_gng);
 	update_neuron_local_error (1, 2.0, testing_gng);
@@ -170,10 +170,10 @@ int main ()
 
 	fill_limits (GNG_DIMENSION_OF_SENSOR, limits_of_weight);
 	
-	extract_groups_from_conn_ages (GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	extract_groups_from_conn_ages (testing_gng);
 
 	printf ("\nsimple 7 neurons:\n");
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		print_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
@@ -181,27 +181,27 @@ int main ()
 	testing_gng[1].group = GNG_NOT_IN_ANY_GROUPS;
 
 	printf ("see group for neuron number 1:\n");
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		print_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 	printf ("\ngenerate group number again:\n");
-	extract_groups_from_conn_ages (GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	extract_groups_from_conn_ages (testing_gng);
 
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		print_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 
 	printf ("\nconn_ages as simple list:\n");
-	convert_gng_conn_ages_to_simple_list (GNG_MIN_CONN_WIDTH, GNG_MAX_CONN_WIDTH, GNG_LIMIT_CONN_AGE, GNG_LIMIT_NETWORK_SIZE, testing_gng, stdout);
+	convert_gng_conn_ages_to_simple_list (GNG_MIN_CONN_WIDTH, GNG_MAX_CONN_WIDTH, testing_gng, stdout);
 
 	printf ("\n\nwrite GNG to DOT-formatted (graphviz) file ...\n");
-	gng_to_dot_file ("label=\"test image\"", GNG_IMAGE_SIZE_WIDTH, GNG_IMAGE_SIZE_HEIGHT, GNG_IMAGE_DPI, GNG_IMAGE_RATIO, GNG_EDGE_SPLINES, GNG_MIN_CONN_WIDTH, GNG_MAX_CONN_WIDTH, GNG_LIMIT_CONN_AGE, GNG_COLOR_LEN, color_list, winners, limits_of_weight, example_sensor, GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng, "test.gv");
+	gng_to_dot_file ("label=\"test image\"", GNG_IMAGE_SIZE_WIDTH, GNG_IMAGE_SIZE_HEIGHT, GNG_IMAGE_DPI, GNG_IMAGE_RATIO, GNG_EDGE_SPLINES,  GNG_MIN_CONN_WIDTH, GNG_MAX_CONN_WIDTH, GNG_COLOR_LEN, color_list, winners, limits_of_weight, example_sensor, testing_gng, "test.gv");
 	printf ("see result in \"test.gv\"\n");
 
 
 
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		free (testing_gng[i].weight);
 		free (testing_gng[i].conn_age);
 	}

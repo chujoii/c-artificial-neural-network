@@ -47,7 +47,7 @@ int main ()
 	if (testing_gng == NULL) {
 		return 1;
 	}
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		testing_gng[i].weight = malloc(GNG_DIMENSION_OF_SENSOR * sizeof (* (testing_gng[i].weight)));
 		if (testing_gng[i].weight == NULL) {
 			// fixme: free (testing_gng); and already allocation weights and conn_ages
@@ -65,16 +65,16 @@ int main ()
 	float example_sensor[GNG_DIMENSION_OF_SENSOR] = {10.0, 20.0, 30.0, 40.0};
 
 	printf("empty network: (%d elements)\n", GNG_LIMIT_NETWORK_SIZE);
-	initialization (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	initialization (GNG_EPS_WINNER, GNG_EPS_NEIGHBOUR, GNG_EPS_LOCAL_ERROR, GNG_FACTOR_BETA_DECREASE_LOCAL_ERROR, GNG_LIMIT_CONN_AGE, GNG_K_UTILITY, GNG_LAMBDA_STEP, GNG_LIMIT_NETWORK_SIZE, GNG_DIMENSION_OF_SENSOR, testing_gng);
 
-	extract_groups_from_conn_ages (GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	extract_groups_from_conn_ages (testing_gng);
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		print_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
-	extract_groups_from_conn_ages (GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	for (int i=0; i<6; i++) { // add only 6 neurons
-		add_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	extract_groups_from_conn_ages (testing_gng);
+	for (int i = 0; i < 6; i++) { // add only 6 neurons
+		add_gng_neuron (testing_gng);
 	}
 	/* very strange: copy random numbers from lisp for test algorithm */
 	testing_gng[0].weight[0] = 3.899109226504383E-2;
@@ -107,34 +107,34 @@ int main ()
 	testing_gng[5].weight[2] = 1.6056498050450605;
 	testing_gng[5].weight[3] = 1.4681365733934029;
 
-	extract_groups_from_conn_ages (GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	extract_groups_from_conn_ages (testing_gng);
 	printf ("\nsimple 6 neurons (all disconnected):\n");
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		print_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	printf ("\nupdate connection age:\n");
-	update_neuron_conn_age (0, 1, 1, GNG_LIMIT_NETWORK_SIZE, testing_gng); /* need create link beetwin first neuron! */
-	update_neuron_conn_age (1, 2, 2, GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	update_neuron_conn_age (2, 0, 3, GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	update_neuron_conn_age (3, 4, 4, GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	update_neuron_conn_age (0, 1, 1, testing_gng); /* need create link beetwin first neuron! */
+	update_neuron_conn_age (1, 2, 2, testing_gng);
+	update_neuron_conn_age (2, 0, 3, testing_gng);
+	update_neuron_conn_age (3, 4, 4, testing_gng);
 
-	extract_groups_from_conn_ages (GNG_LIMIT_NETWORK_SIZE, testing_gng);
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	extract_groups_from_conn_ages (testing_gng);
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		print_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
 	int winners[2];
-	growing_neural_gas (0L, GNG_EPS_WINNER, GNG_EPS_NEIGHBOUR, GNG_EPS_LOCAL_ERROR, GNG_FACTOR_BETA_DECREASE_LOCAL_ERROR, GNG_LIMIT_CONN_AGE, GNG_K_UTILITY, GNG_LAMBDA_STEP, winners, NULL, example_sensor, GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	growing_neural_gas (0L, winners, NULL, example_sensor, testing_gng);
 	printf("index of winners: [%d] and [%d]", winners[0], winners[1]);
 
-	extract_groups_from_conn_ages (GNG_LIMIT_NETWORK_SIZE, testing_gng);
+	extract_groups_from_conn_ages (testing_gng);
 	printf ("\n\n\nResult of one step working \"growing neural gas\":\n");
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		print_gng_neuron (GNG_DIMENSION_OF_SENSOR, GNG_LIMIT_NETWORK_SIZE, testing_gng[i]);
 	}
 
-	for (int i=0; i<GNG_LIMIT_NETWORK_SIZE; i++) {
+	for (int i = 0; i < GNG_LIMIT_NETWORK_SIZE; i++) {
 		free (testing_gng[i].weight);
 		free (testing_gng[i].conn_age);
 	}
